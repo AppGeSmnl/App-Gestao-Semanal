@@ -30,8 +30,8 @@ app.add_middleware(
 
 # ================= DATABASE =================
 
-mongo_url = os.environ.get("MONGO_URI")
-db_name = os.environ.get("DB_NAME", "test_db")
+mongo_url = os.environ.get("GESTSMNL_DB")
+db_name = "gestsmnl"
 
 client = AsyncIOMotorClient(mongo_url)
 db = client[db_name]
