@@ -20,7 +20,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://app-gestao-semanal-2wc9.vercel.app",
+        "https://app-gestao-semanal-plus-version",
         "http://localhost:3000",
     ],
     allow_credentials=False,
