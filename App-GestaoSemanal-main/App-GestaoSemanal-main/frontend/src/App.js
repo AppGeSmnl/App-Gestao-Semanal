@@ -21,7 +21,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 
-const API = "https://app-gestaosemanal-1.onrender.com/api";
+const API = "https://app-gestao-semanal-plus-version.onrender.com/api";
 
 const PRIORITY_COLORS = {
   alta: { bg: "bg-rose-50", border: "border-rose-200", text: "text-rose-600", badge: "bg-rose-500" },
