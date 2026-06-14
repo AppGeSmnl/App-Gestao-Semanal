@@ -76,7 +76,7 @@ const getWeekInfo = () => {
 /* ===========================
    DEMAND CARD (CORRIGIDO)
 =========================== */
-function DemandCard({ demand, isDeleteMode, selectedIds, onToggleSelect, onMoveTo, onOpenPresentation, onDragStart, onDragEnd, onEdit }) {
+function DemandCard({demand, isDeleteMode, isCompleteMode, selectedIds, onToggleSelect, onMoveTo, onOpenPresentation, onDragStart, onDragEnd, onEdit }) {
   const priorityStyle = PRIORITY_COLORS[demand.priority];
 
   const handleDragStart = (e) => {
@@ -392,6 +392,7 @@ function App() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingDemandId, setEditingDemandId] = useState(null);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [isCompleteMode, setIsCompleteMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [currentView, setCurrentView] = useState("demands");
   const [presentationMode, setPresentationMode] = useState(null);
@@ -604,6 +605,40 @@ const saveDemand = async () => {
   };
 
 const deleteSelected = async () => {
+  const completeSelected = async () => {
+  const demandIds = selectedIds.filter(id =>
+    id.startsWith("DMD-")
+  );
+
+  if (demandIds.length === 0) {
+    toast.error("Selecione pelo menos uma demanda");
+    return;
+  }
+
+  try {
+    const confirmed = window.confirm(
+      `Deseja concluir ${demandIds.length} demanda(s)?`
+    );
+
+    if (!confirmed) return;
+
+    await axios.post(`${API}/demands/complete`, {
+      ids: demandIds
+    });
+
+    toast.success(
+      `${demandIds.length} demanda(s) concluída(s)!`
+    );
+
+    setSelectedIds([]);
+    setIsCompleteMode(false);
+
+    fetchDemands();
+  } catch (error) {
+    console.error(error);
+    toast.error("Erro ao concluir demandas");
+  }
+};
   if (selectedIds.length === 0) {
     toast.error("Selecione pelo menos um item");
     return;
@@ -854,7 +889,7 @@ const deleteSelected = async () => {
     key={notice.id}
     className="relative bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 text-slate-800 font-semibold"
   >
-    {isDeleteMode && (
+    {(isDeleteMode || isCompleteMode) && (
       <div className="absolute top-3 right-3 z-10">
         <Checkbox
           checked={selectedIds.includes(notice.id)}
@@ -927,9 +962,10 @@ const deleteSelected = async () => {
                     <AnimatePresence initial={false} mode="popLayout">
                       {sectionDemands.map(demand => (
                         <DemandCard
-                          key={demand.id} // Chave baseada puramente no ID para evitar duplicidade visual
+                          key={demand.id}// Chave baseada puramente no ID para evitar duplicidade visual
                           demand={demand}
                           isDeleteMode={isDeleteMode}
+                          isCompleteMode={isCompleteMode}
                           selectedIds={selectedIds}
                           onToggleSelect={toggleSelect}
                           onMoveTo={handleContextMoveTo}
@@ -961,40 +997,74 @@ const deleteSelected = async () => {
         </Button>
       </div>
 
-      <div className="fixed bottom-8 right-8 z-[60]">
-        {!isDeleteMode ? (
-          <Button
-            onClick={() => setIsDeleteMode(true)}
-            variant="destructive"
-            className="rounded-full px-6 py-6 shadow-lg flex items-center gap-2 font-semibold transition-transform hover:scale-105"
-          >
-            <Trash2 className="w-5 h-5" />
-            Excluir Tema
-          </Button>
-        ) : (
-          <div className="flex gap-3">
-            <Button
-              onClick={() => {
-                setIsDeleteMode(false);
-                setSelectedIds([]);
-              }}
-              variant="outline"
-              className="rounded-full px-6 py-6 shadow-lg bg-white"
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={deleteSelected}
-              variant="destructive"
-              className="rounded-full px-6 py-6 shadow-lg flex items-center gap-2"
-              disabled={selectedIds.length === 0}
-            >
-              <Trash2 className="w-5 h-5" />
-              Excluir ({selectedIds.length})
-            </Button>
-          </div>
-        )}
-      </div>
+ <div className="fixed bottom-8 right-8 z-[60] flex flex-col gap-3">
+
+  {!isDeleteMode && !isCompleteMode && (
+    <>
+      <Button
+        onClick={() => setIsCompleteMode(true)}
+        className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-6 py-6 shadow-lg flex items-center gap-2 font-semibold transition-transform hover:scale-105"
+      >
+        <Check className="w-5 h-5" />
+        Concluir Tema
+      </Button>
+
+      <Button
+        onClick={() => setIsDeleteMode(true)}
+        variant="destructive"
+        className="rounded-full px-6 py-6 shadow-lg flex items-center gap-2 font-semibold transition-transform hover:scale-105"
+      >
+        <Trash2 className="w-5 h-5" />
+        Excluir Tema
+      </Button>
+    </>
+  )}
+
+  {isDeleteMode && (
+    <div className="flex gap-3">
+      <Button
+        onClick={() => {
+          setIsDeleteMode(false);
+          setSelectedIds([]);
+        }}
+        variant="outline"
+      >
+        Cancelar
+      </Button>
+
+      <Button
+        onClick={deleteSelected}
+        variant="destructive"
+        disabled={selectedIds.length === 0}
+      >
+        Excluir ({selectedIds.length})
+      </Button>
+    </div>
+  )}
+
+  {isCompleteMode && (
+    <div className="flex gap-3">
+      <Button
+        onClick={() => {
+          setIsCompleteMode(false);
+          setSelectedIds([]);
+        }}
+        variant="outline"
+      >
+        Cancelar
+      </Button>
+
+      <Button
+        onClick={completeSelected}
+        className="bg-emerald-600 hover:bg-emerald-700"
+        disabled={selectedIds.length === 0}
+      >
+        Concluir ({selectedIds.length})
+      </Button>
+    </div>
+  )}
+
+</div>
 
       <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
