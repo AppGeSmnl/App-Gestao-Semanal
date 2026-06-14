@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import "@/App.css";
+import Sidebar from "@/components/Sidebar";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { Plus, Trash2, X, ChevronLeft, ChevronRight, Presentation, Filter, GripVertical, ArrowRight, Edit2, Check, Calendar, Users, Tags } from "lucide-react";
@@ -260,7 +261,11 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
             </h2>
           </div>
 
-          <div className="flex items-center gap-4">
+         <div className="flex items-center gap-4">
+          <Sidebar
+            currentView={currentView}
+            setCurrentView={setCurrentView}
+            />
             <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-full border border-slate-100">
               <span className="text-xs font-bold text-slate-500">
                 {currentIndex + 1}/{demandsToShow.length}
@@ -392,6 +397,7 @@ function App() {
   const [editingDemandId, setEditingDemandId] = useState(null);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [currentView, setCurrentView] = useState("demands");
   const [presentationMode, setPresentationMode] = useState(null);
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterSubgroup, setFilterSubgroup] = useState("all");
