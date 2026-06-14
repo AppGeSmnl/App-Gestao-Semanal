@@ -403,7 +403,31 @@ function App() {
   });
 
   const fetchDemands = useCallback(async () => {
-    const fetchAdminData = useCallback(async () => {
+  try {
+    const response = await axios.get(`${API}/demands`);
+
+    const treatedData = response.data.map(d => ({
+      ...d,
+      subgroup:
+        typeof d.subgroup === "string"
+          ? d.subgroup.split(", ")
+          : (d.subgroup || []),
+
+      responsible:
+        typeof d.responsible === "string"
+          ? d.responsible.split(", ")
+          : (d.responsible || [])
+    }));
+
+    setDemands(treatedData);
+
+  } catch (error) {
+    console.error("Error fetching demands:", error);
+    toast.error("Erro ao carregar demandas");
+  }
+}, []);
+
+const fetchAdminData = useCallback(async () => {
   try {
 
     const [membersRes, groupsRes] =
@@ -424,22 +448,7 @@ function App() {
     console.error(error);
   }
 }, []);
-    try {
-      const response = await axios.get(`${API}/demands`);
-      
-      const treatedData = response.data.map(d => ({
-        ...d,
-        subgroup: typeof d.subgroup === 'string' ? d.subgroup.split(', ') : (d.subgroup || []),
-        responsible: typeof d.responsible === 'string' ? d.responsible.split(', ') : (d.responsible || [])
-      }));
-      
-      setDemands(treatedData);
-    } catch (error) {
-      console.error("Error fetching demands:", error);
-      toast.error("Erro ao carregar demandas");
-    }
-  }, []);
-
+  
   // ===== Avisos Gerais - API =====
 const fetchGeneralNotices = useCallback(async () => {
   try {
