@@ -605,8 +605,7 @@ const saveDemand = async () => {
     });
   };
 
-const deleteSelected = async () => {
-  const completeSelected = async () => {
+    const completeSelected = async () => {
   const demandIds = selectedIds.filter(id =>
     id.startsWith("DMD-")
   );
@@ -640,6 +639,8 @@ const deleteSelected = async () => {
     toast.error("Erro ao concluir demandas");
   }
 };
+
+const deleteSelected = async () => {
   if (selectedIds.length === 0) {
     toast.error("Selecione pelo menos um item");
     return;
