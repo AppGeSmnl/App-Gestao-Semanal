@@ -22,6 +22,7 @@ app.add_middleware(
 allow_origins=[
     "https://app-gestao-semanal-plus-version.onrender.com",
     "https://app-gestao-semanal-ibpmvjoj9-the-owner-s-projects.vercel.app",
+    "https://app-gestao-semanal-diqxg30e3-the-owner-s-projects.vercel.app",
     "http://localhost:3000",
 ],
     allow_credentials=False,
