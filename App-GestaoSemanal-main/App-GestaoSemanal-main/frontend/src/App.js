@@ -858,36 +858,14 @@ const deleteSelected = async () => {
           </div>
         </div>
       </div>
-            if (currentView === "completed") {
-  return (
-    <>
-      <Toaster position="top-right" />
+            
+      {currentView === "completed" ? (
 
-      <header className="bg-[#004C97] border-b border-[#003D7A] sticky top-0 z-40 shadow-lg">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+  <CompletedView />
 
-          <div className="flex items-center gap-4">
+) : (
 
-            <Sidebar
-              currentView={currentView}
-              setCurrentView={setCurrentView}
-            />
-
-            <h1 className="text-2xl font-bold text-white">
-              Gestão de Demandas Semanal
-            </h1>
-
-          </div>
-
-        </div>
-      </header>
-
-      <CompletedView />
-    </>
-  );
-}
-
-      <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+<main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
 
             {/* ================= AVISOS GERAIS ================= */}
 <motion.div
@@ -1015,6 +993,7 @@ const deleteSelected = async () => {
           );
         })}
       </main>
+        )}
 
       <div className="fixed bottom-8 left-8 z-[60]">
         <Button
