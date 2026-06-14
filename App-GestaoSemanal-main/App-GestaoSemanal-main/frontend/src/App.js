@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import "@/App.css";
 import Sidebar from "@/components/ui/Sidebar";
 import CompletedView from "@/components/ui/CompletedView";
+import AdminView from "@/components/ui/AdminView";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { Plus, Trash2, X, ChevronLeft, ChevronRight, Presentation, Filter, GripVertical, ArrowRight, Edit2, Check, Calendar, Users, Tags } from "lucide-react";
@@ -862,13 +863,17 @@ const deleteSelected = async () => {
         </div>
       </div>
             
-      {currentView === "completed" ? (
+{currentView === "completed" ? (
 
   <CompletedView />
 
+) : currentView === "admin" ? (
+
+  <AdminView />
+
 ) : (
 
-<main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+  <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
 
             {/* ================= AVISOS GERAIS ================= */}
 <motion.div
