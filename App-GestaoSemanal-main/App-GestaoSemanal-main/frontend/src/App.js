@@ -262,10 +262,6 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
           </div>
 
          <div className="flex items-center gap-4">
-          <Sidebar
-            currentView={currentView}
-            setCurrentView={setCurrentView}
-            />
             <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-full border border-slate-100">
               <span className="text-xs font-bold text-slate-500">
                 {currentIndex + 1}/{demandsToShow.length}
@@ -725,6 +721,10 @@ const deleteSelected = async () => {
       <header className="bg-[#004C97] border-b border-[#003D7A] sticky top-0 z-40 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
+            <Sidebar
+              currentView={currentView}
+              setCurrentView={setCurrentView}
+            />
             <h1 className="text-2xl font-bold text-white" style={{ fontFamily: 'Manrope, sans-serif' }}>
               Gestão de Demandas Semanal
             </h1>
