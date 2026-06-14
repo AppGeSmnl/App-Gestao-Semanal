@@ -6,22 +6,31 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-const API = "https://app-gestao-semanal-plus-version.onrender.com/api";
+const API =
+  "https://app-gestao-semanal-plus-version.onrender.com/api";
 
 export default function CompletedView() {
+
   const [demands, setDemands] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
 
   const loadDemands = async () => {
     try {
+
       const res = await axios.get(
         `${API}/completed-demands`
       );
 
       setDemands(res.data);
+
     } catch {
-      toast.error("Erro ao carregar concluídos");
+
+      toast.error(
+        "Erro ao carregar concluídos"
+      );
+
     }
   };
 
@@ -30,6 +39,7 @@ export default function CompletedView() {
   }, []);
 
   const filtered = useMemo(() => {
+
     return demands.filter(d =>
       (
         d.description +
@@ -37,14 +47,19 @@ export default function CompletedView() {
         (d.observation || "")
       )
         .toLowerCase()
-        .includes(search.toLowerCase())
+        .includes(
+          search.toLowerCase()
+        )
     );
+
   }, [demands, search]);
 
   const grouped = useMemo(() => {
+
     const groups = {};
 
     filtered.forEach(item => {
+
       const date = new Date(
         item.completed_at
       ).toLocaleDateString("pt-BR");
@@ -54,13 +69,24 @@ export default function CompletedView() {
       }
 
       groups[date].push(item);
+
     });
 
     return groups;
+
   }, [filtered]);
 
   const deleteSelected = async () => {
+
+    if (selectedIds.length === 0) {
+      toast.error(
+        "Selecione ao menos uma demanda"
+      );
+      return;
+    }
+
     try {
+
       await axios.post(
         `${API}/completed-demands/bulk-delete`,
         {
@@ -68,13 +94,21 @@ export default function CompletedView() {
         }
       );
 
-      toast.success("Demandas removidas");
+      toast.success(
+        "Demandas removidas"
+      );
 
       setSelectedIds([]);
+      setIsDeleteMode(false);
 
       loadDemands();
+
     } catch {
-      toast.error("Erro ao excluir");
+
+      toast.error(
+        "Erro ao excluir"
+      );
+
     }
   };
 
@@ -82,7 +116,9 @@ export default function CompletedView() {
     <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="mb-8 flex justify-between items-center">
+
         <div>
+
           <h1 className="text-3xl font-bold">
             Demandas Concluídas
           </h1>
@@ -90,9 +126,11 @@ export default function CompletedView() {
           <p className="text-slate-500">
             Total: {demands.length}
           </p>
+
         </div>
 
         <div className="flex gap-3">
+
           <Input
             placeholder="Pesquisar..."
             value={search}
@@ -102,17 +140,46 @@ export default function CompletedView() {
             className="w-80"
           />
 
-          <Button
-            variant="destructive"
-            disabled={
-              selectedIds.length === 0
-            }
-            onClick={deleteSelected}
-          >
-            <Trash2 className="w-4 h-4 mr-2" />
-            Excluir
-          </Button>
+          {!isDeleteMode ? (
+
+            <Button
+              variant="destructive"
+              onClick={() =>
+                setIsDeleteMode(true)
+              }
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Excluir
+            </Button>
+
+          ) : (
+
+            <>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsDeleteMode(false);
+                  setSelectedIds([]);
+                }}
+              >
+                Cancelar
+              </Button>
+
+              <Button
+                variant="destructive"
+                disabled={
+                  selectedIds.length === 0
+                }
+                onClick={deleteSelected}
+              >
+                Excluir ({selectedIds.length})
+              </Button>
+            </>
+
+          )}
+
         </div>
+
       </div>
 
       <div className="space-y-8">
@@ -124,7 +191,9 @@ export default function CompletedView() {
               new Date(a[0])
           )
           .map(([date, items]) => (
+
             <div key={date}>
+
               <h2 className="text-lg font-bold mb-4 text-slate-700">
                 {date}
               </h2>
@@ -132,13 +201,16 @@ export default function CompletedView() {
               <div className="space-y-3">
 
                 {items.map(item => (
+
                   <div
                     key={item.id}
                     className="bg-white border rounded-xl p-5 shadow-sm"
                   >
+
                     <div className="flex justify-between">
 
                       <div>
+
                         <p className="font-medium">
                           {item.description}
                         </p>
@@ -151,39 +223,58 @@ export default function CompletedView() {
                             "pt-BR"
                           )}
                         </p>
+
                       </div>
 
-                      <Checkbox
-                        checked={selectedIds.includes(
-                          item.id
-                        )}
-                        onCheckedChange={() => {
-                          if (
-                            selectedIds.includes(
-                              item.id
-                            )
-                          ) {
-                            setSelectedIds(
-                              selectedIds.filter(
-                                i =>
-                                  i !== item.id
+                      {isDeleteMode && (
+
+                        <Checkbox
+                          checked={selectedIds.includes(
+                            item.id
+                          )}
+                          onCheckedChange={() => {
+
+                            if (
+                              selectedIds.includes(
+                                item.id
                               )
-                            );
-                          } else {
-                            setSelectedIds([
-                              ...selectedIds,
-                              item.id
-                            ]);
-                          }
-                        }}
-                      />
+                            ) {
+
+                              setSelectedIds(
+                                selectedIds.filter(
+                                  i =>
+                                    i !== item.id
+                                )
+                              );
+
+                            } else {
+
+                              setSelectedIds([
+                                ...selectedIds,
+                                item.id
+                              ]);
+
+                            }
+
+                          }}
+                        />
+
+                      )}
+
                     </div>
+
                   </div>
+
                 ))}
+
               </div>
+
             </div>
+
           ))}
+
       </div>
+
     </div>
   );
 }
