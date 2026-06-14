@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import "@/App.css";
 import Sidebar from "@/components/ui/Sidebar";
+import CompletedView from "@/components/ui/CompletedView";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { Plus, Trash2, X, ChevronLeft, ChevronRight, Presentation, Filter, GripVertical, ArrowRight, Edit2, Check, Calendar, Users, Tags } from "lucide-react";
@@ -857,6 +858,34 @@ const deleteSelected = async () => {
           </div>
         </div>
       </div>
+            if (currentView === "completed") {
+  return (
+    <>
+      <Toaster position="top-right" />
+
+      <header className="bg-[#004C97] border-b border-[#003D7A] sticky top-0 z-40 shadow-lg">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+          <div className="flex items-center gap-4">
+
+            <Sidebar
+              currentView={currentView}
+              setCurrentView={setCurrentView}
+            />
+
+            <h1 className="text-2xl font-bold text-white">
+              Gestão de Demandas Semanal
+            </h1>
+
+          </div>
+
+        </div>
+      </header>
+
+      <CompletedView />
+    </>
+  );
+}
 
       <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
 
