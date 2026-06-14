@@ -389,6 +389,16 @@ function App() {
   const [filterResponsible, setFilterResponsible] = useState("all");
   const [responsibles, setResponsibles] = useState([]);
   const [subgroups, setSubgroups] = useState([]);
+
+useEffect(() => {
+  console.log("STATE SUBGROUPS:", subgroups);
+}, [subgroups]);
+
+useEffect(() => {
+  console.log("STATE RESPONSIBLES:", responsibles);
+}, [responsibles]);
+
+  
   const { week, total } = useMemo(() => getWeekInfo(), []);
 
 
