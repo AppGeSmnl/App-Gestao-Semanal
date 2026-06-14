@@ -436,6 +436,20 @@ const fetchAdminData = useCallback(async () => {
         axios.get(`${API}/subgroups`)
       ]);
 
+        console.log("TEAM MEMBERS:", membersRes.data);
+    console.log("SUBGROUPS:", groupsRes.data);
+
+    console.log(
+      "NOMES SUBGROUPS:",
+      groupsRes.data.map(item => item.name)
+    );
+
+    console.log(
+      "NOMES MEMBERS:",
+      membersRes.data.map(item => item.name)
+    );
+
+
     setResponsibles(
       membersRes.data.map(item => item.name)
     );
