@@ -8,7 +8,9 @@ import { toast } from "sonner";
 const API =
 "https://app-gestao-semanal-plus-version.onrender.com/api";
 
-export default function AdminView() {
+export default function AdminView({
+  onDataChanged
+}) {
 
   const [members, setMembers] = useState([]);
   const [subgroups, setSubgroups] = useState([]);
@@ -37,60 +39,81 @@ export default function AdminView() {
     loadData();
   }, []);
 
-  const createMember = async () => {
-    if (!newMember.trim()) return;
+const createMember = async () => {
 
-    await axios.post(
-      `${API}/team-members`,
-      {
-        name: newMember
-      }
-    );
+  if (!newMember.trim()) return;
 
-    setNewMember("");
-    loadData();
-  };
-
-const createSubgroup = async () => {
-  if (!newSubgroup.trim()) return;
-
-  try {
-    await axios.post(`${API}/subgroups`, {
-      name: newSubgroup
-    });
-
-    await loadData();
-
-    // IMPORTANTE
-    if (window.fetchAdminDataGlobal) {
-      await window.fetchAdminDataGlobal();
+  await axios.post(
+    `${API}/team-members`,
+    {
+      name: newMember
     }
+  );
 
-    setNewSubgroup("");
+  setNewMember("");
 
-    toast.success("Subgrupo criado");
-  } catch {
-    toast.error("Erro ao criar subgrupo");
+  await loadData();
+
+  if (onDataChanged) {
+    await onDataChanged();
   }
+
+  toast.success("Responsável criado");
+
 };
 
-  const deleteMember = async (id) => {
+const createSubgroup = async () => {
 
-    await axios.delete(
-      `${API}/team-members/${id}`
-    );
+  if (!newSubgroup.trim()) return;
 
-    loadData();
-  };
+  await axios.post(
+    `${API}/subgroups`,
+    {
+      name: newSubgroup
+    }
+  );
 
-  const deleteSubgroup = async (id) => {
+  setNewSubgroup("");
 
-    await axios.delete(
-      `${API}/subgroups/${id}`
-    );
+  await loadData();
 
-    loadData();
-  };
+  if (onDataChanged) {
+    await onDataChanged();
+  }
+
+  toast.success("Subgrupo criado");
+
+};
+
+const deleteMember = async (id) => {
+
+  await axios.delete(
+    `${API}/team-members/${id}`
+  );
+
+  await loadData();
+
+  if (onDataChanged) {
+    await onDataChanged();
+  }
+
+  toast.success("Responsável removido");
+};
+
+const deleteSubgroup = async (id) => {
+
+  await axios.delete(
+    `${API}/subgroups/${id}`
+  );
+
+  await loadData();
+
+  if (onDataChanged) {
+    await onDataChanged();
+  }
+
+  toast.success("Subgrupo removido");
+};
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
