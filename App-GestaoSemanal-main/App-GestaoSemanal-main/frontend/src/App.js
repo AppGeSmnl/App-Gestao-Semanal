@@ -389,6 +389,23 @@ function App() {
   const [filterResponsible, setFilterResponsible] = useState("all");
   const [responsibles, setResponsibles] = useState([]);
   const [subgroups, setSubgroups] = useState([]);
+  
+  useEffect(() => {
+
+  const ping = () => {
+    fetch("https://app-gestao-semanal-plus-version.onrender.com/");
+  };
+
+  ping();
+
+  const interval = setInterval(
+    ping,
+    5 * 60 * 1000
+  );
+
+  return () => clearInterval(interval);
+
+}, []);
 
 useEffect(() => {
   console.log("STATE SUBGROUPS:", subgroups);
@@ -438,6 +455,14 @@ useEffect(() => {
 }, []);
 
 const fetchAdminData = useCallback(async () => {
+  useEffect(() => {
+  window.fetchAdminDataGlobal = fetchAdminData;
+
+  return () => {
+    delete window.fetchAdminDataGlobal;
+  };
+}, [fetchAdminData]);
+  
   try {
 
     const [membersRes, groupsRes] =
@@ -541,6 +566,7 @@ useEffect(() => {
   }, [applyFilters]);
 
   const handleOpenCreate = () => {
+    fetchAdminData();
     setEditingDemandId(null);
     setFormData({
       description: "",
