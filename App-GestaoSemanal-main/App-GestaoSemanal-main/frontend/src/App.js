@@ -915,7 +915,9 @@ const deleteSelected = async () => {
 
 ) : currentView === "admin" ? (
 
-  <AdminView />
+ <AdminView
+  onDataChanged={fetchAdminData}
+/>
 
 ) : (
 
