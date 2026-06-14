@@ -665,13 +665,7 @@ const saveDemand = async () => {
   }
 
   try {
-    const confirmed = window.confirm(
-      `Deseja concluir ${demandIds.length} demanda(s)?`
-    );
-
-    if (!confirmed) return;
-
-    await axios.post(`${API}/demands/complete`, {
+      await axios.post(`${API}/demands/complete`, {
       ids: demandIds
     });
 
