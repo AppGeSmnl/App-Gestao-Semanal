@@ -455,13 +455,6 @@ useEffect(() => {
 }, []);
 
 const fetchAdminData = useCallback(async () => {
-  useEffect(() => {
-  window.fetchAdminDataGlobal = fetchAdminData;
-
-  return () => {
-    delete window.fetchAdminDataGlobal;
-  };
-}, [fetchAdminData]);
   
   try {
 
@@ -470,20 +463,6 @@ const fetchAdminData = useCallback(async () => {
         axios.get(`${API}/team-members`),
         axios.get(`${API}/subgroups`)
       ]);
-
-        console.log("TEAM MEMBERS:", membersRes.data);
-    console.log("SUBGROUPS:", groupsRes.data);
-
-    console.log(
-      "NOMES SUBGROUPS:",
-      groupsRes.data.map(item => item.name)
-    );
-
-    console.log(
-      "NOMES MEMBERS:",
-      membersRes.data.map(item => item.name)
-    );
-
 
     setResponsibles(
       membersRes.data.map(item => item.name)
