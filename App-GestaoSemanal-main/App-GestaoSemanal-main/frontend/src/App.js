@@ -125,14 +125,16 @@ function DemandCard({demand, isDeleteMode, isCompleteMode, selectedIds, onToggle
     layout: { duration: 0.25, ease: "easeOut" },
     opacity: { duration: 0.15 }
   }}
-  draggable={!isDeleteMode}
+  draggable={!isDeleteMode && !isCompleteMode}
   onDragStart={handleDragStart}
   onDragEnd={handleDragEnd}
-  className={`bg-white p-6 rounded-xl border ${priorityStyle.border} shadow-sm hover:shadow-md transition-shadow duration-200 group relative overflow-hidden ${!isDeleteMode ? 'cursor-grab active:cursor-grabbing' : ''}`}
+  className={`bg-white p-6 rounded-xl border ${priorityStyle.border} shadow-sm hover:shadow-md transition-shadow duration-200 group relative overflow-hidden ${(!isDeleteMode && !isCompleteMode)
+  ? 'cursor-grab active:cursor-grabbing'
+  : ''}`}
 >
           <div className={`absolute left-0 top-0 bottom-0 w-1 ${priorityStyle.badge}`}></div>
 
-          {isDeleteMode && (
+          {(isDeleteMode || isCompleteMode) && (
             <div className="absolute top-4 right-4 z-10">
               <Checkbox
                 checked={selectedIds.includes(demand.id)}
