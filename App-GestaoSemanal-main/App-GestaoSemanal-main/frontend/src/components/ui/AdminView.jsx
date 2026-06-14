@@ -51,19 +51,28 @@ export default function AdminView() {
     loadData();
   };
 
-  const createSubgroup = async () => {
-    if (!newSubgroup.trim()) return;
+const createSubgroup = async () => {
+  if (!newSubgroup.trim()) return;
 
-    await axios.post(
-      `${API}/subgroups`,
-      {
-        name: newSubgroup
-      }
-    );
+  try {
+    await axios.post(`${API}/subgroups`, {
+      name: newSubgroup
+    });
+
+    await loadData();
+
+    // IMPORTANTE
+    if (window.fetchAdminDataGlobal) {
+      await window.fetchAdminDataGlobal();
+    }
 
     setNewSubgroup("");
-    loadData();
-  };
+
+    toast.success("Subgrupo criado");
+  } catch {
+    toast.error("Erro ao criar subgrupo");
+  }
+};
 
   const deleteMember = async (id) => {
 
