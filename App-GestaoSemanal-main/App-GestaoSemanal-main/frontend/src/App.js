@@ -32,22 +32,6 @@ const PRIORITY_COLORS = {
   baixa: { bg: "bg-sky-50", border: "border-sky-200", text: "text-sky-600", badge: "bg-sky-600" }
 };
 
-const SUBGROUPS = [
-  "Gestão de territórios",
-  "BI Analytics",
-  "Setor Autônomos",
-  "Incentivos e ganhos variáveis",
-  "Help Desk",
-  "Coordenação",
-  "Treinamentos"
-];
-
-const RESPONSIBLES_LIST = [
-  "Alisson", "Jhonatas", "Maria Clara", "Isabela", "Bianca", "Eduardo",
-  "Vinicius Fontes", "Vinicius Rodovalho", "Jacyara", "Leandro",
-  "Marcelo", "Nathalia", "Felipe"
-];
-
 const SECTIONS = [
   { id: "last_week", title: "Temas Resolvidos (Semana Passada)", color: "emerald" },
   { id: "this_week", title: "Temas da Semana Atual", color: "sky" },
@@ -403,6 +387,8 @@ function App() {
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterSubgroup, setFilterSubgroup] = useState("all");
   const [filterResponsible, setFilterResponsible] = useState("all");
+  const [responsibles, setResponsibles] = useState([]);
+  const [subgroups, setSubgroups] = useState([]);
   const { week, total } = useMemo(() => getWeekInfo(), []);
 
 
@@ -417,6 +403,27 @@ function App() {
   });
 
   const fetchDemands = useCallback(async () => {
+    const fetchAdminData = useCallback(async () => {
+  try {
+
+    const [membersRes, groupsRes] =
+      await Promise.all([
+        axios.get(`${API}/team-members`),
+        axios.get(`${API}/subgroups`)
+      ]);
+
+    setResponsibles(
+      membersRes.data.map(item => item.name)
+    );
+
+    setSubgroups(
+      groupsRes.data.map(item => item.name)
+    );
+
+  } catch (error) {
+    console.error(error);
+  }
+}, []);
     try {
       const response = await axios.get(`${API}/demands`);
       
@@ -467,9 +474,10 @@ const saveGeneralNotice = async () => {
   }
 };
 
-  useEffect(() => {
-    fetchDemands();
-  }, [fetchDemands]);
+useEffect(() => {
+  fetchDemands();
+  fetchAdminData();
+}, [fetchDemands, fetchAdminData]);
 
   const applyFilters = useCallback(() => {
     let filtered = [...demands];
@@ -823,7 +831,7 @@ const deleteSelected = async () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos</SelectItem>
-                  {SUBGROUPS.map(sg => (
+                  {subgroups.map(sg => (
                     <SelectItem key={sg} value={sg}>{sg}</SelectItem>
                   ))}
                 </SelectContent>
@@ -838,7 +846,7 @@ const deleteSelected = async () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos</SelectItem>
-                  {RESPONSIBLES_LIST.map(res => (
+                  {responsibles.map(res => (
                     <SelectItem key={res} value={res}>{res}</SelectItem>
                   ))}
                 </SelectContent>
@@ -1140,7 +1148,7 @@ const deleteSelected = async () => {
             <div className="space-y-2">
               <Label>Sub-grupos *</Label>
               <div className="grid grid-cols-2 gap-2 p-3 border rounded-md bg-slate-50">
-                {SUBGROUPS.map(sg => (
+                {subgroups.map(sg => (
                   <div key={sg} className="flex items-center gap-2">
                     <Checkbox 
                       id={`sg-${sg}`}
@@ -1156,7 +1164,7 @@ const deleteSelected = async () => {
             <div className="space-y-2">
               <Label>Responsáveis *</Label>
               <div className="grid grid-cols-3 gap-2 p-3 border rounded-md bg-slate-50">
-                {RESPONSIBLES_LIST.map(res => (
+                {responsibles.map(res => (
                   <div key={res} className="flex items-center gap-2">
                     <Checkbox 
                       id={`res-${res}`}
