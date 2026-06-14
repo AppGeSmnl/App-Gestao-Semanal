@@ -49,11 +49,11 @@ export default function Sidebar({ currentView, setCurrentView }) {
                 <button
                   key={item.id}
                   onClick={() => setCurrentView(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                    currentView === item.id
-                      ? "bg-sky-50 text-sky-700 border border-sky-200"
-                      : "hover:bg-slate-50"
-                  }`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  currentView === item.id
+                    ? "bg-sky-50 text-sky-700 border border-sky-200 shadow-sm"
+                    : "hover:bg-slate-100 hover:translate-x-1 hover:shadow-sm"
+                }`}
                 >
                   <Icon className="w-5 h-5" />
 
