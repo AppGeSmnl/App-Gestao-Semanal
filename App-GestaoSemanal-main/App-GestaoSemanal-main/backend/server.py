@@ -19,12 +19,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-allow_origins=[
-    "https://app-gestao-semanal-plus-version.onrender.com",
-    "https://app-gestao-semanal-ibpmvjoj9-the-owner-s-projects.vercel.app",
-    "https://app-gestao-semanal-diqxg30e3-the-owner-s-projects.vercel.app",
-    "http://localhost:3000",
-],
+    allow_origins=[
+        "https://app-gestao-semanal-virid.vercel.app",
+        "http://localhost:3000",
+    ],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
