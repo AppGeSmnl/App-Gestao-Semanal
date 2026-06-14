@@ -79,6 +79,51 @@ class GeneralNotice(BaseModel):
     text: str
     created_at: str
 
+# ================= COMPLETED DEMANDS =================
+
+class CompletedDemand(BaseModel):
+    id: str
+    description: str
+    priority: str
+    responsible: Union[List[str], str]
+    subgroup: Union[List[str], str]
+    category: str
+    observation: Optional[str]
+    deliveryDate: Optional[str]
+    created_at: str
+    updated_at: str
+    completed_at: str
+
+
+class CompleteDemandsRequest(BaseModel):
+    ids: List[str]
+
+
+# ================= TEAM MEMBERS =================
+
+class TeamMemberCreate(BaseModel):
+    name: str
+
+
+class TeamMember(BaseModel):
+    id: str
+    name: str
+    active: bool
+    created_at: str
+
+
+# ================= SUBGROUPS =================
+
+class SubgroupCreate(BaseModel):
+    name: str
+
+
+class Subgroup(BaseModel):
+    id: str
+    name: str
+    active: bool
+    created_at: str
+
 # ================= ROUTER =================
 
 api = APIRouter(prefix="/api")
@@ -143,6 +188,53 @@ async def bulk_delete_demands(req: BulkDeleteRequest):
     result = await db.demands.delete_many({"id": {"$in": req.ids}})
     return {"deleted": result.deleted_count}
 
+# ================= COMPLETED DEMANDS =================
+
+@api.get("/completed-demands")
+async def get_completed_demands():
+    return await db.completed_demands.find({}, {"_id": 0}).to_list(5000)
+
+
+@api.post("/demands/complete")
+async def complete_demands(req: CompleteDemandsRequest):
+    now = datetime.now(timezone.utc).isoformat()
+
+    demands = await db.demands.find(
+        {"id": {"$in": req.ids}},
+        {"_id": 0}
+    ).to_list(5000)
+
+    if not demands:
+        raise HTTPException(404, "Nenhuma demanda encontrada")
+
+    completed = []
+
+    for demand in demands:
+        demand["completed_at"] = now
+        completed.append(demand)
+
+    await db.completed_demands.insert_many(completed)
+
+    await db.demands.delete_many({
+        "id": {"$in": req.ids}
+    })
+
+    return {
+        "success": True,
+        "completed": len(completed)
+    }
+
+
+@api.post("/completed-demands/bulk-delete")
+async def delete_completed_demands(req: BulkDeleteRequest):
+    result = await db.completed_demands.delete_many({
+        "id": {"$in": req.ids}
+    })
+
+    return {
+        "deleted": result.deleted_count
+    }
+
 # ================= GENERAL NOTICES =================
 
 @api.get("/general-notices", response_model=List[GeneralNotice])
@@ -171,6 +263,85 @@ async def create_general_notice(data: GeneralNoticeCreate):
 async def delete_general_notices(req: BulkDeleteRequest):
     result = await db.general_notices.delete_many({"id": {"$in": req.ids}})
     return {"deleted": result.deleted_count}
+
+# ================= TEAM MEMBERS =================
+
+@api.get("/team-members")
+async def get_team_members():
+    return await db.team_members.find(
+        {"active": True},
+        {"_id": 0}
+    ).to_list(1000)
+
+
+@api.post("/team-members")
+async def create_team_member(data: TeamMemberCreate):
+    member = {
+        "id": f"USR-{uuid.uuid4().hex[:8].upper()}",
+        "name": data.name,
+        "active": True,
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+
+    await db.team_members.insert_one(member)
+
+    return {
+        "success": True,
+        "id": member["id"]
+    }
+
+
+@api.delete("/team-members/{member_id}")
+async def delete_team_member(member_id: str):
+    result = await db.team_members.update_one(
+        {"id": member_id},
+        {"$set": {"active": False}}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(404, "Responsável não encontrado")
+
+    return {"success": True}
+
+
+# ================= SUBGROUPS =================
+
+@api.get("/subgroups")
+async def get_subgroups():
+    return await db.subgroups.find(
+        {"active": True},
+        {"_id": 0}
+    ).to_list(1000)
+
+
+@api.post("/subgroups")
+async def create_subgroup(data: SubgroupCreate):
+    subgroup = {
+        "id": f"SGP-{uuid.uuid4().hex[:8].upper()}",
+        "name": data.name,
+        "active": True,
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+
+    await db.subgroups.insert_one(subgroup)
+
+    return {
+        "success": True,
+        "id": subgroup["id"]
+    }
+
+
+@api.delete("/subgroups/{subgroup_id}")
+async def delete_subgroup(subgroup_id: str):
+    result = await db.subgroups.update_one(
+        {"id": subgroup_id},
+        {"$set": {"active": False}}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(404, "Subgrupo não encontrado")
+
+    return {"success": True}
 
 # ================= REGISTER ROUTER =================
 
