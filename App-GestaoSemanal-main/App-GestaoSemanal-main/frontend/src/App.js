@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import "@/App.css";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/ui/Sidebar";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { Plus, Trash2, X, ChevronLeft, ChevronRight, Presentation, Filter, GripVertical, ArrowRight, Edit2, Check, Calendar, Users, Tags } from "lucide-react";
