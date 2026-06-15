@@ -18,6 +18,7 @@ export default function CompletedView() {
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [periodFilter, setPeriodFilter] = useState("all");
+  const [exactDate, setExactDate] = useState("");
 
 const allSubgroups = useMemo(() => {
   const set = new Set();
@@ -110,6 +111,17 @@ const filtered = useMemo(() => {
 
 }
 
+  if (exactDate) {
+  result = result.filter(item => {
+    const completedDate =
+      new Date(item.completed_at)
+        .toISOString()
+        .split("T")[0];
+
+    return completedDate === exactDate;
+  });
+}
+
   if (search) {
     result = result.filter(d =>
       (
@@ -165,7 +177,8 @@ const groups =
   filterPriority,
   filterSubgroup,
   filterResponsible,
-  periodFilter
+  periodFilter,
+  exactDate
 ]);
 
  const grouped = useMemo(() => {
@@ -236,9 +249,17 @@ const groups =
             Demandas Concluídas
           </h1>
 
-          <div className="bg-white rounded-xl border p-4 mt-6 mb-6">
+          <div
+  className="
+    bg-[#004C97]
+    rounded-xl
+    p-4
+    mt-6
+    mb-6
+  "
+            >
 
- <div className="grid grid-cols-4 gap-4">
+ <div className="grid grid-cols-6 gap-4">
 
     <select
       value={filterPriority}
@@ -332,16 +353,45 @@ const groups =
 
 </select>
 
+   <div className="flex flex-col">
+  <label className="text-white text-xs mb-1">
+    Data exata
+  </label>
+
+  <input
+    type="date"
+    value={exactDate}
+    onChange={(e) =>
+      setExactDate(e.target.value)
+    }
+    className="bg-white border rounded-lg p-2"
+  />
+</div>
+
+   <Button
+  variant="secondary"
+  onClick={() => {
+    setFilterPriority("all");
+    setFilterSubgroup("all");
+    setFilterResponsible("all");
+    setPeriodFilter("all");
+    setExactDate("");
+    setSearch("");
+  }}
+>
+  Limpar filtros
+</Button>
+
   </div>
 
 </div>
 
-<p className="text-slate-500">
-  Total: {demands.length}
+<p className="text-slate-600">
+  Total geral: {demands.length}
 </p>
 
-<p className="text-slate-500">
-  Total filtrado: {filtered.length}
+<p className="text-slate-600 font-medium">
+  Resultado dos filtros: {filtered.length}
 </p>
 
         </div>
