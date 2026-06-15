@@ -17,6 +17,7 @@ export default function CompletedView() {
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [periodFilter, setPeriodFilter] = useState("all");
 
 const allSubgroups = useMemo(() => {
   const set = new Set();
@@ -75,6 +76,40 @@ const filtered = useMemo(() => {
 
   let result = [...demands];
 
+  if (periodFilter !== "all") {
+
+  const now = new Date();
+
+  result = result.filter(item => {
+
+    const completed =
+      new Date(item.completed_at);
+
+    const diffDays =
+      (now - completed) /
+      (1000 * 60 * 60 * 24);
+
+    if (periodFilter === "today") {
+      return (
+        completed.toDateString() ===
+        now.toDateString()
+      );
+    }
+
+    if (periodFilter === "7days") {
+      return diffDays <= 7;
+    }
+
+    if (periodFilter === "30days") {
+      return diffDays <= 30;
+    }
+
+    return true;
+
+  });
+
+}
+
   if (search) {
     result = result.filter(d =>
       (
@@ -129,30 +164,30 @@ const groups =
   search,
   filterPriority,
   filterSubgroup,
-  filterResponsible
+  filterResponsible,
+  periodFilter
 ]);
 
-  const grouped = useMemo(() => {
+ const grouped = useMemo(() => {
 
-    const groups = {};
+  const groups = {};
 
-    filtered.forEach(item => {
+  filtered.forEach(item => {
 
-      const date = new Date(
-        item.completed_at
-      ).toLocaleDateString("pt-BR");
+    const rawDate =
+      item.completed_at.split("T")[0];
 
-      if (!groups[date]) {
-        groups[date] = [];
-      }
+    if (!groups[rawDate]) {
+      groups[rawDate] = [];
+    }
 
-      groups[date].push(item);
+    groups[rawDate].push(item);
 
-    });
+  });
 
-    return groups;
+  return groups;
 
-  }, [filtered]);
+}, [filtered]);
 
   const deleteSelected = async () => {
 
@@ -203,7 +238,7 @@ const groups =
 
           <div className="bg-white rounded-xl border p-4 mt-6 mb-6">
 
-  <div className="grid grid-cols-3 gap-4">
+ <div className="grid grid-cols-4 gap-4">
 
     <select
       value={filterPriority}
@@ -272,13 +307,42 @@ const groups =
       ))}
     </select>
 
+    <select
+  value={periodFilter}
+  onChange={(e) =>
+    setPeriodFilter(e.target.value)
+  }
+  className="border rounded-lg p-2"
+>
+  <option value="all">
+    Todo período
+  </option>
+
+  <option value="today">
+    Hoje
+  </option>
+
+  <option value="7days">
+    Últimos 7 dias
+  </option>
+
+  <option value="30days">
+    Últimos 30 dias
+  </option>
+
+</select>
+
   </div>
 
 </div>
 
-          <p className="text-slate-500">
-            Total filtrado: {filtered.length}
-          </p>
+<p className="text-slate-500">
+  Total: {demands.length}
+</p>
+
+<p className="text-slate-500">
+  Total filtrado: {filtered.length}
+</p>
 
         </div>
 
@@ -338,27 +402,36 @@ const groups =
       <div className="space-y-8">
 
         {Object.entries(grouped)
-          .sort(
-            (a, b) =>
-              new Date(b[0]) -
-              new Date(a[0])
-          )
+           .sort(
+        (a, b) =>
+          new Date(b[0]).getTime() -
+          new Date(a[0]).getTime()
+      )
           .map(([date, items]) => (
 
             <div key={date}>
 
-              <h2 className="text-lg font-bold mb-4 text-slate-700">
-                {date}
-              </h2>
+        <h2 className="text-lg font-bold mb-4 text-slate-700">
+          {new Date(date).toLocaleDateString("pt-BR")}
+          {" "}
+          ({items.length} demanda{items.length > 1 ? "s" : ""})
+        </h2>
 
               <div className="space-y-3">
 
                 {items.map(item => (
 
-                  <div
-                    key={item.id}
-                    className="bg-white border rounded-xl p-5 shadow-sm"
-                  >
+<div
+  key={item.id}
+  className="
+    bg-white
+    border-l-4
+    border-l-emerald-500
+    rounded-xl
+    p-5
+    shadow-sm
+  "
+>
 
                     <div className="flex justify-between">
 
