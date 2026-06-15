@@ -10,11 +10,44 @@ const API =
   "https://app-gestao-semanal-plus-version.onrender.com/api";
 
 export default function CompletedView() {
-
+  const [filterPriority, setFilterPriority] = useState("all");
+  const [filterSubgroup, setFilterSubgroup] = useState("all");
+  const [filterResponsible, setFilterResponsible] = useState("all");
   const [demands, setDemands] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+
+const allSubgroups = useMemo(() => {
+  const set = new Set();
+
+  demands.forEach(d => {
+
+    const groups =
+      typeof d.subgroup === "string"
+        ? d.subgroup.split(", ")
+        : d.subgroup || [];
+
+    groups.forEach(g => set.add(g));
+  });
+
+  return [...set];
+
+}, [demands]);
+  
+const allResponsibles = useMemo(() => {
+  const set = new Set();
+
+  demands.forEach(d => {
+const people =
+  typeof d.responsible === "string"
+    ? d.responsible.split(", ")
+    : d.responsible || [];
+    people.forEach(p => set.add(p));
+  });
+
+  return [...set];
+}, [demands]);
 
   const loadDemands = async () => {
     try {
@@ -38,21 +71,66 @@ export default function CompletedView() {
     loadDemands();
   }, []);
 
-  const filtered = useMemo(() => {
+const filtered = useMemo(() => {
 
-    return demands.filter(d =>
+  let result = [...demands];
+
+  if (search) {
+    result = result.filter(d =>
       (
         d.description +
         " " +
         (d.observation || "")
       )
         .toLowerCase()
-        .includes(
-          search.toLowerCase()
-        )
+        .includes(search.toLowerCase())
     );
+  }
 
-  }, [demands, search]);
+  if (filterPriority !== "all") {
+    result = result.filter(
+      d => d.priority === filterPriority
+    );
+  }
+
+  if (filterSubgroup !== "all") {
+    result = result.filter(d => {
+
+const groups =
+  typeof d.subgroup === "string"
+    ? d.subgroup.split(", ")
+    : d.subgroup || [];
+
+      return groups.includes(
+        filterSubgroup
+      );
+    });
+  }
+
+  if (filterResponsible !== "all") {
+
+    result = result.filter(d => {
+
+     const people =
+  typeof d.responsible === "string"
+    ? d.responsible.split(", ")
+    : d.responsible || [];
+
+      return people.includes(
+        filterResponsible
+      );
+    });
+  }
+
+  return result;
+
+}, [
+  demands,
+  search,
+  filterPriority,
+  filterSubgroup,
+  filterResponsible
+]);
 
   const grouped = useMemo(() => {
 
@@ -123,8 +201,83 @@ export default function CompletedView() {
             Demandas Concluídas
           </h1>
 
+          <div className="bg-white rounded-xl border p-4 mt-6 mb-6">
+
+  <div className="grid grid-cols-3 gap-4">
+
+    <select
+      value={filterPriority}
+      onChange={(e) =>
+        setFilterPriority(e.target.value)
+      }
+      className="border rounded-lg p-2"
+    >
+      <option value="all">
+        Todas prioridades
+      </option>
+
+      <option value="alta">
+        Alta
+      </option>
+
+      <option value="media">
+        Média
+      </option>
+
+      <option value="baixa">
+        Baixa
+      </option>
+
+    </select>
+
+    <select
+      value={filterSubgroup}
+      onChange={(e) =>
+        setFilterSubgroup(e.target.value)
+      }
+      className="border rounded-lg p-2"
+    >
+      <option value="all">
+        Todos os grupos
+      </option>
+
+      {allSubgroups.map(group => (
+        <option
+          key={group}
+          value={group}
+        >
+          {group}
+        </option>
+      ))}
+    </select>
+
+    <select
+      value={filterResponsible}
+      onChange={(e) =>
+        setFilterResponsible(e.target.value)
+      }
+      className="border rounded-lg p-2"
+    >
+      <option value="all">
+        Todos responsáveis
+      </option>
+
+      {allResponsibles.map(person => (
+        <option
+          key={person}
+          value={person}
+        >
+          {person}
+        </option>
+      ))}
+    </select>
+
+  </div>
+
+</div>
+
           <p className="text-slate-500">
-            Total: {demands.length}
+            Total filtrado: {filtered.length}
           </p>
 
         </div>
@@ -211,18 +364,80 @@ export default function CompletedView() {
 
                       <div>
 
-                        <p className="font-medium">
-                          {item.description}
-                        </p>
+<div>
 
-                        <p className="text-xs text-slate-500 mt-2">
-                          Concluído em{" "}
-                          {new Date(
-                            item.completed_at
-                          ).toLocaleString(
-                            "pt-BR"
-                          )}
-                        </p>
+  <div className="flex flex-wrap gap-2 mb-3">
+
+    <span className="
+      text-xs
+      font-semibold
+      px-2
+      py-1
+      rounded
+      bg-emerald-50
+      text-emerald-700
+    ">
+      PRIORIDADE {item.priority.toUpperCase()}
+    </span>
+
+    {(
+       typeof item.subgroup === "string"
+    ? item.subgroup.split(", ")
+    : item.subgroup || []
+    ).map((sg, idx) => (
+
+      <span
+        key={idx}
+        className="
+          text-xs
+          px-2
+          py-1
+          rounded
+          bg-slate-100
+          text-slate-600
+        "
+      >
+        {sg}
+      </span>
+
+    ))}
+
+  </div>
+
+  <p className="font-medium text-slate-800">
+    {item.description}
+  </p>
+
+  <div className="
+    mt-3
+    text-xs
+    text-slate-500
+  ">
+    <span className="font-medium">
+      Responsáveis:
+    </span>{" "}
+
+    {
+    typeof item.responsible === "string"
+      ? item.responsible
+      : item.responsible.join(", ")
+    }
+  </div>
+
+  <p className="
+    text-xs
+    text-emerald-600
+    mt-2
+    font-medium
+  ">
+    Concluído em{" "}
+    {new Date(
+      item.completed_at
+    ).toLocaleString("pt-BR")}
+  </p>
+
+</div>
+
 
                       </div>
 
