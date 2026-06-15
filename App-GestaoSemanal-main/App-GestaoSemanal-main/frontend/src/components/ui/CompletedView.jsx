@@ -256,10 +256,11 @@ const groups =
     p-4
     mt-6
     mb-6
+    w-full
   "
-            >
+>
 
- <div className="grid grid-cols-6 gap-4">
+ <div className="grid grid-cols-6 gap-4 w-full">
 
     <select
       value={filterPriority}
@@ -398,15 +399,6 @@ const groups =
 
         <div className="flex gap-3">
 
-          <Input
-            placeholder="Pesquisar..."
-            value={search}
-            onChange={(e) =>
-              setSearch(e.target.value)
-            }
-            className="w-80"
-          />
-
           {!isDeleteMode ? (
 
             <Button
@@ -448,6 +440,19 @@ const groups =
         </div>
 
       </div>
+
+      <div className="flex justify-end mb-4">
+
+  <Input
+    placeholder="Pesquisar..."
+    value={search}
+    onChange={(e) =>
+      setSearch(e.target.value)
+    }
+    className="w-80"
+  />
+
+</div>
 
       <div className="space-y-8">
 
