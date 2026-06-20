@@ -9,7 +9,9 @@ import { toast } from "sonner";
 const API =
   "https://app-gestao-semanal-plus-version.onrender.com/api";
 
-export default function CompletedView() {
+export default function CompletedView({
+  sidebarOpen
+}) {
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterSubgroup, setFilterSubgroup] = useState("all");
   const [filterResponsible, setFilterResponsible] = useState("all");
@@ -536,7 +538,19 @@ const rawDate =
 
       </div>
 
-      <div className="fixed bottom-8 left-8 z-20">
+      <div
+  className={`
+    fixed
+    bottom-8
+    left-8
+    z-30
+    transition-all
+    duration-300
+    ${sidebarOpen
+      ? "opacity-0 pointer-events-none"
+      : "opacity-100"}
+  `}
+>
 
   {!isDeleteMode ? (
 
