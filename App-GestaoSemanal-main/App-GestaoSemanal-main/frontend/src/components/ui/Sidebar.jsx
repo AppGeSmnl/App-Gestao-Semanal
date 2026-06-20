@@ -63,20 +63,20 @@ return ( <Sheet open={open} onOpenChange={setOpen}> <SheetTrigger asChild> <Butt
           const Icon = item.icon;
 
           return (
-            <motion.button
-              key={item.id}
-              whileHover={{ x: 4 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                setCurrentView(item.id);
-                setOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
-                currentView === item.id
-                  ? "bg-[#004C97] text-white shadow-md"
-                  : "hover:bg-slate-100 text-slate-700"
-              }`}
-            >
+<motion.button
+  key={item.id}
+  whileHover={{ x: 4 }}
+  whileTap={{ scale: 0.98 }}
+  onClick={() => {
+    setCurrentView(item.id);
+    setOpen(false);
+  }}
+  className={
+    currentView === item.id
+      ? "w-full flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer bg-[#004C97] text-white shadow-md"
+      : "w-full flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer hover:bg-slate-100 text-slate-700 transition-all duration-200"
+  }
+>
               <Icon className="w-5 h-5" />
 
               <span className="font-medium">
@@ -89,7 +89,7 @@ return ( <Sheet open={open} onOpenChange={setOpen}> <SheetTrigger asChild> <Butt
     </div>
   </SheetContent>
 </Sheet>
-```
-
-);
+  );
 }
+
+export default Sidebar;
