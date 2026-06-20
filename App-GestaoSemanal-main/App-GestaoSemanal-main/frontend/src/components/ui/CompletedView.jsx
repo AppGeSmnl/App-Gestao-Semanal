@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,8 @@ export default function CompletedView({
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [exactDate, setExactDate] = useState("");
+
+  const dateInputRef = useRef(null);
   
 
 const allSubgroups = useMemo(() => {
@@ -290,18 +292,47 @@ const rawDate =
       </select>
     </div>
 
-    <div className="flex items-center gap-4">
-      <label className="text-sm text-white font-medium whitespace-nowrap">
-        Data:
-      </label>
+<div className="flex items-center gap-4">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Data:
+  </label>
 
-      <input
-        type="date"
-        value={exactDate}
-        onChange={(e) => setExactDate(e.target.value)}
-        className="w-32 bg-white border rounded-md p-2"
-      />
-    </div>
+  <div
+    className="
+      w-40
+      bg-white
+      border
+      rounded-md
+      px-3
+      py-2
+      cursor-pointer
+      flex
+      items-center
+    "
+    onClick={() => {
+      if (dateInputRef.current?.showPicker) {
+        dateInputRef.current.showPicker();
+      } else {
+        dateInputRef.current?.focus();
+        dateInputRef.current?.click();
+      }
+    }}
+  >
+    <input
+      ref={dateInputRef}
+      type="date"
+      value={exactDate}
+      onChange={(e) => setExactDate(e.target.value)}
+      className="
+        w-full
+        cursor-pointer
+        border-0
+        outline-none
+        bg-transparent
+      "
+    />
+  </div>
+</div>
 
    {(filterPriority !== "all" ||
   filterSubgroup !== "all" ||
