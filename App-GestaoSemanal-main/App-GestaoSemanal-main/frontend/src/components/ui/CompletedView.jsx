@@ -210,12 +210,13 @@ const rawDate =
 
         <div>
 
-          <h1 className="text-3xl font-bold mb-6">
+          <h1 className="text-3xl font-bold mb-8">
             Demandas Concluídas
           </h1>
 
   <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
-  <div className="flex flex-wrap items-center gap-6">
+  <div className="flex items-center justify-between">
+   <div className="flex items-center gap-8"> 
 
     <div className="flex items-center gap-2 text-white">
       <span className="font-medium text-sm">
@@ -303,9 +304,10 @@ const rawDate =
         onChange={(e) =>
           setExactDate(e.target.value)
         }
-        className="bg-white border rounded-md p-2"
+        className="w-40 bg-white border rounded-md p-2"
       />
     </div>
+  </div>
 
 {(
   filterPriority !== "all" ||
