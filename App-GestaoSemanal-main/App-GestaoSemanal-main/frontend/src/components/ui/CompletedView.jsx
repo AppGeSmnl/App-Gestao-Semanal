@@ -225,7 +225,7 @@ const rawDate =
 </div>
 
     <div className="flex items-center gap-2">
-      <label className="text-sm text-white font-medium">
+      <label className="text-sm text-white font-medium whitespace-nowrap">
         Prioridade:
       </label>
 
@@ -242,7 +242,7 @@ const rawDate =
     </div>
 
     <div className="flex items-center gap-2">
-      <label className="text-sm text-white font-medium">
+      <label className="text-sm text-white font-medium whitespace-nowrap flex-shrink-0">
         Sub-grupo:
       </label>
 
@@ -288,7 +288,7 @@ const rawDate =
     </div>
 
     <div className="flex items-center gap-4">
-      <label className="text-sm text-white font-medium">
+      <label className="text-sm text-white font-medium whitespace-nowrap">
         Data:
       </label>
 
