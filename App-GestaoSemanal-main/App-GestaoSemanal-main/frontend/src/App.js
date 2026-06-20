@@ -832,12 +832,8 @@ const deleteSelected = async () => {
         )}
       </AnimatePresence>
  
-   {currentView === "completed" ? (
+{currentView === "completed" ? (
      
-
-            
-
-
   <CompletedView />
 
 ) : currentView === "admin" ? (
@@ -850,7 +846,7 @@ const deleteSelected = async () => {
 
   <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
 
-{currentView === "completed" ? (
+    {currentView === "demands" && (
      <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg">
           <div className="flex flex-wrap items-center gap-6">
@@ -921,7 +917,9 @@ const deleteSelected = async () => {
           </div>
         </div>
       </div>
-      )}
+    
+     
+    )}
 
             {/* ================= AVISOS GERAIS ================= */}
 <motion.div
