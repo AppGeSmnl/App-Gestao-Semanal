@@ -1080,7 +1080,7 @@ const deleteSelected = async () => {
       </main>
         )}
 
-{currentView === "demands" && (
+{currentView === "demands" && !sidebarOpen && (
   <>
     {/* Criar Tema */}
     <div className="fixed bottom-8 left-8 z-30">
