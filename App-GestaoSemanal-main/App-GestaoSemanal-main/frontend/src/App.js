@@ -865,7 +865,10 @@ const deleteSelected = async () => {
  
 {currentView === "completed" ? (
      
-  <CompletedView />
+    <CompletedView
+    sidebarOpen={sidebarOpen}
+  />
+
 
 ) : currentView === "admin" ? (
 
