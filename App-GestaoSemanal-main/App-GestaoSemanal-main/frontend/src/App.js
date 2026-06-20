@@ -399,6 +399,7 @@ function App() {
   const [filterResponsible, setFilterResponsible] = useState("all");
   const [responsibles, setResponsibles] = useState([]);
   const [subgroups, setSubgroups] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   useEffect(() => {
 
@@ -829,10 +830,12 @@ const deleteSelected = async () => {
       <header className="bg-[#004C97] border-b border-[#003D7A] sticky top-0 z-40 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Sidebar
-              currentView={currentView}
-              setCurrentView={setCurrentView}
-            />
+        <Sidebar
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          open={sidebarOpen}
+          setOpen={setSidebarOpen}
+        />
             <h1 className="text-2xl font-bold text-white" style={{ fontFamily: 'Manrope, sans-serif' }}>
               Gestão de Demandas Semanal
             </h1>
@@ -1080,7 +1083,7 @@ const deleteSelected = async () => {
 {currentView === "demands" && (
   <>
     {/* Criar Tema */}
-    <div className="fixed bottom-8 left-8 z-[60]">
+    <div className="fixed bottom-8 left-8 z-30">
       <Button
         onClick={handleOpenCreate}
         className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6 py-6 shadow-lg shadow-sky-500/30 flex items-center gap-2 font-semibold transition-transform hover:scale-105"
@@ -1091,7 +1094,7 @@ const deleteSelected = async () => {
     </div>
 
     {/* Botões da direita */}
-    <div className="fixed bottom-8 right-8 z-[60] flex flex-col gap-3">
+    <div className="fixed bottom-8 right-8 z-30 flex flex-col gap-3">
 
       {/* ================= CONCLUIR ================= */}
       {!isCompleteMode ? (
