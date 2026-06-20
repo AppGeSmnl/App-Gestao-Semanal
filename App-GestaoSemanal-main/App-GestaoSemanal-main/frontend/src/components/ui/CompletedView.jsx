@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Trash2, Filter } from "lucide-react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -214,11 +215,11 @@ const rawDate =
             Demandas Concluídas
           </h1>
 
-  <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
-  <div className="flex items-center justify-between">
-   <div className="flex items-center gap-8"> 
+<div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
+  <div className="flex flex-wrap items-center gap-6">
 
     <div className="flex items-center gap-2 text-white">
+      <Filter className="w-4 h-4" />
       <span className="font-medium text-sm">
         Filtros:
       </span>
@@ -231,9 +232,7 @@ const rawDate =
 
       <select
         value={filterPriority}
-        onChange={(e) =>
-          setFilterPriority(e.target.value)
-        }
+        onChange={(e) => setFilterPriority(e.target.value)}
         className="w-36 bg-white border rounded-md p-2"
       >
         <option value="all">Todas</option>
@@ -250,9 +249,7 @@ const rawDate =
 
       <select
         value={filterSubgroup}
-        onChange={(e) =>
-          setFilterSubgroup(e.target.value)
-        }
+        onChange={(e) => setFilterSubgroup(e.target.value)}
         className="w-44 bg-white border rounded-md p-2"
       >
         <option value="all">Todos</option>
@@ -275,9 +272,7 @@ const rawDate =
 
       <select
         value={filterResponsible}
-        onChange={(e) =>
-          setFilterResponsible(e.target.value)
-        }
+        onChange={(e) => setFilterResponsible(e.target.value)}
         className="w-44 bg-white border rounded-md p-2"
       >
         <option value="all">Todos</option>
@@ -301,34 +296,31 @@ const rawDate =
       <input
         type="date"
         value={exactDate}
-        onChange={(e) =>
-          setExactDate(e.target.value)
-        }
+        onChange={(e) => setExactDate(e.target.value)}
         className="w-40 bg-white border rounded-md p-2"
       />
     </div>
-  </div>
 
-{(
-  filterPriority !== "all" ||
-  filterSubgroup !== "all" ||
-  filterResponsible !== "all" ||
-  exactDate ||
-  search
-) && (
-  <Button
-    variant="secondary"
-    onClick={() => {
-      setFilterPriority("all");
-      setFilterSubgroup("all");
-      setFilterResponsible("all");
-      setExactDate("");
-      setSearch("");
-    }}
-  >
-    Limpar filtros
-  </Button>
-)}
+    {(filterPriority !== "all" ||
+      filterSubgroup !== "all" ||
+      filterResponsible !== "all" ||
+      exactDate ||
+      search) && (
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => {
+          setFilterPriority("all");
+          setFilterSubgroup("all");
+          setFilterResponsible("all");
+          setExactDate("");
+          setSearch("");
+        }}
+        className="text-white hover:bg-white/20"
+      >
+        Limpar filtros
+      </Button>
+    )}
 
   </div>
 </div>
