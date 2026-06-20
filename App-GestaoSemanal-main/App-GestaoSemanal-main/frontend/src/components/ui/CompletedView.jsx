@@ -286,20 +286,32 @@ const rawDate =
         ))}
       </select>
     </div>
+<div className="flex items-center gap-2">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Data:
+  </label>
 
-    <div className="flex items-center gap-4">
-      <label className="text-sm text-white font-medium whitespace-nowrap">
-        Data:
-      </label>
-
-      <input
-        type="date"
-        value={exactDate}
-        onChange={(e) => setExactDate(e.target.value)}
-        className="w-32 bg-white border rounded-md p-2"
-      />
-    </div>
-
+  <input
+    type="date"
+    value={exactDate}
+    onChange={(e) => setExactDate(e.target.value)}
+    onClick={(e) => {
+      if (e.target.showPicker) {
+        e.target.showPicker();
+      }
+    }}
+    className="
+      w-48
+      bg-white
+      border
+      rounded-md
+      px-3
+      py-2
+      cursor-pointer
+    "
+  />
+</div>
+   
    {(filterPriority !== "all" ||
   filterSubgroup !== "all" ||
   filterResponsible !== "all" ||
