@@ -215,9 +215,9 @@ const rawDate =
           </h1>
 
 <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
-  <div className="flex flex-wrap items-center gap-6">
+  <div className="flex items-center gap-6">
 
-    <div className="flex items-center gap-2 text-white">
+    <div className="flex items-center gap-6 flex-1">
       <Filter className="w-4 h-4" />
       <span className="font-medium text-sm">
         Filtros:
@@ -232,7 +232,7 @@ const rawDate =
       <select
         value={filterPriority}
         onChange={(e) => setFilterPriority(e.target.value)}
-        className="w-36 bg-white border rounded-md p-2"
+        className="w-32 bg-white border rounded-md p-2"
       >
         <option value="all">Todas</option>
         <option value="alta">Alta</option>
@@ -249,7 +249,7 @@ const rawDate =
       <select
         value={filterSubgroup}
         onChange={(e) => setFilterSubgroup(e.target.value)}
-        className="w-44 bg-white border rounded-md p-2"
+        className="w-40 bg-white border rounded-md p-2"
       >
         <option value="all">Todos</option>
 
@@ -272,7 +272,7 @@ const rawDate =
       <select
         value={filterResponsible}
         onChange={(e) => setFilterResponsible(e.target.value)}
-        className="w-44 bg-white border rounded-md p-2"
+        className="w-48 bg-white border rounded-md p-2"
       >
         <option value="all">Todos</option>
 
@@ -287,7 +287,7 @@ const rawDate =
       </select>
     </div>
 
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-4">
       <label className="text-sm text-white font-medium">
         Data:
       </label>
@@ -296,7 +296,7 @@ const rawDate =
         type="date"
         value={exactDate}
         onChange={(e) => setExactDate(e.target.value)}
-        className="w-40 bg-white border rounded-md p-2"
+        className="w-32 bg-white border rounded-md p-2"
       />
     </div>
 
@@ -315,7 +315,7 @@ const rawDate =
           setExactDate("");
           setSearch("");
         }}
-        className="text-white hover:bg-white/20"
+        className="ml-auto text-white hover:bg-white/20 whitespace-nowrap"
       >
         Limpar filtros
       </Button>
