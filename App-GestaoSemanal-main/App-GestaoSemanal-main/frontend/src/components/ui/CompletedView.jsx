@@ -181,14 +181,16 @@ const groups =
   exactDate
 ]);
 
- const grouped = useMemo(() => {
+const grouped = useMemo(() => {
 
   const groups = {};
 
   filtered.forEach(item => {
 
+    const dateObj = new Date(item.completed_at);
+
     const rawDate =
-      item.completed_at.split("T")[0];
+      dateObj.toLocaleDateString("pt-BR");
 
     if (!groups[rawDate]) {
       groups[rawDate] = [];
@@ -456,21 +458,27 @@ const groups =
 
       <div className="space-y-8">
 
-        {Object.entries(grouped)
-           .sort(
-        (a, b) =>
-          new Date(b[0]).getTime() -
-          new Date(a[0]).getTime()
-      )
+{Object.entries(grouped)
+  .sort((a, b) => {
+
+    const [d1, m1, y1] = a[0].split("/");
+    const [d2, m2, y2] = b[0].split("/");
+
+    return (
+      new Date(y2, m2 - 1, d2) -
+      new Date(y1, m1 - 1, d1)
+    );
+
+  })
           .map(([date, items]) => (
 
             <div key={date}>
 
-        <h2 className="text-lg font-bold mb-4 text-slate-700">
-          {new Date(date).toLocaleDateString("pt-BR")}
-          {" "}
-          ({items.length} demanda{items.length > 1 ? "s" : ""})
-        </h2>
+<h2 className="text-lg font-bold mb-4 text-slate-700">
+  {date}
+  {" "}
+  ({items.length} demanda{items.length > 1 ? "s" : ""})
+</h2>
 
               <div className="space-y-3">
 
