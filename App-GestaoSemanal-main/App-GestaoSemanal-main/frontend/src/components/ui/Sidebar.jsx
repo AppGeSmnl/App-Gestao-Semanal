@@ -24,9 +24,11 @@ const MENU_ITEMS = [
 
 export default function Sidebar({
   currentView,
-  setCurrentView
+  setCurrentView,
+  open,
+  setOpen
 }) {
-  const [open, setOpen] = useState(false);
+
 
 
   return (
