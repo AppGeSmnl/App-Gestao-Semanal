@@ -831,8 +831,27 @@ const deleteSelected = async () => {
           />
         )}
       </AnimatePresence>
+ 
+   {currentView === "completed" ? (
+     
 
-      <div className="max-w-7xl mx-auto px-6 py-6">
+            
+
+
+  <CompletedView />
+
+) : currentView === "admin" ? (
+
+ <AdminView
+  onDataChanged={fetchAdminData}
+/>
+
+) : (
+
+  <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+
+{currentView === "completed" ? (
+     <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg">
           <div className="flex flex-wrap items-center gap-6">
             <div className="flex items-center gap-2 text-white">
@@ -902,20 +921,7 @@ const deleteSelected = async () => {
           </div>
         </div>
       </div>
-            
-{currentView === "completed" ? (
-
-  <CompletedView />
-
-) : currentView === "admin" ? (
-
- <AdminView
-  onDataChanged={fetchAdminData}
-/>
-
-) : (
-
-  <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+      )}
 
             {/* ================= AVISOS GERAIS ================= */}
 <motion.div
@@ -1045,84 +1051,100 @@ const deleteSelected = async () => {
       </main>
         )}
 
-      <div className="fixed bottom-8 left-8 z-[60]">
+{currentView === "demands" && (
+  <>
+    {/* Criar Tema */}
+    <div className="fixed bottom-8 left-8 z-[60]">
+      <Button
+        onClick={handleOpenCreate}
+        className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6 py-6 shadow-lg shadow-sky-500/30 flex items-center gap-2 font-semibold transition-transform hover:scale-105"
+      >
+        <Plus className="w-5 h-5" />
+        Criar Tema
+      </Button>
+    </div>
+
+    {/* Botões da direita */}
+    <div className="fixed bottom-8 right-8 z-[60] flex flex-col gap-3">
+
+      {/* ================= CONCLUIR ================= */}
+      {!isCompleteMode ? (
         <Button
-          onClick={handleOpenCreate}
-          className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6 py-6 shadow-lg shadow-sky-500/30 flex items-center gap-2 font-semibold transition-transform hover:scale-105"
+          onClick={() => {
+            setIsCompleteMode(true);
+            setIsDeleteMode(false);
+            setSelectedIds([]);
+          }}
+          className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-6 py-6 shadow-lg flex items-center gap-2 font-semibold transition-transform hover:scale-105"
         >
-          <Plus className="w-5 h-5" />
-          Criar Tema
+          <Check className="w-5 h-5" />
+          Concluir Tema
         </Button>
-      </div>
+      ) : (
+        <div className="flex gap-3">
+          <Button
+            onClick={() => {
+              setIsCompleteMode(false);
+              setSelectedIds([]);
+            }}
+            variant="outline"
+            className="rounded-full px-6 py-6 shadow-lg bg-white"
+          >
+            Cancelar
+          </Button>
 
- <div className="fixed bottom-8 right-8 z-[60] flex flex-col gap-3">
+          <Button
+            onClick={completeSelected}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-6 py-6 shadow-lg flex items-center gap-2"
+            disabled={selectedIds.length === 0}
+          >
+            <Check className="w-5 h-5" />
+            Concluir ({selectedIds.length})
+          </Button>
+        </div>
+      )}
 
-  {!isDeleteMode && !isCompleteMode && (
-    <>
-      <Button
-        onClick={() => setIsCompleteMode(true)}
-        className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-6 py-6 shadow-lg flex items-center gap-2 font-semibold transition-transform hover:scale-105"
-      >
-        <Check className="w-5 h-5" />
-        Concluir Tema
-      </Button>
+      {/* ================= EXCLUIR ================= */}
+      {!isDeleteMode ? (
+        <Button
+          onClick={() => {
+            setIsDeleteMode(true);
+            setIsCompleteMode(false);
+            setSelectedIds([]);
+          }}
+          variant="destructive"
+          className="rounded-full px-6 py-6 shadow-lg flex items-center gap-2 font-semibold transition-transform hover:scale-105"
+        >
+          <Trash2 className="w-5 h-5" />
+          Excluir Tema
+        </Button>
+      ) : (
+        <div className="flex gap-3">
+          <Button
+            onClick={() => {
+              setIsDeleteMode(false);
+              setSelectedIds([]);
+            }}
+            variant="outline"
+            className="rounded-full px-6 py-6 shadow-lg bg-white"
+          >
+            Cancelar
+          </Button>
 
-      <Button
-        onClick={() => setIsDeleteMode(true)}
-        variant="destructive"
-        className="rounded-full px-6 py-6 shadow-lg flex items-center gap-2 font-semibold transition-transform hover:scale-105"
-      >
-        <Trash2 className="w-5 h-5" />
-        Excluir Tema
-      </Button>
-    </>
-  )}
-
-  {isDeleteMode && (
-    <div className="flex gap-3">
-      <Button
-        onClick={() => {
-          setIsDeleteMode(false);
-          setSelectedIds([]);
-        }}
-        variant="outline"
-      >
-        Cancelar
-      </Button>
-
-      <Button
-        onClick={deleteSelected}
-        variant="destructive"
-        disabled={selectedIds.length === 0}
-      >
-        Excluir ({selectedIds.length})
-      </Button>
+          <Button
+            onClick={deleteSelected}
+            variant="destructive"
+            className="rounded-full px-6 py-6 shadow-lg flex items-center gap-2"
+            disabled={selectedIds.length === 0}
+          >
+            <Trash2 className="w-5 h-5" />
+            Excluir ({selectedIds.length})
+          </Button>
+        </div>
+      )}
     </div>
-  )}
-
-  {isCompleteMode && (
-    <div className="flex gap-3">
-      <Button
-        onClick={() => {
-          setIsCompleteMode(false);
-          setSelectedIds([]);
-        }}
-        variant="outline"
-      >
-        Cancelar
-      </Button>
-
-      <Button
-        onClick={completeSelected}
-        className="bg-emerald-600 hover:bg-emerald-700"
-        disabled={selectedIds.length === 0}
-      >
-        Concluir ({selectedIds.length})
-      </Button>
-    </div>
-  )}
-
-</div>
+  </>
+)}
 
       <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
