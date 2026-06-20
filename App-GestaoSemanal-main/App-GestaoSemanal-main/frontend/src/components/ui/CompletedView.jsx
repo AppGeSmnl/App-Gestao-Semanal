@@ -3,7 +3,7 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Trash2, Filter } from "lucide-react";
+import { Trash2, Filter, Search } from "lucide-react";
 import { toast } from "sonner";
 
 const API =
@@ -286,32 +286,20 @@ const rawDate =
         ))}
       </select>
     </div>
-<div className="flex items-center gap-2">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
-    Data:
-  </label>
 
-  <input
-    type="date"
-    value={exactDate}
-    onChange={(e) => setExactDate(e.target.value)}
-    onClick={(e) => {
-      if (e.target.showPicker) {
-        e.target.showPicker();
-      }
-    }}
-    className="
-      w-48
-      bg-white
-      border
-      rounded-md
-      px-3
-      py-2
-      cursor-pointer
-    "
-  />
-</div>
-   
+    <div className="flex items-center gap-4">
+      <label className="text-sm text-white font-medium whitespace-nowrap">
+        Data:
+      </label>
+
+      <input
+        type="date"
+        value={exactDate}
+        onChange={(e) => setExactDate(e.target.value)}
+        className="w-32 bg-white border rounded-md p-2"
+      />
+    </div>
+
    {(filterPriority !== "all" ||
   filterSubgroup !== "all" ||
   filterResponsible !== "all" ||
@@ -348,16 +336,37 @@ const rawDate =
      </div>
       </div>
 
-      <div className="flex justify-end mb-4">
+    <div className="flex justify-end mb-4">
 
-  <Input
-    placeholder="Pesquisar..."
-    value={search}
-    onChange={(e) =>
-      setSearch(e.target.value)
-    }
-    className="w-80"
-  />
+  <div className="relative w-80">
+
+    <Search
+      className="
+        absolute
+        left-3
+        top-1/2
+        -translate-y-1/2
+        w-5
+        h-5
+        text-[#004C97]
+      "
+    />
+
+    <Input
+      placeholder="Pesquisar..."
+      value={search}
+      onChange={(e) =>
+        setSearch(e.target.value)
+      }
+      className="
+        pl-10
+        border-2
+        border-[#004C97]/20
+        focus:border-[#004C97]
+      "
+    />
+
+  </div>
 
 </div>
 
