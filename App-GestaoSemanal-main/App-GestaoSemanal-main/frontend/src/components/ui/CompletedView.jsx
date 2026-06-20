@@ -187,10 +187,8 @@ const grouped = useMemo(() => {
 
   filtered.forEach(item => {
 
-    const dateObj = new Date(item.completed_at);
-
-    const rawDate =
-      dateObj.toLocaleDateString("pt-BR");
+const rawDate =
+  item.completed_at.split("T")[0];
 
     if (!groups[rawDate]) {
       groups[rawDate] = [];
@@ -251,142 +249,144 @@ const grouped = useMemo(() => {
             Demandas Concluídas
           </h1>
 
-          <div
-  className="
-    bg-[#004C97]
-    rounded-xl
-    p-4
-    mt-6
-    mb-6
-    w-full
-  "
->
+  <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
+  <div className="flex flex-wrap items-center gap-6">
 
- <div className="grid grid-cols-6 gap-4 w-full">
+    <div className="flex items-center gap-2 text-white">
+      <span className="font-medium text-sm">
+        Filtros:
+      </span>
+    </div>
 
-    <select
-      value={filterPriority}
-      onChange={(e) =>
-        setFilterPriority(e.target.value)
-      }
-      className="border rounded-lg p-2"
-    >
-      <option value="all">
-        Todas prioridades
-      </option>
+    <div className="flex items-center gap-2">
+      <label className="text-sm text-white font-medium">
+        Prioridade:
+      </label>
 
-      <option value="alta">
-        Alta
-      </option>
+      <select
+        value={filterPriority}
+        onChange={(e) =>
+          setFilterPriority(e.target.value)
+        }
+        className="w-36 bg-white border rounded-md p-2"
+      >
+        <option value="all">Todas</option>
+        <option value="alta">Alta</option>
+        <option value="media">Média</option>
+        <option value="baixa">Baixa</option>
+      </select>
+    </div>
 
-      <option value="media">
-        Média
-      </option>
+    <div className="flex items-center gap-2">
+      <label className="text-sm text-white font-medium">
+        Sub-grupo:
+      </label>
 
-      <option value="baixa">
-        Baixa
-      </option>
+      <select
+        value={filterSubgroup}
+        onChange={(e) =>
+          setFilterSubgroup(e.target.value)
+        }
+        className="w-44 bg-white border rounded-md p-2"
+      >
+        <option value="all">Todos</option>
 
-    </select>
+        {allSubgroups.map(group => (
+          <option
+            key={group}
+            value={group}
+          >
+            {group}
+          </option>
+        ))}
+      </select>
+    </div>
 
-    <select
-      value={filterSubgroup}
-      onChange={(e) =>
-        setFilterSubgroup(e.target.value)
-      }
-      className="border rounded-lg p-2"
-    >
-      <option value="all">
-        Todos os grupos
-      </option>
+    <div className="flex items-center gap-2">
+      <label className="text-sm text-white font-medium">
+        Responsável:
+      </label>
 
-      {allSubgroups.map(group => (
-        <option
-          key={group}
-          value={group}
-        >
-          {group}
+      <select
+        value={filterResponsible}
+        onChange={(e) =>
+          setFilterResponsible(e.target.value)
+        }
+        className="w-44 bg-white border rounded-md p-2"
+      >
+        <option value="all">Todos</option>
+
+        {allResponsibles.map(person => (
+          <option
+            key={person}
+            value={person}
+          >
+            {person}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <label className="text-sm text-white font-medium">
+        Período:
+      </label>
+
+      <select
+        value={periodFilter}
+        onChange={(e) =>
+          setPeriodFilter(e.target.value)
+        }
+        className="w-40 bg-white border rounded-md p-2"
+      >
+        <option value="all">
+          Todo período
         </option>
-      ))}
-    </select>
 
-    <select
-      value={filterResponsible}
-      onChange={(e) =>
-        setFilterResponsible(e.target.value)
-      }
-      className="border rounded-lg p-2"
-    >
-      <option value="all">
-        Todos responsáveis
-      </option>
-
-      {allResponsibles.map(person => (
-        <option
-          key={person}
-          value={person}
-        >
-          {person}
+        <option value="today">
+          Hoje
         </option>
-      ))}
-    </select>
 
-    <select
-  value={periodFilter}
-  onChange={(e) =>
-    setPeriodFilter(e.target.value)
-  }
-  className="border rounded-lg p-2"
->
-  <option value="all">
-    Todo período
-  </option>
+        <option value="7days">
+          Últimos 7 dias
+        </option>
 
-  <option value="today">
-    Hoje
-  </option>
+        <option value="30days">
+          Últimos 30 dias
+        </option>
+      </select>
+    </div>
 
-  <option value="7days">
-    Últimos 7 dias
-  </option>
+    <div className="flex items-center gap-2">
+      <label className="text-sm text-white font-medium">
+        Data:
+      </label>
 
-  <option value="30days">
-    Últimos 30 dias
-  </option>
+      <input
+        type="date"
+        value={exactDate}
+        onChange={(e) =>
+          setExactDate(e.target.value)
+        }
+        className="bg-white border rounded-md p-2"
+      />
+    </div>
 
-</select>
-
-   <div className="flex flex-col">
-  <label className="text-white text-xs mb-1">
-    Data exata
-  </label>
-
-  <input
-    type="date"
-    value={exactDate}
-    onChange={(e) =>
-      setExactDate(e.target.value)
-    }
-    className="bg-white border rounded-lg p-2"
-  />
-</div>
-
-   <Button
-  variant="secondary"
-  onClick={() => {
-    setFilterPriority("all");
-    setFilterSubgroup("all");
-    setFilterResponsible("all");
-    setPeriodFilter("all");
-    setExactDate("");
-    setSearch("");
-  }}
->
-  Limpar filtros
-</Button>
+    <Button
+      variant="secondary"
+      onClick={() => {
+        setFilterPriority("all");
+        setFilterSubgroup("all");
+        setFilterResponsible("all");
+        setPeriodFilter("all");
+        setExactDate("");
+        setSearch("");
+      }}
+    >
+      Limpar filtros
+    </Button>
 
   </div>
-
 </div>
 
 <p className="text-slate-600">
@@ -397,50 +397,7 @@ const grouped = useMemo(() => {
   Resultado dos filtros: {filtered.length}
 </p>
 
-        </div>
-
-        <div className="flex gap-3">
-
-          {!isDeleteMode ? (
-
-            <Button
-              variant="destructive"
-              onClick={() =>
-                setIsDeleteMode(true)
-              }
-            >
-              <Trash2 className="w-4 h-4 mr-2" />
-              Excluir
-            </Button>
-
-          ) : (
-
-            <>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setIsDeleteMode(false);
-                  setSelectedIds([]);
-                }}
-              >
-                Cancelar
-              </Button>
-
-              <Button
-                variant="destructive"
-                disabled={
-                  selectedIds.length === 0
-                }
-                onClick={deleteSelected}
-              >
-                Excluir ({selectedIds.length})
-              </Button>
-            </>
-
-          )}
-
-        </div>
-
+     </div>
       </div>
 
       <div className="flex justify-end mb-4">
@@ -459,23 +416,18 @@ const grouped = useMemo(() => {
       <div className="space-y-8">
 
 {Object.entries(grouped)
-  .sort((a, b) => {
-
-    const [d1, m1, y1] = a[0].split("/");
-    const [d2, m2, y2] = b[0].split("/");
-
-    return (
-      new Date(y2, m2 - 1, d2) -
-      new Date(y1, m1 - 1, d1)
-    );
-
-  })
+.sort(
+  (a, b) =>
+    new Date(b[0]).getTime() -
+    new Date(a[0]).getTime()
+)
           .map(([date, items]) => (
 
             <div key={date}>
 
 <h2 className="text-lg font-bold mb-4 text-slate-700">
-  {date}
+  {new Date(date + "T12:00:00")
+  .toLocaleDateString("pt-BR")}
   {" "}
   ({items.length} demanda{items.length > 1 ? "s" : ""})
 </h2>
@@ -625,6 +577,80 @@ const grouped = useMemo(() => {
           ))}
 
       </div>
+
+      <div className="fixed bottom-8 left-8 z-[60]">
+
+  {!isDeleteMode ? (
+
+    <Button
+      variant="destructive"
+      onClick={() => {
+        setIsDeleteMode(true);
+        setSelectedIds([]);
+      }}
+      className="
+        rounded-full
+        px-6
+        py-6
+        shadow-lg
+        flex
+        items-center
+        gap-2
+        font-semibold
+        transition-transform
+        hover:scale-105
+      "
+    >
+      <Trash2 className="w-5 h-5" />
+      Excluir Demandas
+    </Button>
+
+  ) : (
+
+    <div className="flex gap-3">
+
+      <Button
+        variant="outline"
+        className="
+          rounded-full
+          px-6
+          py-6
+          shadow-lg
+          bg-white
+        "
+        onClick={() => {
+          setIsDeleteMode(false);
+          setSelectedIds([]);
+        }}
+      >
+        Cancelar
+      </Button>
+
+      <Button
+        variant="destructive"
+        disabled={
+          selectedIds.length === 0
+        }
+        className="
+          rounded-full
+          px-6
+          py-6
+          shadow-lg
+          flex
+          items-center
+          gap-2
+        "
+        onClick={deleteSelected}
+      >
+        <Trash2 className="w-5 h-5" />
+        Excluir ({selectedIds.length})
+      </Button>
+
+    </div>
+
+  )}
+
+</div>
 
     </div>
   );
