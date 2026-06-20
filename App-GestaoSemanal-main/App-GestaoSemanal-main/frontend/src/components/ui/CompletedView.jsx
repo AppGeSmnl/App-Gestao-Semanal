@@ -17,7 +17,6 @@ export default function CompletedView() {
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
-  const [periodFilter, setPeriodFilter] = useState("all");
   const [exactDate, setExactDate] = useState("");
 
 const allSubgroups = useMemo(() => {
@@ -77,39 +76,6 @@ const filtered = useMemo(() => {
 
   let result = [...demands];
 
-  if (periodFilter !== "all") {
-
-  const now = new Date();
-
-  result = result.filter(item => {
-
-    const completed =
-      new Date(item.completed_at);
-
-    const diffDays =
-      (now - completed) /
-      (1000 * 60 * 60 * 24);
-
-    if (periodFilter === "today") {
-      return (
-        completed.toDateString() ===
-        now.toDateString()
-      );
-    }
-
-    if (periodFilter === "7days") {
-      return diffDays <= 7;
-    }
-
-    if (periodFilter === "30days") {
-      return diffDays <= 30;
-    }
-
-    return true;
-
-  });
-
-}
 
   if (exactDate) {
   result = result.filter(item => {
@@ -177,7 +143,6 @@ const groups =
   filterPriority,
   filterSubgroup,
   filterResponsible,
-  periodFilter,
   exactDate
 ]);
 
@@ -245,7 +210,7 @@ const rawDate =
 
         <div>
 
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl font-bold mb-6">
             Demandas Concluídas
           </h1>
 
@@ -329,36 +294,6 @@ const rawDate =
 
     <div className="flex items-center gap-2">
       <label className="text-sm text-white font-medium">
-        Período:
-      </label>
-
-      <select
-        value={periodFilter}
-        onChange={(e) =>
-          setPeriodFilter(e.target.value)
-        }
-        className="w-40 bg-white border rounded-md p-2"
-      >
-        <option value="all">
-          Todo período
-        </option>
-
-        <option value="today">
-          Hoje
-        </option>
-
-        <option value="7days">
-          Últimos 7 dias
-        </option>
-
-        <option value="30days">
-          Últimos 30 dias
-        </option>
-      </select>
-    </div>
-
-    <div className="flex items-center gap-2">
-      <label className="text-sm text-white font-medium">
         Data:
       </label>
 
@@ -372,19 +307,26 @@ const rawDate =
       />
     </div>
 
-    <Button
-      variant="secondary"
-      onClick={() => {
-        setFilterPriority("all");
-        setFilterSubgroup("all");
-        setFilterResponsible("all");
-        setPeriodFilter("all");
-        setExactDate("");
-        setSearch("");
-      }}
-    >
-      Limpar filtros
-    </Button>
+{(
+  filterPriority !== "all" ||
+  filterSubgroup !== "all" ||
+  filterResponsible !== "all" ||
+  exactDate ||
+  search
+) && (
+  <Button
+    variant="secondary"
+    onClick={() => {
+      setFilterPriority("all");
+      setFilterSubgroup("all");
+      setFilterResponsible("all");
+      setExactDate("");
+      setSearch("");
+    }}
+  >
+    Limpar filtros
+  </Button>
+)}
 
   </div>
 </div>
