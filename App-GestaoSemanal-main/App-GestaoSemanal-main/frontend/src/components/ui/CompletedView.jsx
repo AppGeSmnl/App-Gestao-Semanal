@@ -217,12 +217,12 @@ const rawDate =
 <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
   <div className="flex items-center gap-6">
 
-    <div className="flex items-center gap-6 flex-1">
-      <Filter className="w-4 h-4" />
-      <span className="font-medium text-sm">
-        Filtros:
-      </span>
-    </div>
+<div className="flex items-center gap-2 text-white">
+  <Filter className="w-4 h-4" />
+  <span className="font-medium text-sm">
+    Filtros:
+  </span>
+</div>
 
     <div className="flex items-center gap-2">
       <label className="text-sm text-white font-medium">
@@ -300,27 +300,28 @@ const rawDate =
       />
     </div>
 
-    {(filterPriority !== "all" ||
-      filterSubgroup !== "all" ||
-      filterResponsible !== "all" ||
-      exactDate ||
-      search) && (
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => {
-          setFilterPriority("all");
-          setFilterSubgroup("all");
-          setFilterResponsible("all");
-          setExactDate("");
-          setSearch("");
-        }}
-        className="ml-auto text-white hover:bg-white/20 whitespace-nowrap"
-      >
-        Limpar filtros
-      </Button>
-    )}
-
+   {(filterPriority !== "all" ||
+  filterSubgroup !== "all" ||
+  filterResponsible !== "all" ||
+  exactDate ||
+  search) ? (
+  <Button
+    variant="ghost"
+    size="sm"
+    onClick={() => {
+      setFilterPriority("all");
+      setFilterSubgroup("all");
+      setFilterResponsible("all");
+      setExactDate("");
+      setSearch("");
+    }}
+    className="ml-auto text-white hover:bg-white/20 whitespace-nowrap"
+  >
+    Limpar filtros
+  </Button>
+) : (
+  <div className="ml-auto w-[130px] h-9" />
+)}
   </div>
 </div>
 
