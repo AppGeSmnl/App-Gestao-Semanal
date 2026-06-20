@@ -18,6 +18,7 @@ export default function CompletedView() {
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [exactDate, setExactDate] = useState("");
+  
 
 const allSubgroups = useMemo(() => {
   const set = new Set();
@@ -535,7 +536,7 @@ const rawDate =
 
       </div>
 
-      <div className="fixed bottom-8 left-8 z-[60]">
+      <div className="fixed bottom-8 left-8 z-20">
 
   {!isDeleteMode ? (
 
