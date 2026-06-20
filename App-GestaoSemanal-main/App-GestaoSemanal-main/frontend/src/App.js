@@ -1083,10 +1083,22 @@ const deleteSelected = async () => {
       </main>
         )}
 
-{currentView === "demands" && !sidebarOpen && (
+{currentView === "demands" && (
   <>
     {/* Criar Tema */}
-    <div className="fixed bottom-8 left-8 z-30">
+    <div
+  className={`
+    fixed
+    bottom-8
+    left-8
+    z-30
+    transition-all
+    duration-300
+    ${sidebarOpen
+      ? "opacity-0 pointer-events-none translate-y-4"
+      : "opacity-100 translate-y-0"}
+  `}
+>
       <Button
         onClick={handleOpenCreate}
         className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6 py-6 shadow-lg shadow-sky-500/30 flex items-center gap-2 font-semibold transition-transform hover:scale-105"
@@ -1097,7 +1109,22 @@ const deleteSelected = async () => {
     </div>
 
     {/* Botões da direita */}
-    <div className="fixed bottom-8 right-8 z-30 flex flex-col gap-3">
+    <div
+  className={`
+    fixed
+    bottom-8
+    right-8
+    z-30
+    flex
+    flex-col
+    gap-3
+    transition-all
+    duration-300
+    ${sidebarOpen
+      ? "opacity-0 pointer-events-none translate-y-4"
+      : "opacity-100 translate-y-0"}
+  `}
+>
 
       {/* ================= CONCLUIR ================= */}
       {!isCompleteMode ? (
