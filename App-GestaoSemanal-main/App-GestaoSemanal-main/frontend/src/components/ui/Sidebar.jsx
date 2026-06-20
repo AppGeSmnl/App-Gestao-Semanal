@@ -28,9 +28,6 @@ export default function Sidebar({
 }) {
   const [open, setOpen] = useState(false);
 
-  const currentLabel =
-    MENU_ITEMS.find(item => item.id === currentView)?.label ||
-    "Gestão de Demandas";
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -51,16 +48,9 @@ export default function Sidebar({
         <div className="h-full flex flex-col">
           <div className="border-b p-6">
             <h2 className="font-bold text-lg">
-              Gestão Semanal
+              Gestão de Demandas Semanal
             </h2>
 
-            <p className="text-xs text-slate-500 mt-2">
-              Tela atual
-            </p>
-
-            <p className="font-semibold text-[#004C97]">
-              {currentLabel}
-            </p>
           </div>
 
           <div className="flex-1 p-4 space-y-2">
