@@ -538,12 +538,15 @@ const rawDate =
 
       </div>
 
-      <div
+<div
   className={`
     fixed
     bottom-8
-    left-8
+    right-8
     z-30
+    flex
+    flex-col
+    gap-3
     transition-all
     duration-300
     ${sidebarOpen
