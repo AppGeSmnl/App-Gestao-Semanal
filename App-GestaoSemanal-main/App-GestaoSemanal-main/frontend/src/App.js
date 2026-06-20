@@ -63,7 +63,7 @@ const getWeekInfo = () => {
    DEMAND CARD (CORRIGIDO)
 =========================== */
 function DemandCard({demand, isDeleteMode, isCompleteMode, selectedIds, onToggleSelect, onMoveTo, onOpenPresentation, onDragStart, onDragEnd, onEdit }) {
-  const priorityStyle = PRIORITY_COLORS[demand.priority];
+  const priorityStyle = PRIORITY_COLORS[demand.priority] || PRIORITY_COLORS.media;
 
   const handleDragStart = (e) => {
     // CORREÇÃO: Impede a propagação para evitar carregar múltiplos elementos/cards
@@ -95,8 +95,18 @@ function DemandCard({demand, isDeleteMode, isCompleteMode, selectedIds, onToggle
     if (onDragEnd) onDragEnd();
   };
 
-  const subgroups = Array.isArray(demand.subgroup) ? demand.subgroup : [demand.subgroup];
-  const responsibles = Array.isArray(demand.responsible) ? demand.responsible : [demand.responsible];
+  const subgroups =
+ Array.isArray(demand.subgroup)
+ ? demand.subgroup
+ : demand.subgroup
+ ? [demand.subgroup]
+ : [];
+  const responsibles =
+ Array.isArray(demand.responsible)
+ ? demand.responsible
+ : demand.responsible
+ ? [demand.responsible]
+ : [];
 
   return (
     <ContextMenu modal={false}>
@@ -207,7 +217,7 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
   if (!demandsToShow || demandsToShow.length === 0) return null;
 
   const currentDemand = demandsToShow[currentIndex];
-  const priorityStyle = PRIORITY_COLORS[currentDemand.priority];
+  const priorityStyle = PRIORITY_COLORS[currentDemand.priority] || PRIORITY_COLORS.media;;
   const subgroups = Array.isArray(currentDemand.subgroup) ? currentDemand.subgroup : [currentDemand.subgroup];
   const responsibles = Array.isArray(currentDemand.responsible) ? currentDemand.responsible : [currentDemand.responsible];
 
@@ -392,10 +402,15 @@ function App() {
   
   useEffect(() => {
 
-  const ping = () => {
-    fetch("https://app-gestao-semanal-plus-version.onrender.com/");
-  };
-
+ const ping = async () => {
+ try {
+   await fetch(
+     "https://app-gestao-semanal-plus-version.onrender.com/"
+   );
+ } catch (err) {
+   console.warn("Ping falhou");
+ }
+};
   ping();
 
   const interval = setInterval(
@@ -573,12 +588,15 @@ useEffect(() => {
     setShowCreateModal(true);
   };
 
-  const formatDataInput = (value) => {
-    const v = value.replace(/\D/g, "").slice(0, 8);
-    if (v.length >= 5) return `${v.slice(0, 2)}/${v.slice(2, 4)}/${v.slice(4)}`;
-    if (v.length >= 3) return `${v.slice(0, 2)}/${v.slice(2)}`;
-    return v;
-  };
+const formatDataInput = value => {
+ const v = value.replace(/\D/g, "").slice(0,8);
+
+ if(v.length <= 2) return v;
+ if(v.length <= 4)
+   return `${v.slice(0,2)}/${v.slice(2)}`;
+
+ return `${v.slice(0,2)}/${v.slice(2,4)}/${v.slice(4)}`;
+};
 
 const saveDemand = async () => {
   if (!formData.description || formData.responsible.length === 0 || formData.subgroup.length === 0) {
@@ -655,8 +673,10 @@ const saveDemand = async () => {
   };
 
     const completeSelected = async () => {
-  const demandIds = selectedIds.filter(id =>
-    id.startsWith("DMD-")
+   const demandIds = selectedIds.filter(
+      id =>
+      typeof id === "string" &&
+      id.startsWith("DMD-")
   );
 
   if (demandIds.length === 0) {
@@ -689,8 +709,16 @@ const deleteSelected = async () => {
     return;
   }
 
-  const demandIds = selectedIds.filter(id => id.startsWith("DMD-"));
-  const noticeIds = selectedIds.filter(id => id.startsWith("NOTICE-"));
+  const demandIds = selectedIds.filter(
+ id =>
+ typeof id === "string" &&
+ id.startsWith("DMD-")
+);
+  const noticeIds = selectedIds.filter(
+ id =>
+ typeof id === "string" &&
+ id.startsWith("NOTICE-")
+);
 
   try {
     if (demandIds.length > 0) {
@@ -947,7 +975,7 @@ const deleteSelected = async () => {
     <div className="space-y-3">
 {generalNotices.map(notice => (
   <div
-    key={notice.id}
+    key={notice.id || notice.text}
     className="relative bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 text-slate-800 font-semibold"
   >
     {(isDeleteMode || isCompleteMode) && (
