@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -409,7 +409,6 @@ for (let y = 2024; y <= 2030; y++) {
 />
   </PopoverContent>
 </Popover>
-  </div>
 </div>
 
 {/* MÊS */}
