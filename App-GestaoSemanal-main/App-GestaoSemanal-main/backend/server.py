@@ -142,6 +142,13 @@ api = APIRouter(prefix="/api")
 async def health():
     return {"status": "ok"}
 
+@app.get("/health")
+async def health_check():
+    return {
+        "status": "healthy",
+        "database": "connected"
+    }
+
 # ================= DEMANDS =================
 
 @api.get("/demands", response_model=List[Demand])
