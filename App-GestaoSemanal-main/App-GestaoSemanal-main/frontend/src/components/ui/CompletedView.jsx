@@ -436,7 +436,12 @@ for (let y = 2024; y <= 2030; y++) {
     <SelectValue placeholder="Mês" />
   </SelectTrigger>
 
-  <SelectContent sideOffset={12}>
+  <SelectContent
+  position="popper"
+  side="bottom"
+  align="center"
+  sideOffset={4}
+>
     {months.map((m, index) => (
       <SelectItem
         key={m}
