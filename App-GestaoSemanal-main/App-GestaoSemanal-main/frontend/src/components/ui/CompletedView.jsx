@@ -160,7 +160,8 @@ const groups =
   filterPriority,
   filterSubgroup,
   filterResponsible,
-  exactDate
+  exactDate,
+  monthFilter
 ]);
 
 const grouped = useMemo(() => {
