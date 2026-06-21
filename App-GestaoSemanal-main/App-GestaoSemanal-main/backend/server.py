@@ -8,6 +8,12 @@ import os
 import uuid
 import logging
 
+completed_at = datetime.now(
+    timezone.utc
+).astimezone(
+    ZoneInfo("America/Sao_Paulo")
+)
+
 # ================= LOG =================
 
 logging.basicConfig(level=logging.INFO)
