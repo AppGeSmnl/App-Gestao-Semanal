@@ -28,7 +28,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar as CalendarPicker } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -1304,7 +1304,7 @@ const deleteSelected = async () => {
     </PopoverTrigger>
 
     <PopoverContent className="w-auto p-0" align="start">
-<CalendarPicker
+<Calendar
   mode="single"
   selected={
     formData.deliveryDate
