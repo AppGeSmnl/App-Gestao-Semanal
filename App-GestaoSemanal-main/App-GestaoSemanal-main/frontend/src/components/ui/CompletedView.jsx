@@ -422,30 +422,34 @@ for (let y = 2024; y <= 2030; y++) {
   </div>
 </div>
 
-{(filterSubgroup !== "all" ||
-  filterResponsible !== "all" ||
-  exactDate ||
-  monthFilter ||
-  search) ? (
-  <Button
-    variant="ghost"
-    size="sm"
-    onClick={() => {
-      setFilterSubgroup("all");
-      setFilterResponsible("all");
-      setExactDate("");
-      setSearch("");
-      setMonthFilter("");
-      setSelectedMonth("");
-      setSelectedYear("");
-    }}
-    className="ml-auto text-white hover:bg-white/20 whitespace-nowrap"
-  >
-    Limpar filtros
-  </Button>
-) : (
-  <div className="ml-auto w-[130px]" />
-)}
+<Button
+  variant="ghost"
+  size="sm"
+  onClick={() => {
+    setFilterSubgroup("all");
+    setFilterResponsible("all");
+    setExactDate("");
+    setSearch("");
+    setMonthFilter("");
+    setSelectedMonth("");
+    setSelectedYear("");
+  }}
+  className={`
+    ml-auto
+    text-white
+    hover:bg-white/20
+    whitespace-nowrap
+    ${(filterSubgroup !== "all" ||
+      filterResponsible !== "all" ||
+      exactDate ||
+      monthFilter ||
+      search)
+        ? "opacity-100"
+        : "opacity-0 pointer-events-none"}
+  `}
+>
+  Limpar filtros
+</Button>
 
   </div>
 
