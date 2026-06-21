@@ -424,6 +424,7 @@ function App() {
   const [responsibles, setResponsibles] = useState([]);
   const [subgroups, setSubgroups] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   
   useEffect(() => {
 
@@ -1304,7 +1305,10 @@ const deleteSelected = async () => {
 <div className="space-y-2">
   <Label>Data de Entrega</Label>
 
-  <Popover>
+  <Popover
+  open={calendarOpen}
+  onOpenChange={setCalendarOpen}
+>
     <PopoverTrigger asChild>
       <Button
         variant="outline"
@@ -1336,18 +1340,19 @@ const deleteSelected = async () => {
       : undefined
   }
   onSelect={(date) => {
-    if (!date) return;
+  if (!date) return;
 
-    setFormData({
-      ...formData,
-      deliveryDate: format(
-        date,
-        "dd/MM/yyyy",
-        { locale: ptBR }
-      ),
-    });
-  }}
-  initialFocus
+  setFormData({
+    ...formData,
+    deliveryDate: format(
+      date,
+      "dd/MM/yyyy",
+      { locale: ptBR }
+    ),
+  });
+
+  setCalendarOpen(false);
+}}  initialFocus
 />
     </PopoverContent>
   </Popover>
