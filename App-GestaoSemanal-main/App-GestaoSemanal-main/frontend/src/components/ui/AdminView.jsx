@@ -187,7 +187,7 @@ const deleteSubgroup = async (id) => {
               onChange={(e) =>
                 setNewSubgroup(e.target.value)
               }
-              placeholder="Novo subgrupo"
+              placeholder="Novo sub-grupo"
             />
 
             <Button onClick={createSubgroup}>
