@@ -109,7 +109,6 @@ const filtered = useMemo(() => {
 
   let result = [...demands];
 
-  
 
   if (exactDate) {
   result = result.filter(item => {
@@ -276,120 +275,89 @@ for (let y = 2024; y <= 2030; y++) {
           </h1>
 
 <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
-  <div className="flex flex-wrap items-center gap-4">
 
-<div className="flex items-center gap-2 text-white">
+  <div className="flex items-end gap-4 flex-wrap">
+
+<div className="flex items-center gap-2 text-white mr-2">
   <Filter className="w-4 h-4" />
   <span className="font-medium text-sm">
     Filtros:
   </span>
 </div>
 
-    <div className="flex flex-wrap items-center gap-4">
-      <label className="text-sm text-white font-medium whitespace-nowrap flex-shrink-0">
-        Sub-grupo:
-      </label>
-
-<div className="flex flex-wrap items-center gap-4">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
-    Sub-grupo:
+{/* SUBGRUPO */}
+<div className="flex flex-col gap-1">
+  <label className="text-sm text-white font-medium">
+    Sub-grupo
   </label>
 
-<Select
-value={filterSubgroup}
-onValueChange={setFilterSubgroup}
+  <Select
+    value={filterSubgroup}
+    onValueChange={setFilterSubgroup}
+  >
+    <SelectTrigger className="h-9 w-[220px] bg-white text-sm">
+      <SelectValue placeholder="Todos" />
+    </SelectTrigger>
 
->
+    <SelectContent className="min-w-[320px]">
+      <SelectItem value="all">
+        Todos
+      </SelectItem>
 
-<SelectTrigger className="h-9 w-[250px] bg-white text-sm">
-
-  <SelectValue placeholder="Todos" />
-</SelectTrigger>
-
-<SelectContent className="min-w-[350px]">
-  <SelectItem value="all">
-    Todos
-  </SelectItem>
-
-  {allSubgroups.map(group => (
-    <SelectItem
-      key={group}
-      value={group}
-    >
-      {group}
-    </SelectItem>
-  ))}
-</SelectContent>
-
+      {allSubgroups.map(group => (
+        <SelectItem
+          key={group}
+          value={group}
+        >
+          {group}
+        </SelectItem>
+      ))}
+    </SelectContent>
   </Select>
 </div>
 
-
-      </div>
-
-    <div className="flex flex-wrap items-center gap-4">
-      <label className="text-sm text-white font-medium">
-        Responsável:
-      </label>
-
-<div className="flex flex-wrap items-center gap-4">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
-    Responsável:
+{/* RESPONSÁVEL */}
+<div className="flex flex-col gap-1">
+  <label className="text-sm text-white font-medium">
+    Responsável
   </label>
 
-<Select
-value={filterResponsible}
-onValueChange={setFilterResponsible}
->
+  <Select
+    value={filterResponsible}
+    onValueChange={setFilterResponsible}
+  >
+    <SelectTrigger className="h-9 w-[220px] bg-white text-sm">
+      <SelectValue placeholder="Todos" />
+    </SelectTrigger>
 
-<SelectTrigger className="h-9 w-[250px] bg-white text-sm">
+    <SelectContent className="min-w-[320px]">
+      <SelectItem value="all">
+        Todos
+      </SelectItem>
 
-  <SelectValue placeholder="Todos" />
-</SelectTrigger>
-
-<SelectContent className="min-w-[350px]">
-  <SelectItem value="all">
-    Todos
-  </SelectItem>
-
-  {allResponsibles.map(person => (
-    <SelectItem
-      key={person}
-      value={person}
-    >
-      {person}
-    </SelectItem>
-  ))}
-</SelectContent>
-
+      {allResponsibles.map(person => (
+        <SelectItem
+          key={person}
+          value={person}
+        >
+          {person}
+        </SelectItem>
+      ))}
+    </SelectContent>
   </Select>
 </div>
 
-    </div>
-
-<div className="flex items-center gap-4">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
-    Data:
+{/* DATA */}
+<div className="flex flex-col gap-1">
+  <label className="text-sm text-white font-medium">
+    Data
   </label>
 
   <div
-    className="
-      w-40
-      bg-white
-      border
-      rounded-md
-      px-3
-      py-2
-      cursor-pointer
-      flex
-      items-center
-    "
+    className="h-9 w-40 bg-white border rounded-md px-3 flex items-center"
     onClick={() => {
       if (dateInputRef.current?.showPicker) {
         dateInputRef.current.showPicker();
-      } else {
-        dateInputRef.current?.focus();
-        dateInputRef.current?.click();
       }
     }}
   >
@@ -398,76 +366,70 @@ onValueChange={setFilterResponsible}
       type="date"
       value={exactDate}
       onChange={(e) => {
-  setExactDate(e.target.value);
-  setMonthFilter("");
-}}
-      className="
-        w-full
-        cursor-pointer
-        border-0
-        outline-none
-        bg-transparent
-      "
+        setExactDate(e.target.value);
+        setMonthFilter("");
+      }}
+      className="w-full border-0 outline-none bg-transparent text-sm"
     />
   </div>
 </div>
 
-    <div className="flex flex-wrap items-center gap-4">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
-    Mês:
+{/* MÊS */}
+<div className="flex flex-col gap-1">
+  <label className="text-sm text-white font-medium">
+    Mês
   </label>
 
-  <div className="flex flex-wrap items-center gap-4">
+  <div className="flex gap-2">
 
-  <Select
-  value={selectedMonth}
-  onValueChange={setSelectedMonth}
->
-  <SelectTrigger className="w-[90px] bg-white">
-    <SelectValue placeholder="Mês" />
-  </SelectTrigger>
+    <Select
+      value={selectedMonth}
+      onValueChange={setSelectedMonth}
+    >
+      <SelectTrigger className="h-9 w-[90px] bg-white text-sm">
+        <SelectValue placeholder="Mês" />
+      </SelectTrigger>
 
-  <SelectContent>
-    {months.map((m, index) => (
-      <SelectItem
-        key={m}
-        value={String(index + 1)}
-      >
-        {m}
-      </SelectItem>
-    ))}
-  </SelectContent>
-</Select>
-   
+      <SelectContent>
+        {months.map((m, index) => (
+          <SelectItem
+            key={m}
+            value={String(index + 1)}
+          >
+            {m}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
 
-<Select
-  value={selectedYear}
-  onValueChange={setSelectedYear}
->
-  <SelectTrigger className="w-[90px] bg-white">
-    <SelectValue placeholder="Ano" />
-  </SelectTrigger>
+    <Select
+      value={selectedYear}
+      onValueChange={setSelectedYear}
+    >
+      <SelectTrigger className="h-9 w-[90px] bg-white text-sm">
+        <SelectValue placeholder="Ano" />
+      </SelectTrigger>
 
-  <SelectContent>
-    {years.map(year => (
-      <SelectItem
-        key={year}
-        value={String(year)}
-      >
-        {String(year).slice(-2)}
-      </SelectItem>
-    ))}
-  </SelectContent>
-</Select>
+      <SelectContent>
+        {years.map(year => (
+          <SelectItem
+            key={year}
+            value={String(year)}
+          >
+            {String(year).slice(-2)}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
 
+  </div>
 </div>
-</div>
 
-   {(filterSubgroup !== "all" ||
+{(filterSubgroup !== "all" ||
   filterResponsible !== "all" ||
   exactDate ||
- monthFilter ||
-  search) ? (
+  monthFilter ||
+  search) && (
   <Button
     variant="ghost"
     size="sm"
@@ -480,15 +442,16 @@ onValueChange={setFilterResponsible}
       setSelectedMonth("");
       setSelectedYear("");
     }}
-    className="ml-auto text-white hover:bg-white/20 whitespace-nowrap"
+    className="ml-auto text-white hover:bg-white/20"
   >
     Limpar filtros
   </Button>
-) : (
-  <div className="ml-auto w-[130px] h-9" />
 )}
+
   </div>
+
 </div>
+
 
 <p className="text-slate-600">
   Total geral: {demands.length}
