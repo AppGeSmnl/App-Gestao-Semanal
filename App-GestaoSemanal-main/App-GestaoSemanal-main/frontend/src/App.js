@@ -1243,7 +1243,7 @@ const deleteSelected = async () => {
 )}
 
       <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>{editingDemandId ? "Editar Demanda" : "Criar Nova Demanda"}</DialogTitle>
           </DialogHeader>
@@ -1303,7 +1303,10 @@ const deleteSelected = async () => {
       </Button>
     </PopoverTrigger>
 
-    <PopoverContent className="w-auto p-0" align="start">
+    <PopoverContent
+  align="start"
+  className="w-auto p-0 z-[9999]"
+>
 <Calendar
   mode="single"
   selected={
