@@ -1336,7 +1336,7 @@ const deleteSelected = async () => {
               <Label htmlFor="observation">Observação</Label>
               <textarea
                 id="observation"
-                className="w-full p-2 border rounded-md text-sm min-h-[80px] focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full p-2 border rounded-md text-sm min-h-[40px] focus:ring-2 focus:ring-sky-500 outline-none"
                 value={formData.observation}
                 onChange={(e) => setFormData({ ...formData, observation: e.target.value })}
               />
