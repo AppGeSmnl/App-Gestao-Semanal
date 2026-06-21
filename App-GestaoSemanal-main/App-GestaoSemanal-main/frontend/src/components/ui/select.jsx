@@ -57,7 +57,7 @@ SelectScrollDownButton.displayName =
     },
     ref
   ) => (
-  <SelectPrimitive.Portal>
+  <SelectPrimitive.Portal container={document.body}>
     <SelectPrimitive.Content
       ref={ref}
         position="popper"
