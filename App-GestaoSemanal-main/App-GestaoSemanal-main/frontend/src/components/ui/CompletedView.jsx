@@ -226,7 +226,7 @@ const rawDate =
           </h1>
 
 <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
-  <div className="flex flex-wrap items-center gap-6">
+  <div className="flex flex-wrap items-center gap-3">
 
 <div className="flex items-center gap-2 text-white">
   <Filter className="w-4 h-4" />
@@ -240,11 +240,11 @@ const rawDate =
         Sub-grupo:
       </label>
 
-      <select
-        value={filterSubgroup}
-        onChange={(e) => setFilterSubgroup(e.target.value)}
-        className="min-w-[220px] bg-white border rounded-md p-2"
-      >
+<select
+  value={filterSubgroup}
+  onChange={(e) => setFilterSubgroup(e.target.value)}
+  className="w-[170px] bg-white border rounded-md p-2 text-sm"
+>
         <option value="all">Todos</option>
 
         {allSubgroups.map(group => (
@@ -263,11 +263,11 @@ const rawDate =
         Responsável:
       </label>
 
-      <select
-        value={filterResponsible}
-        onChange={(e) => setFilterResponsible(e.target.value)}
-        className="min-w-[260px] bg-white border rounded-md p-2"
-      >
+<select
+  value={filterResponsible}
+  onChange={(e) => setFilterResponsible(e.target.value)}
+  className="w-[190px] bg-white border rounded-md p-2 text-sm"
+>
         <option value="all">Todos</option>
 
         {allResponsibles.map(person => (
@@ -288,7 +288,7 @@ const rawDate =
 
   <div
     className="
-      w-40
+      w-[140px]
       bg-white
       border
       rounded-md
@@ -339,6 +339,7 @@ const rawDate =
       setExactDate("");
     }}
     className="
+     w-[140px]
       bg-white
       border
       rounded-md
