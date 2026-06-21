@@ -379,30 +379,25 @@ for (let y = 2024; y <= 2030; y++) {
 
   <div className="flex gap-2">
 
-    <Select
-      value={selectedMonth}
-      onValueChange={setSelectedMonth}
-    >
-      <SelectTrigger className="h-9 w-[90px] bg-white text-sm">
-        <SelectValue placeholder="Mês" />
-      </SelectTrigger>
-
-      <SelectContent
-  position="popper"
-  side="bottom"
-  align="start"
-  sideOffset={4}
+<Select
+  value={selectedMonth}
+  onValueChange={setSelectedMonth}
 >
-        {months.map((m, index) => (
-          <SelectItem
-            key={m}
-            value={String(index + 1)}
-          >
-            {m}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+  <SelectTrigger className="h-9 w-[90px] bg-white text-sm">
+    <SelectValue placeholder="Mês" />
+  </SelectTrigger>
+
+  <SelectContent sideOffset={12}>
+    {months.map((m, index) => (
+      <SelectItem
+        key={m}
+        value={String(index + 1)}
+      >
+        {m}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
 
     <Select
       value={selectedYear}
