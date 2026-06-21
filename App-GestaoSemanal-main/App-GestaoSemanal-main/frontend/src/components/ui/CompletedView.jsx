@@ -20,6 +20,7 @@ export default function CompletedView({
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [exactDate, setExactDate] = useState("");
+  const [monthFilter, setMonthFilter] = useState("");
 
   const dateInputRef = useRef(null);
   
@@ -93,6 +94,17 @@ const filtered = useMemo(() => {
   });
 }
 
+if (monthFilter) {
+  result = result.filter(item => {
+
+    const itemMonth =
+      item.completed_at.substring(0, 7);
+
+    return itemMonth === monthFilter;
+
+  });
+}
+  
   if (search) {
     result = result.filter(d =>
       (
@@ -322,7 +334,10 @@ const rawDate =
       ref={dateInputRef}
       type="date"
       value={exactDate}
-      onChange={(e) => setExactDate(e.target.value)}
+      onChange={(e) => {
+  setExactDate(e.target.value);
+  setMonthFilter("");
+}}
       className="
         w-full
         cursor-pointer
@@ -334,10 +349,34 @@ const rawDate =
   </div>
 </div>
 
+    <div className="flex items-center gap-2">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Mês:
+  </label>
+
+  <input
+    type="month"
+    value={monthFilter}
+    onChange={(e) => {
+      setMonthFilter(e.target.value);
+      setExactDate("");
+    }}
+    className="
+      bg-white
+      border
+      rounded-md
+      px-3
+      py-2
+      text-black
+    "
+  />
+</div>
+
    {(filterPriority !== "all" ||
   filterSubgroup !== "all" ||
   filterResponsible !== "all" ||
   exactDate ||
+ monthFilter ||
   search) ? (
   <Button
     variant="ghost"
@@ -348,6 +387,7 @@ const rawDate =
       setFilterResponsible("all");
       setExactDate("");
       setSearch("");
+      setMonthFilter("");
     }}
     className="ml-auto text-white hover:bg-white/20 whitespace-nowrap"
   >
