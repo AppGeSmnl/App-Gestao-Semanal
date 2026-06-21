@@ -269,7 +269,7 @@ for (let y = 2024; y <= 2030; y++) {
           </h1>
 
 <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
-  <div className="flex flex-wrap items-center gap-3">
+  <div className="flex items-center gap-2">
 
 <div className="flex items-center gap-2 text-white">
   <Filter className="w-4 h-4" />
@@ -286,7 +286,7 @@ for (let y = 2024; y <= 2030; y++) {
 <select
   value={filterSubgroup}
   onChange={(e) => setFilterSubgroup(e.target.value)}
-  className="w-[170px] bg-white border rounded-md p-2 text-sm"
+  className="w-[150px] bg-white border rounded-md p-2 text-sm"
 >
         <option value="all">Todos</option>
 
@@ -309,7 +309,7 @@ for (let y = 2024; y <= 2030; y++) {
 <select
   value={filterResponsible}
   onChange={(e) => setFilterResponsible(e.target.value)}
-  className="w-[190px] bg-white border rounded-md p-2 text-sm"
+  className="w-[170px] bg-white border rounded-md p-2 text-sm"
 >
         <option value="all">Todos</option>
 
@@ -382,7 +382,7 @@ for (let y = 2024; y <= 2030; y++) {
       setSelectedMonth(e.target.value)
     }
     className="
-      w-[75px]
+      w-[65px]
       bg-white
       border
       rounded-md
@@ -410,7 +410,7 @@ for (let y = 2024; y <= 2030; y++) {
       setSelectedYear(e.target.value)
     }
     className="
-      w-[80px]
+      w-[65px]
       bg-white
       border
       rounded-md
