@@ -276,7 +276,7 @@ for (let y = 2024; y <= 2030; y++) {
 
 <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
 
-  <div className="flex items-end gap-4 flex-wrap">
+  <div className="flex flex-wrap items-center gap-4">
 
 <div className="flex items-center gap-2 text-white mr-2">
   <Filter className="w-4 h-4" />
@@ -286,23 +286,21 @@ for (let y = 2024; y <= 2030; y++) {
 </div>
 
 {/* SUBGRUPO */}
-<div className="flex flex-col gap-1">
-  <label className="text-sm text-white font-medium">
-    Sub-grupo
+<div className="flex items-center gap-2">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Sub-grupo:
   </label>
 
   <Select
     value={filterSubgroup}
     onValueChange={setFilterSubgroup}
   >
-    <SelectTrigger className="h-9 w-[220px] bg-white text-sm">
+    <SelectTrigger className="h-8 w-[220px] bg-white text-sm">
       <SelectValue placeholder="Todos" />
     </SelectTrigger>
 
     <SelectContent className="min-w-[320px]">
-      <SelectItem value="all">
-        Todos
-      </SelectItem>
+      <SelectItem value="all">Todos</SelectItem>
 
       {allSubgroups.map(group => (
         <SelectItem
@@ -315,25 +313,22 @@ for (let y = 2024; y <= 2030; y++) {
     </SelectContent>
   </Select>
 </div>
-
 {/* RESPONSÁVEL */}
-<div className="flex flex-col gap-1">
-  <label className="text-sm text-white font-medium">
-    Responsável
+<div className="flex items-center gap-2">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Responsável:
   </label>
 
   <Select
     value={filterResponsible}
     onValueChange={setFilterResponsible}
   >
-    <SelectTrigger className="h-9 w-[220px] bg-white text-sm">
+    <SelectTrigger className="h-8 w-[220px] bg-white text-sm">
       <SelectValue placeholder="Todos" />
     </SelectTrigger>
 
     <SelectContent className="min-w-[320px]">
-      <SelectItem value="all">
-        Todos
-      </SelectItem>
+      <SelectItem value="all">Todos</SelectItem>
 
       {allResponsibles.map(person => (
         <SelectItem
@@ -346,11 +341,11 @@ for (let y = 2024; y <= 2030; y++) {
     </SelectContent>
   </Select>
 </div>
-
 {/* DATA */}
-<div className="flex flex-col gap-1">
-  <label className="text-sm text-white font-medium">
-    Data
+{/* DATA */}
+<div className="flex items-center gap-2">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Data:
   </label>
 
   <div
@@ -375,9 +370,9 @@ for (let y = 2024; y <= 2030; y++) {
 </div>
 
 {/* MÊS */}
-<div className="flex flex-col gap-1">
-  <label className="text-sm text-white font-medium">
-    Mês
+<div className="flex items-center gap-2">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Mês:
   </label>
 
   <div className="flex gap-2">
