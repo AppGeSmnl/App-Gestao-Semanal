@@ -23,8 +23,6 @@ import {
 
 import { Calendar } from "@/components/ui/calendar";
 
-import { Button } from "@/components/ui/button";
-
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -390,26 +388,25 @@ for (let y = 2024; y <= 2030; y++) {
     align="start"
     className="w-auto p-0 z-[9999]"
   >
-    <Calendar
-      mode="single"
-      locale={ptBR}
-      selected={
-        selectedDate
+<Calendar
+  mode="single"
+  locale={ptBR}
+  selected={
     exactDate
-    ? new Date(exactDate + "T00:00:00")
-    : undefined
-      }
-      onSelect={(date) => {
-        if (!date) return;
+      ? new Date(exactDate + "T00:00:00")
+      : undefined
+  }
+  onSelect={(date) => {
+    if (!date) return;
 
-setExactDate(
-  format(date, "yyyy-MM-dd")
-);
+    setExactDate(
+      format(date, "yyyy-MM-dd")
+    );
 
-        setCalendarOpen(false);
-      }}
-      initialFocus
-    />
+    setCalendarOpen(false);
+  }}
+  initialFocus
+/>
   </PopoverContent>
 </Popover>
   </div>
