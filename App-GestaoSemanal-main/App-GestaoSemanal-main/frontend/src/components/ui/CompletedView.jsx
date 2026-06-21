@@ -20,6 +20,8 @@ export default function CompletedView({
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [exactDate, setExactDate] = useState("");
   const [monthFilter, setMonthFilter] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
 
   const dateInputRef = useRef(null);
   
@@ -80,6 +82,24 @@ const people =
 const filtered = useMemo(() => {
 
   let result = [...demands];
+
+  useEffect(() => {
+  if (selectedMonth && selectedYear) {
+
+    const month =
+      String(selectedMonth).padStart(2, "0");
+
+    setMonthFilter(
+      `${selectedYear}-${month}`
+    );
+
+    setExactDate("");
+
+  } else {
+    setMonthFilter("");
+  }
+
+}, [selectedMonth, selectedYear]);
 
 
   if (exactDate) {
@@ -214,6 +234,27 @@ const rawDate =
     }
   };
 
+  const months = [
+  "JAN",
+  "FEV",
+  "MAR",
+  "ABR",
+  "MAI",
+  "JUN",
+  "JUL",
+  "AGO",
+  "SET",
+  "OUT",
+  "NOV",
+  "DEZ"
+];
+
+const years = [];
+
+for (let y = 2024; y <= 2030; y++) {
+  years.push(y);
+}
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
 
@@ -331,23 +372,65 @@ const rawDate =
     Mês:
   </label>
 
-  <input
-    type="month"
-    value={monthFilter}
-    onChange={(e) => {
-      setMonthFilter(e.target.value);
-      setExactDate("");
-    }}
+  <div className="flex items-center gap-2">
+
+  <select
+    value={selectedMonth}
+    onChange={(e) =>
+      setSelectedMonth(e.target.value)
+    }
     className="
-     w-[120px]
+      w-[75px]
       bg-white
       border
       rounded-md
-      px-3
-      py-2
-      text-black
+      p-2
+      text-sm
     "
-  />
+  >
+    <option value="">
+      Mês
+    </option>
+
+    {months.map((m, index) => (
+      <option
+        key={m}
+        value={index + 1}
+      >
+        {m}
+      </option>
+    ))}
+  </select>
+
+  <select
+    value={selectedYear}
+    onChange={(e) =>
+      setSelectedYear(e.target.value)
+    }
+    className="
+      w-[80px]
+      bg-white
+      border
+      rounded-md
+      p-2
+      text-sm
+    "
+  >
+    <option value="">
+      Ano
+    </option>
+
+    {years.map(year => (
+      <option
+        key={year}
+        value={year}
+      >
+        {String(year).slice(-2)}
+      </option>
+    ))}
+  </select>
+
+</div>
 </div>
 
    {(filterSubgroup !== "all" ||
