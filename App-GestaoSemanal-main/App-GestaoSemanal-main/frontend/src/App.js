@@ -1324,6 +1324,7 @@ const deleteSelected = async () => {
 >
 <Calendar
   mode="single"
+  locale={ptBR}
   selected={
     formData.deliveryDate
       ? (() => {
