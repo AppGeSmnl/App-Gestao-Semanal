@@ -1294,7 +1294,7 @@ const deleteSelected = async () => {
         variant="outline"
         className="w-full justify-start text-left font-normal"
       >
-        <CalendarIcon className="mr-2 h-4 w-4" />
+        <Calendar className="mr-2 h-4 w-4" />
 
         {formData.deliveryDate
           ? formData.deliveryDate
@@ -1332,6 +1332,7 @@ const deleteSelected = async () => {
     </PopoverContent>
   </Popover>
 </div>
+          </div>
 
             <div className="space-y-2">
               <Label>Sub-grupos *</Label>
