@@ -5,6 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2, Filter, Search } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 const API =
   "https://app-gestao-semanal-plus-version.onrender.com/api";
@@ -283,63 +290,60 @@ for (let y = 2024; y <= 2030; y++) {
         Sub-grupo:
       </label>
 
-<select
+<Select
   value={filterSubgroup}
-  onChange={(e) => setFilterSubgroup(e.target.value)}
-  className="
-  w-[170px]
-  bg-white
-  border
-  rounded-md
-  pl-2
-  pr-6
-  py-2
-  text-sm
-"
+  onValueChange={setFilterSubgroup}
 >
-        <option value="all">Todos</option>
+  <SelectTrigger className="w-[250px] bg-white">
+    <SelectValue placeholder="Todos" />
+  </SelectTrigger>
 
-        {allSubgroups.map(group => (
-          <option
-            key={group}
-            value={group}
-          >
-            {group}
-          </option>
-        ))}
-      </select>
-    </div>
+  <SelectContent className="min-w-[350px]">
+    <SelectItem value="all">
+      Todos
+    </SelectItem>
+
+    {allSubgroups.map(group => (
+      <SelectItem
+        key={group}
+        value={group}
+      >
+        {group}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
+      </div>
 
     <div className="flex items-center gap-2">
       <label className="text-sm text-white font-medium">
         Responsável:
       </label>
 
-<select
+<Select
   value={filterResponsible}
-  onChange={(e) => setFilterResponsible(e.target.value)}
-  className="
-  w-[190px]
-  bg-white
-  border
-  rounded-md
-  pl-2
-  pr-6
-  py-2
-  text-sm
-"
+  onValueChange={setFilterResponsible}
 >
-        <option value="all">Todos</option>
+  <SelectTrigger className="w-[250px] bg-white">
+    <SelectValue placeholder="Todos" />
+  </SelectTrigger>
 
-        {allResponsibles.map(person => (
-          <option
-            key={person}
-            value={person}
-          >
-            {person}
-          </option>
-        ))}
-      </select>
+  <SelectContent className="min-w-[350px]">
+    <SelectItem value="all">
+      Todos
+    </SelectItem>
+
+    {allResponsibles.map(person => (
+      <SelectItem
+        key={person}
+        value={person}
+      >
+        {person}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
     </div>
 
 <div className="flex items-center gap-4">
@@ -394,61 +398,46 @@ for (let y = 2024; y <= 2030; y++) {
 
   <div className="flex items-center gap-2">
 
-  <select
-    value={selectedMonth}
-    onChange={(e) =>
-      setSelectedMonth(e.target.value)
-    }
-    className="
-      w-[65px]
-      bg-white
-      border
-      rounded-md
-      p-2
-      text-sm
-    "
-  >
-    <option value="">
-      Mês
-    </option>
+  <Select
+  value={selectedMonth}
+  onValueChange={setSelectedMonth}
+>
+  <SelectTrigger className="w-[90px] bg-white">
+    <SelectValue placeholder="Mês" />
+  </SelectTrigger>
 
+  <SelectContent>
     {months.map((m, index) => (
-      <option
+      <SelectItem
         key={m}
-        value={index + 1}
+        value={String(index + 1)}
       >
         {m}
-      </option>
+      </SelectItem>
     ))}
-  </select>
+  </SelectContent>
+</Select>
+   
 
-  <select
-    value={selectedYear}
-    onChange={(e) =>
-      setSelectedYear(e.target.value)
-    }
-    className="
-      w-[65px]
-      bg-white
-      border
-      rounded-md
-      p-2
-      text-sm
-    "
-  >
-    <option value="">
-      Ano
-    </option>
+<Select
+  value={selectedYear}
+  onValueChange={setSelectedYear}
+>
+  <SelectTrigger className="w-[90px] bg-white">
+    <SelectValue placeholder="Ano" />
+  </SelectTrigger>
 
+  <SelectContent>
     {years.map(year => (
-      <option
+      <SelectItem
         key={year}
-        value={year}
+        value={String(year)}
       >
         {String(year).slice(-2)}
-      </option>
+      </SelectItem>
     ))}
-  </select>
+  </SelectContent>
+</Select>
 
 </div>
 </div>
