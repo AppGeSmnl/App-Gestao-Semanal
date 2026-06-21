@@ -5,7 +5,22 @@ import CompletedView from "@/components/ui/CompletedView";
 import AdminView from "@/components/ui/AdminView";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
-import { Plus, Trash2, X, ChevronLeft, ChevronRight, Presentation, Filter, GripVertical, ArrowRight, Edit2, Check, Users, Tags } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Presentation,
+  Filter,
+  GripVertical,
+  ArrowRight,
+  Edit2,
+  Check,
+  Users,
+  Tags,
+  CalendarIcon
+} from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -358,7 +373,7 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
 
           <div className="p-6 bg-white rounded-[1.5rem] border border-slate-100 shadow-sm flex items-start gap-4">
             <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600">
-              <Calendar className="w-6 h-6" />
+              <CalendarIcon className="w-6 h-6" />
             </div>
             <div>
               <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Previsão de Entrega</span>
@@ -1295,7 +1310,7 @@ const deleteSelected = async () => {
         variant="outline"
         className="w-full justify-start text-left font-normal"
       >
-        <Calendar className="mr-2 h-4 w-4" />
+        <CalendarIcon className="mr-2 h-4 w-4" />
 
         {formData.deliveryDate
           ? formData.deliveryDate
