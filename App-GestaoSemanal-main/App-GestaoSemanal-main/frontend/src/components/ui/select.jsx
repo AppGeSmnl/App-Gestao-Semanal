@@ -73,12 +73,8 @@ SelectScrollDownButton.displayName =
       position={position}
       {...props}>
       <SelectScrollUpButton />
-     <SelectPrimitive.Viewport
-  className={cn(
-    "p-1",
-    position === "popper" &&
-      "min-w-[var(--radix-select-trigger-width)]"
-  )}
+<SelectPrimitive.Viewport
+  className="p-1"
 >
         {children}
       </SelectPrimitive.Viewport>
