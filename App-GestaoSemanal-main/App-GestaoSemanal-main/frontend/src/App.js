@@ -5,7 +5,7 @@ import CompletedView from "@/components/ui/CompletedView";
 import AdminView from "@/components/ui/AdminView";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
-import { Plus, Trash2, X, ChevronLeft, ChevronRight, Presentation, Filter, GripVertical, ArrowRight, Edit2, Check, Calendar, Users, Tags } from "lucide-react";
+import { Plus, Trash2, X, ChevronLeft, ChevronRight, Presentation, Filter, GripVertical, ArrowRight, Edit2, Check, Users, Tags } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +28,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Calendar as CalendarPicker } from "@/components/ui/calendar";
 
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -1303,32 +1304,32 @@ const deleteSelected = async () => {
     </PopoverTrigger>
 
     <PopoverContent className="w-auto p-0" align="start">
-      <Calendar
-        mode="single"
-        selected={
-          formData.deliveryDate
-            ? (() => {
-                const [day, month, year] =
-                  formData.deliveryDate.split("/");
+<CalendarPicker
+  mode="single"
+  selected={
+    formData.deliveryDate
+      ? (() => {
+          const [day, month, year] =
+            formData.deliveryDate.split("/");
 
-                return new Date(year, month - 1, day);
-              })()
-            : undefined
-        }
-        onSelect={(date) => {
-          if (!date) return;
+          return new Date(year, month - 1, day);
+        })()
+      : undefined
+  }
+  onSelect={(date) => {
+    if (!date) return;
 
-          setFormData({
-            ...formData,
-            deliveryDate: format(
-              date,
-              "dd/MM/yyyy",
-              { locale: ptBR }
-            ),
-          });
-        }}
-        initialFocus
-      />
+    setFormData({
+      ...formData,
+      deliveryDate: format(
+        date,
+        "dd/MM/yyyy",
+        { locale: ptBR }
+      ),
+    });
+  }}
+  initialFocus
+/>
     </PopoverContent>
   </Popover>
 </div>
