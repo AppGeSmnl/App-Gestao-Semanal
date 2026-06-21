@@ -23,6 +23,16 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const API = "https://app-gestao-semanal-plus-version.onrender.com/api";
 
@@ -1277,16 +1287,53 @@ const deleteSelected = async () => {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="deliveryDate">Data de Entrega</Label>
-                <Input
-                  id="deliveryDate"
-                  value={formData.deliveryDate}
-                  onChange={(e) => setFormData({ ...formData, deliveryDate: formatDataInput(e.target.value) })}
-                  placeholder="DD/MM/AAAA"
-                />
-              </div>
-            </div>
+<div className="space-y-2">
+  <Label>Data de Entrega</Label>
+
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button
+        variant="outline"
+        className="w-full justify-start text-left font-normal"
+      >
+        <CalendarIcon className="mr-2 h-4 w-4" />
+
+        {formData.deliveryDate
+          ? formData.deliveryDate
+          : "Selecione uma data"}
+      </Button>
+    </PopoverTrigger>
+
+    <PopoverContent className="w-auto p-0" align="start">
+      <Calendar
+        mode="single"
+        selected={
+          formData.deliveryDate
+            ? (() => {
+                const [day, month, year] =
+                  formData.deliveryDate.split("/");
+
+                return new Date(year, month - 1, day);
+              })()
+            : undefined
+        }
+        onSelect={(date) => {
+          if (!date) return;
+
+          setFormData({
+            ...formData,
+            deliveryDate: format(
+              date,
+              "dd/MM/yyyy",
+              { locale: ptBR }
+            ),
+          });
+        }}
+        initialFocus
+      />
+    </PopoverContent>
+  </Popover>
+</div>
 
             <div className="space-y-2">
               <Label>Sub-grupos *</Label>
