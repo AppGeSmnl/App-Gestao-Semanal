@@ -339,6 +339,7 @@ const rawDate =
       setExactDate("");
     }}
     className="
+     w-[120px]
       bg-white
       border
       rounded-md
