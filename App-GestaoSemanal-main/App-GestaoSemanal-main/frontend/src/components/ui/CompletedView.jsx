@@ -426,7 +426,7 @@ for (let y = 2024; y <= 2030; y++) {
   filterResponsible !== "all" ||
   exactDate ||
   monthFilter ||
-  search) && (
+  search) ? (
   <Button
     variant="ghost"
     size="sm"
@@ -439,10 +439,12 @@ for (let y = 2024; y <= 2030; y++) {
       setSelectedMonth("");
       setSelectedYear("");
     }}
-    className="ml-auto text-white hover:bg-white/20"
+    className="ml-auto text-white hover:bg-white/20 whitespace-nowrap"
   >
     Limpar filtros
   </Button>
+) : (
+  <div className="ml-auto w-[130px]" />
 )}
 
   </div>
