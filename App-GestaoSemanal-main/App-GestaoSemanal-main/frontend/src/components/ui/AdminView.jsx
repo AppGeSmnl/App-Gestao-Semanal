@@ -177,7 +177,7 @@ const deleteSubgroup = async (id) => {
         <div className="bg-white rounded-2xl border p-6">
 
           <h2 className="font-bold text-xl mb-4">
-            Subgrupos
+            Sub-grupos
           </h2>
 
           <div className="flex gap-2 mb-6">
