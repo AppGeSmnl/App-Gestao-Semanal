@@ -12,7 +12,6 @@ const API =
 export default function CompletedView({
   sidebarOpen
 }) {
-  const [filterPriority, setFilterPriority] = useState("all");
   const [filterSubgroup, setFilterSubgroup] = useState("all");
   const [filterResponsible, setFilterResponsible] = useState("all");
   const [demands, setDemands] = useState([]);
@@ -117,11 +116,6 @@ if (monthFilter) {
     );
   }
 
-  if (filterPriority !== "all") {
-    result = result.filter(
-      d => d.priority === filterPriority
-    );
-  }
 
   if (filterSubgroup !== "all") {
     result = result.filter(d => {
@@ -157,7 +151,6 @@ const groups =
 }, [
   demands,
   search,
-  filterPriority,
   filterSubgroup,
   filterResponsible,
   exactDate,
@@ -241,23 +234,6 @@ const rawDate =
     Filtros:
   </span>
 </div>
-
-    <div className="flex items-center gap-2">
-      <label className="text-sm text-white font-medium whitespace-nowrap">
-        Prioridade:
-      </label>
-
-      <select
-        value={filterPriority}
-        onChange={(e) => setFilterPriority(e.target.value)}
-        className="w-32 bg-white border rounded-md p-2"
-      >
-        <option value="all">Todas</option>
-        <option value="alta">Alta</option>
-        <option value="media">Média</option>
-        <option value="baixa">Baixa</option>
-      </select>
-    </div>
 
     <div className="flex items-center gap-2">
       <label className="text-sm text-white font-medium whitespace-nowrap flex-shrink-0">
@@ -373,8 +349,7 @@ const rawDate =
   />
 </div>
 
-   {(filterPriority !== "all" ||
-  filterSubgroup !== "all" ||
+   {(filterSubgroup !== "all" ||
   filterResponsible !== "all" ||
   exactDate ||
  monthFilter ||
@@ -383,7 +358,6 @@ const rawDate =
     variant="ghost"
     size="sm"
     onClick={() => {
-      setFilterPriority("all");
       setFilterSubgroup("all");
       setFilterResponsible("all");
       setExactDate("");
