@@ -79,10 +79,6 @@ const people =
     loadDemands();
   }, []);
 
-const filtered = useMemo(() => {
-
-  let result = [...demands];
-
   useEffect(() => {
   if (selectedMonth && selectedYear) {
 
@@ -101,6 +97,12 @@ const filtered = useMemo(() => {
 
 }, [selectedMonth, selectedYear]);
 
+
+const filtered = useMemo(() => {
+
+  let result = [...demands];
+
+  
 
   if (exactDate) {
   result = result.filter(item => {
@@ -447,6 +449,8 @@ for (let y = 2024; y <= 2030; y++) {
       setExactDate("");
       setSearch("");
       setMonthFilter("");
+      setSelectedMonth("");
+      setSelectedYear("");
     }}
     className="ml-auto text-white hover:bg-white/20 whitespace-nowrap"
   >
