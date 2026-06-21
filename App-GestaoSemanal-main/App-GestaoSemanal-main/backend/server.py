@@ -138,7 +138,7 @@ api = APIRouter(prefix="/api")
 
 # ================= HEALTH =================
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def health():
     return {"status": "ok"}
 
