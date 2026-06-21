@@ -380,7 +380,7 @@ for (let y = 2024; y <= 2030; y++) {
       "dd/MM/yyyy",
       { locale: ptBR }
     )
-  : "Selecione uma data"}
+  : "Dia"}
     </Button>
   </PopoverTrigger>
 
