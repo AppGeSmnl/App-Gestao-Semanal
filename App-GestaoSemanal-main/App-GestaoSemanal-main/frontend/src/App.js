@@ -634,15 +634,43 @@ const saveDemand = async () => {
   }
 };
 
-  const updateObservationInline = async (demandId, newObs) => {
-    try {
-      await axios.put(`${API}/demands/${demandId}`, { observation: newObs });
-      setDemands(prev => prev.map(d => d.id === demandId ? { ...d, observation: newObs } : d));
-      toast.success("Observação atualizada!");
-    } catch (error) {
-      toast.error("Erro ao atualizar observação");
-    }
-  };
+const updateObservationInline = async (demandId, newObs) => {
+  try {
+    await axios.put(`${API}/demands/${demandId}`, {
+      observation: newObs
+    });
+
+    // Atualiza a lista principal
+    setDemands(prev =>
+      prev.map(d =>
+        d.id === demandId
+          ? { ...d, observation: newObs }
+          : d
+      )
+    );
+
+    // Atualiza imediatamente o modo apresentação
+    setPresentationMode(prev => {
+      if (!prev?.singleDemand) return prev;
+
+      if (prev.singleDemand.id !== demandId)
+        return prev;
+
+      return {
+        ...prev,
+        singleDemand: {
+          ...prev.singleDemand,
+          observation: newObs
+        }
+      };
+    });
+
+    toast.success("Observação atualizada!");
+  } catch (error) {
+    console.error(error);
+    toast.error("Erro ao atualizar observação");
+  }
+};
 
   const moveDemand = async (demandId, newCategory) => {
     const originalDemands = [...demands];
