@@ -300,7 +300,13 @@ for (let y = 2024; y <= 2030; y++) {
       <SelectValue placeholder="Todos" />
     </SelectTrigger>
 
-    <SelectContent>
+    <SelectContent
+  position="popper"
+  side="bottom"
+  align="start"
+  sideOffset={4}
+  className="w-[160px]"
+>
       <SelectItem value="all">Todos</SelectItem>
 
       {allSubgroups.map(group => (
@@ -329,7 +335,13 @@ for (let y = 2024; y <= 2030; y++) {
       <SelectValue placeholder="Todos" />
     </SelectTrigger>
 
-    <SelectContent>
+    <SelectContent
+  position="popper"
+  side="bottom"
+  align="start"
+  sideOffset={4}
+  className="w-[160px]"
+>
       <SelectItem value="all">Todos</SelectItem>
 
       {allResponsibles.map(person => (
