@@ -286,7 +286,16 @@ for (let y = 2024; y <= 2030; y++) {
 <select
   value={filterSubgroup}
   onChange={(e) => setFilterSubgroup(e.target.value)}
-  className="w-[150px] bg-white border rounded-md p-2 text-sm"
+  className="
+  w-[170px]
+  bg-white
+  border
+  rounded-md
+  pl-2
+  pr-6
+  py-2
+  text-sm
+"
 >
         <option value="all">Todos</option>
 
@@ -309,7 +318,16 @@ for (let y = 2024; y <= 2030; y++) {
 <select
   value={filterResponsible}
   onChange={(e) => setFilterResponsible(e.target.value)}
-  className="w-[200px] bg-white border rounded-md p-2 text-sm"
+  className="
+  w-[190px]
+  bg-white
+  border
+  rounded-md
+  pl-2
+  pr-6
+  py-2
+  text-sm
+"
 >
         <option value="all">Todos</option>
 
