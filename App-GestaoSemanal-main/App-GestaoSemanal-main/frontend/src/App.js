@@ -1317,7 +1317,7 @@ const deleteSelected = async () => {
 )}
 
       <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editingDemandId ? "Editar Demanda" : "Criar Nova Demanda"}</DialogTitle>
           </DialogHeader>
@@ -1336,7 +1336,7 @@ const deleteSelected = async () => {
               <Label htmlFor="observation">Observação</Label>
               <textarea
                 id="observation"
-                className="w-full p-2 border rounded-md text-sm min-h-[40px] focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full p-2 border rounded-md text-sm min-h-[60px] focus:ring-2 focus:ring-sky-500 outline-none"
                 value={formData.observation}
                 onChange={(e) => setFormData({ ...formData, observation: e.target.value })}
               />
