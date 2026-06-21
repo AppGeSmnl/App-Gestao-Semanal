@@ -276,7 +276,7 @@ for (let y = 2024; y <= 2030; y++) {
           </h1>
 
 <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
-  <div className="flex items-center gap-2">
+  <div className="flex flex-wrap items-center gap-4">
 
 <div className="flex items-center gap-2 text-white">
   <Filter className="w-4 h-4" />
@@ -285,65 +285,86 @@ for (let y = 2024; y <= 2030; y++) {
   </span>
 </div>
 
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-4">
       <label className="text-sm text-white font-medium whitespace-nowrap flex-shrink-0">
         Sub-grupo:
       </label>
 
+<div className="flex flex-wrap items-center gap-4">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Sub-grupo:
+  </label>
+
 <Select
-  value={filterSubgroup}
-  onValueChange={setFilterSubgroup}
+value={filterSubgroup}
+onValueChange={setFilterSubgroup}
+
 >
-  <SelectTrigger className="w-[250px] bg-white">
-    <SelectValue placeholder="Todos" />
-  </SelectTrigger>
 
-  <SelectContent className="min-w-[350px]">
-    <SelectItem value="all">
-      Todos
+<SelectTrigger className="h-9 w-[250px] bg-white text-sm">
+
+  <SelectValue placeholder="Todos" />
+</SelectTrigger>
+
+<SelectContent className="min-w-[350px]">
+  <SelectItem value="all">
+    Todos
+  </SelectItem>
+
+  {allSubgroups.map(group => (
+    <SelectItem
+      key={group}
+      value={group}
+    >
+      {group}
     </SelectItem>
+  ))}
+</SelectContent>
 
-    {allSubgroups.map(group => (
-      <SelectItem
-        key={group}
-        value={group}
-      >
-        {group}
-      </SelectItem>
-    ))}
-  </SelectContent>
-</Select>
+  </Select>
+</div>
+
 
       </div>
 
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-4">
       <label className="text-sm text-white font-medium">
         Responsável:
       </label>
 
+<div className="flex flex-wrap items-center gap-4">
+  <label className="text-sm text-white font-medium whitespace-nowrap">
+    Responsável:
+  </label>
+
 <Select
-  value={filterResponsible}
-  onValueChange={setFilterResponsible}
+value={filterResponsible}
+onValueChange={setFilterResponsible}
 >
-  <SelectTrigger className="w-[250px] bg-white">
-    <SelectValue placeholder="Todos" />
-  </SelectTrigger>
 
-  <SelectContent className="min-w-[350px]">
-    <SelectItem value="all">
-      Todos
+<SelectTrigger className="h-9 w-[250px] bg-white text-sm">
+
+  <SelectValue placeholder="Todos" />
+</SelectTrigger>
+
+<SelectContent className="min-w-[350px]">
+  <SelectItem value="all">
+    Todos
+  </SelectItem>
+
+  {allResponsibles.map(person => (
+    <SelectItem
+      key={person}
+      value={person}
+    >
+      {person}
     </SelectItem>
+  ))}
+</SelectContent>
 
-    {allResponsibles.map(person => (
-      <SelectItem
-        key={person}
-        value={person}
-      >
-        {person}
-      </SelectItem>
-    ))}
-  </SelectContent>
-</Select>
+  </Select>
+</div>
+
     </div>
 
 <div className="flex items-center gap-4">
@@ -391,12 +412,12 @@ for (let y = 2024; y <= 2030; y++) {
   </div>
 </div>
 
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-4">
   <label className="text-sm text-white font-medium whitespace-nowrap">
     Mês:
   </label>
 
-  <div className="flex items-center gap-2">
+  <div className="flex flex-wrap items-center gap-4">
 
   <Select
   value={selectedMonth}
