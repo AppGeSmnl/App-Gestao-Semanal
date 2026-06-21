@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 const API =
   "https://app-gestao-semanal-plus-version.onrender.com/api";
@@ -287,7 +288,7 @@ for (let y = 2024; y <= 2030; y++) {
 
 {/* SUBGRUPO */}
 <div className="flex items-center gap-2">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
+  <Label className="text-sm text-white font-medium">
     Sub-grupo:
   </label>
 
@@ -295,11 +296,11 @@ for (let y = 2024; y <= 2030; y++) {
     value={filterSubgroup}
     onValueChange={setFilterSubgroup}
   >
-    <SelectTrigger className="h-8 w-[220px] bg-white text-sm">
+    <SelectTrigger className="w-48 bg-white">
       <SelectValue placeholder="Todos" />
     </SelectTrigger>
 
-    <SelectContent className="min-w-[320px]">
+    <SelectContent>
       <SelectItem value="all">Todos</SelectItem>
 
       {allSubgroups.map(group => (
@@ -315,7 +316,7 @@ for (let y = 2024; y <= 2030; y++) {
 </div>
 {/* RESPONSÁVEL */}
 <div className="flex items-center gap-2">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
+  <Label className="text-sm text-white font-medium">
     Responsável:
   </label>
 
@@ -323,11 +324,12 @@ for (let y = 2024; y <= 2030; y++) {
     value={filterResponsible}
     onValueChange={setFilterResponsible}
   >
-    <SelectTrigger className="h-8 w-[220px] bg-white text-sm">
+    
+    <SelectTrigger className="w-48 bg-white">
       <SelectValue placeholder="Todos" />
     </SelectTrigger>
 
-    <SelectContent className="min-w-[320px]">
+    <SelectContent>
       <SelectItem value="all">Todos</SelectItem>
 
       {allResponsibles.map(person => (
@@ -341,10 +343,10 @@ for (let y = 2024; y <= 2030; y++) {
     </SelectContent>
   </Select>
 </div>
-{/* DATA */}
+
 {/* DATA */}
 <div className="flex items-center gap-2">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
+  <Label className="text-sm text-white font-medium">
     Data:
   </label>
 
@@ -371,7 +373,7 @@ for (let y = 2024; y <= 2030; y++) {
 
 {/* MÊS */}
 <div className="flex items-center gap-2">
-  <label className="text-sm text-white font-medium whitespace-nowrap">
+  <Label className="text-sm text-white font-medium">
     Mês:
   </label>
 
