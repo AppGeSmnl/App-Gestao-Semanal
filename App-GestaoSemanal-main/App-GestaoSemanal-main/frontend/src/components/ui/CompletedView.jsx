@@ -356,57 +356,6 @@ for (let y = 2024; y <= 2030; y++) {
     </SelectContent>
   </Select>
 </div>
-    
-{/* MÊS */}
-<div className="flex items-center gap-2">
-  <label className="text-sm text-white font-medium">
-    Mês:
-  </label>
-
-  <div className="flex gap-2">
-
-<Select
-  value={selectedMonth}
-  onValueChange={setSelectedMonth}
->
-  <SelectTrigger className="h-9 w-[90px] bg-white text-sm">
-    <SelectValue placeholder="Mês" />
-  </SelectTrigger>
-
-  <SelectContent className="ml-20">
-    {months.map((m, index) => (
-      <SelectItem
-        key={m}
-        value={String(index + 1)}
-      >
-        {m}
-      </SelectItem>
-    ))}
-  </SelectContent>
-</Select>
-
-    <Select
-      value={selectedYear}
-      onValueChange={setSelectedYear}
-    >
-      <SelectTrigger className="h-9 w-[90px] bg-white text-sm">
-        <SelectValue placeholder="Ano" />
-      </SelectTrigger>
-
-      <SelectContent className="ml-20">
-        {years.map(year => (
-          <SelectItem
-            key={year}
-            value={String(year)}
-          >
-            {String(year).slice(-2)}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-
-  </div>
-</div>
 
     {/* DATA */}
 <div className="flex items-center gap-2">
@@ -469,6 +418,57 @@ for (let y = 2024; y <= 2030; y++) {
 />
   </PopoverContent>
 </Popover>
+</div>
+    
+{/* MÊS */}
+<div className="flex items-center gap-2">
+  <label className="text-sm text-white font-medium">
+    Mês:
+  </label>
+
+  <div className="flex gap-2">
+
+<Select
+  value={selectedMonth}
+  onValueChange={setSelectedMonth}
+>
+  <SelectTrigger className="h-9 w-[90px] bg-white text-sm">
+    <SelectValue placeholder="Mês" />
+  </SelectTrigger>
+
+  <SelectContent className="ml-20">
+    {months.map((m, index) => (
+      <SelectItem
+        key={m}
+        value={String(index + 1)}
+      >
+        {m}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
+    <Select
+      value={selectedYear}
+      onValueChange={setSelectedYear}
+    >
+      <SelectTrigger className="h-9 w-[90px] bg-white text-sm">
+        <SelectValue placeholder="Ano" />
+      </SelectTrigger>
+
+      <SelectContent className="ml-20">
+        {years.map(year => (
+          <SelectItem
+            key={year}
+            value={String(year)}
+          >
+            {String(year).slice(-2)}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+
+  </div>
 </div>
 
 <Button
