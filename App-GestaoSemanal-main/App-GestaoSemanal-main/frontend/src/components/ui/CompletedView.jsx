@@ -288,7 +288,7 @@ for (let y = 2024; y <= 2030; y++) {
 
 {/* SUBGRUPO */}
 <div className="flex items-center gap-2">
-  <Label className="text-sm text-white font-medium">
+  <label className="text-sm text-white font-medium">
     Sub-grupo:
   </label>
 
@@ -316,7 +316,7 @@ for (let y = 2024; y <= 2030; y++) {
 </div>
 {/* RESPONSÁVEL */}
 <div className="flex items-center gap-2">
-  <Label className="text-sm text-white font-medium">
+  <label className="text-sm text-white font-medium">
     Responsável:
   </label>
 
@@ -346,7 +346,7 @@ for (let y = 2024; y <= 2030; y++) {
 
 {/* DATA */}
 <div className="flex items-center gap-2">
-  <Label className="text-sm text-white font-medium">
+  <label className="text-sm text-white font-medium">
     Data:
   </label>
 
