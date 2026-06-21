@@ -421,12 +421,13 @@ for (let y = 2024; y <= 2030; y++) {
 </div>
 
 {/* MÊS */}
-<div className="flex items-center gap-2 relative">
+<div className="flex items-center gap-2">
   <label className="text-sm text-white font-medium">
     Mês:
   </label>
 
-  
+  <div className="flex gap-2">
+
 <Select
   value={selectedMonth}
   onValueChange={setSelectedMonth}
