@@ -418,6 +418,7 @@ function App() {
   const [selectedIds, setSelectedIds] = useState([]);
   const [currentView, setCurrentView] = useState("demands");
   const [presentationMode, setPresentationMode] = useState(null);
+  const presentationRef = useRef(null);
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterSubgroup, setFilterSubgroup] = useState("all");
   const [filterResponsible, setFilterResponsible] = useState("all");
@@ -455,6 +456,63 @@ useEffect(() => {
 useEffect(() => {
   console.log("STATE RESPONSIBLES:", responsibles);
 }, [responsibles]);
+
+  useEffect(() => {
+  const enterFullscreen = async () => {
+    try {
+      if (
+        presentationMode &&
+        !document.fullscreenElement
+      ) {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch (err) {
+      console.error("Erro ao entrar em tela cheia:", err);
+    }
+  };
+
+  const exitFullscreen = async () => {
+    try {
+      if (
+        !presentationMode &&
+        document.fullscreenElement
+      ) {
+        await document.exitFullscreen();
+      }
+    } catch (err) {
+      console.error("Erro ao sair da tela cheia:", err);
+    }
+  };
+
+  if (presentationMode) {
+    enterFullscreen();
+  } else {
+    exitFullscreen();
+  }
+}, [presentationMode]);
+
+  useEffect(() => {
+  const handleFullscreenChange = () => {
+    if (
+      !document.fullscreenElement &&
+      presentationMode
+    ) {
+      setPresentationMode(null);
+    }
+  };
+
+  document.addEventListener(
+    "fullscreenchange",
+    handleFullscreenChange
+  );
+
+  return () => {
+    document.removeEventListener(
+      "fullscreenchange",
+      handleFullscreenChange
+    );
+  };
+}, [presentationMode]);
 
   
   const { week, total } = useMemo(() => getWeekInfo(), []);
