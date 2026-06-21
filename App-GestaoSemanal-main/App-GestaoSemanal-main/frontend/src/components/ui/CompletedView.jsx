@@ -226,7 +226,7 @@ const rawDate =
           </h1>
 
 <div className="bg-[#004C97] rounded-xl border border-[#003D7A] p-4 shadow-lg mb-6">
-  <div className="flex items-center gap-6">
+  <div className="flex flex-wrap items-center gap-6">
 
 <div className="flex items-center gap-2 text-white">
   <Filter className="w-4 h-4" />
@@ -243,7 +243,7 @@ const rawDate =
       <select
         value={filterSubgroup}
         onChange={(e) => setFilterSubgroup(e.target.value)}
-        className="w-40 bg-white border rounded-md p-2"
+        className="min-w-[220px] bg-white border rounded-md p-2"
       >
         <option value="all">Todos</option>
 
@@ -266,7 +266,7 @@ const rawDate =
       <select
         value={filterResponsible}
         onChange={(e) => setFilterResponsible(e.target.value)}
-        className="w-48 bg-white border rounded-md p-2"
+        className="min-w-[260px] bg-white border rounded-md p-2"
       >
         <option value="all">Todos</option>
 
