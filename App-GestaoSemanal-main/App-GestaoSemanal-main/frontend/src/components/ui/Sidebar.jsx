@@ -17,7 +17,7 @@ const MENU_ITEMS = [
   },
   {
     id: "admin",
-    label: "Administração",
+    label: "Gestão de Equipe",
     icon: Settings
   }
 ];
