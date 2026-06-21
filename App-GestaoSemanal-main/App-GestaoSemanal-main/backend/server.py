@@ -142,12 +142,9 @@ api = APIRouter(prefix="/api")
 async def health():
     return {"status": "ok"}
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 async def health_check():
-    return {
-        "status": "healthy",
-        "database": "connected"
-    }
+    return {"status": "healthy"}
 
 # ================= DEMANDS =================
 
