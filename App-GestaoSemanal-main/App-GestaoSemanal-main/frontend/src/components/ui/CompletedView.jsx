@@ -368,10 +368,19 @@ for (let y = 2024; y <= 2030; y++) {
   onOpenChange={setCalendarOpen}
 >
   <PopoverTrigger asChild>
-    <Button
-      variant="outline"
-      className="w-full justify-start text-left font-normal"
-    >
+<Button
+  variant="outline"
+  className="
+    w-full
+    justify-start
+    text-left
+    font-normal
+    !bg-white
+    !text-black
+    hover:!bg-white
+    hover:!text-black
+  "
+>
       <CalendarIcon className="mr-2 h-4 w-4" />
 
 {exactDate
