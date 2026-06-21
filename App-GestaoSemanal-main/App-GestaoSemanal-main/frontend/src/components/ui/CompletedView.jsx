@@ -13,6 +13,20 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { CalendarIcon } from "lucide-react";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import { Calendar } from "@/components/ui/calendar";
+
+import { Button } from "@/components/ui/button";
+
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const API =
   "https://app-gestao-semanal-plus-version.onrender.com/api";
@@ -30,8 +44,9 @@ export default function CompletedView({
   const [monthFilter, setMonthFilter] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
-  const dateInputRef = useRef(null);
+
   
 
 const allSubgroups = useMemo(() => {
@@ -350,24 +365,53 @@ for (let y = 2024; y <= 2030; y++) {
     Data:
   </label>
 
-  <div
-    className="h-9 w-40 bg-white border rounded-md px-3 flex items-center"
-    onClick={() => {
-      if (dateInputRef.current?.showPicker) {
-        dateInputRef.current.showPicker();
-      }
-    }}
+<Popover
+  open={calendarOpen}
+  onOpenChange={setCalendarOpen}
+>
+  <PopoverTrigger asChild>
+    <Button
+      variant="outline"
+      className="w-full justify-start text-left font-normal"
+    >
+      <CalendarIcon className="mr-2 h-4 w-4" />
+
+{exactDate
+  ? format(
+      new Date(exactDate + "T00:00:00"),
+      "dd/MM/yyyy",
+      { locale: ptBR }
+    )
+  : "Selecione uma data"}
+    </Button>
+  </PopoverTrigger>
+
+  <PopoverContent
+    align="start"
+    className="w-auto p-0 z-[9999]"
   >
-    <input
-      ref={dateInputRef}
-      type="date"
-      value={exactDate}
-      onChange={(e) => {
-        setExactDate(e.target.value);
-        setMonthFilter("");
+    <Calendar
+      mode="single"
+      locale={ptBR}
+      selected={
+        selectedDate
+    exactDate
+    ? new Date(exactDate + "T00:00:00")
+    : undefined
+      }
+      onSelect={(date) => {
+        if (!date) return;
+
+setExactDate(
+  format(date, "yyyy-MM-dd")
+);
+
+        setCalendarOpen(false);
       }}
-      className="w-full border-0 outline-none bg-transparent text-sm"
+      initialFocus
     />
+  </PopoverContent>
+</Popover>
   </div>
 </div>
 
