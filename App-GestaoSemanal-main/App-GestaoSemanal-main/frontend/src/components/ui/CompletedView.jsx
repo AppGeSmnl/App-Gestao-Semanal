@@ -373,7 +373,7 @@ for (let y = 2024; y <= 2030; y++) {
     <SelectValue placeholder="Mês" />
   </SelectTrigger>
 
-  <SelectContent>
+  <SelectContent className="ml-20">
     {months.map((m, index) => (
       <SelectItem
         key={m}
@@ -393,7 +393,7 @@ for (let y = 2024; y <= 2030; y++) {
         <SelectValue placeholder="Ano" />
       </SelectTrigger>
 
-      <SelectContent>
+      <SelectContent className="ml-20">
         {years.map(year => (
           <SelectItem
             key={year}
@@ -411,7 +411,7 @@ for (let y = 2024; y <= 2030; y++) {
     {/* DATA */}
 <div className="flex items-center gap-2">
   <label className="text-sm text-white font-medium">
-    Data:
+    Dia:
   </label>
 
 <Popover
@@ -440,7 +440,7 @@ for (let y = 2024; y <= 2030; y++) {
       "dd/MM/yyyy",
       { locale: ptBR }
     )
-  : "Dia"}
+  : "Selecione"}
     </Button>
   </PopoverTrigger>
 
