@@ -15,6 +15,9 @@ function Calendar({
   return (
     <DayPicker
       locale={ptBR}
+      captionLayout="dropdown"
+      fromYear={2020}
+      toYear={2035}
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
