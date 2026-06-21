@@ -3,16 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 from typing import List, Union, Optional
-from datetime import datetime, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import os
 import uuid
 import logging
-
-completed_at = datetime.now(
-    timezone.utc
-).astimezone(
-    ZoneInfo("America/Sao_Paulo")
-)
 
 # ================= LOG =================
 
@@ -41,6 +36,13 @@ db_name = "gestsmnl"
 
 client = AsyncIOMotorClient(mongo_url)
 db = client[db_name]
+
+# ================= TIMEZONE =================
+
+BRAZIL_TZ = ZoneInfo("America/Sao_Paulo")
+
+def brazil_now():
+    return datetime.now(BRAZIL_TZ).isoformat()
 
 # ================= MODELS =================
 
@@ -148,7 +150,7 @@ async def get_demands():
 
 @api.post("/demands", status_code=201)
 async def create_demand(demand: DemandCreate):
-    now = datetime.now(timezone.utc).isoformat()
+    now = brazil_now()
 
     data = demand.model_dump()
 
@@ -181,7 +183,7 @@ async def update_demand(demand_id: str, update: DemandUpdate):
     if "subgroup" in update_data and isinstance(update_data["subgroup"], list):
         update_data["subgroup"] = ", ".join(update_data["subgroup"])
 
-    update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+    update_data["updated_at"] = brazil_now()
 
     result = await db.demands.update_one({"id": demand_id}, {"$set": update_data})
     if result.matched_count == 0:
@@ -203,7 +205,7 @@ async def get_completed_demands():
 
 @api.post("/demands/complete")
 async def complete_demands(req: CompleteDemandsRequest):
-    now = datetime.now(timezone.utc).isoformat()
+    now = brazil_now()
 
     demands = await db.demands.find(
         {"id": {"$in": req.ids}},
@@ -249,7 +251,7 @@ async def get_general_notices():
 
 @api.post("/general-notices", status_code=201)
 async def create_general_notice(data: GeneralNoticeCreate):
-    now = datetime.now(timezone.utc).isoformat()
+    now = brazil_now()
     notice_id = f"NOTICE-{uuid.uuid4().hex[:8].upper()}"
 
     notice = {
@@ -286,7 +288,7 @@ async def create_team_member(data: TeamMemberCreate):
         "id": f"USR-{uuid.uuid4().hex[:8].upper()}",
         "name": data.name,
         "active": True,
-        "created_at": datetime.now(timezone.utc).isoformat()
+        "created_at": brazil_now()
     }
 
     await db.team_members.insert_one(member)
@@ -326,7 +328,7 @@ async def create_subgroup(data: SubgroupCreate):
         "id": f"SGP-{uuid.uuid4().hex[:8].upper()}",
         "name": data.name,
         "active": True,
-        "created_at": datetime.now(timezone.utc).isoformat()
+        "created_at": brazil_now()
     }
 
     await db.subgroups.insert_one(subgroup)
