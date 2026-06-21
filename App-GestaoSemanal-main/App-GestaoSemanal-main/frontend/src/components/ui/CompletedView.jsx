@@ -296,7 +296,7 @@ for (let y = 2024; y <= 2030; y++) {
     value={filterSubgroup}
     onValueChange={setFilterSubgroup}
   >
-    <SelectTrigger className="w-48 bg-white">
+    <SelectTrigger className="w-40 bg-white">
       <SelectValue placeholder="Todos" />
     </SelectTrigger>
 
@@ -325,7 +325,7 @@ for (let y = 2024; y <= 2030; y++) {
     onValueChange={setFilterResponsible}
   >
     
-    <SelectTrigger className="w-48 bg-white">
+    <SelectTrigger className="w-40 bg-white">
       <SelectValue placeholder="Todos" />
     </SelectTrigger>
 
