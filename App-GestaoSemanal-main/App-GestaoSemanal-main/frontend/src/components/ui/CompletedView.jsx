@@ -309,7 +309,7 @@ for (let y = 2024; y <= 2030; y++) {
 <select
   value={filterResponsible}
   onChange={(e) => setFilterResponsible(e.target.value)}
-  className="w-[170px] bg-white border rounded-md p-2 text-sm"
+  className="w-[190px] bg-white border rounded-md p-2 text-sm"
 >
         <option value="all">Todos</option>
 
