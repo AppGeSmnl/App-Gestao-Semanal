@@ -288,7 +288,7 @@ const rawDate =
 
   <div
     className="
-      w-[140px]
+      w-40
       bg-white
       border
       rounded-md
@@ -339,7 +339,6 @@ const rawDate =
       setExactDate("");
     }}
     className="
-     w-[140px]
       bg-white
       border
       rounded-md
