@@ -373,7 +373,7 @@ for (let y = 2024; y <= 2030; y++) {
 
 {/* MÊS */}
 <div className="flex items-center gap-2">
-  <Label className="text-sm text-white font-medium">
+  <label className="text-sm text-white font-medium">
     Mês:
   </label>
 
