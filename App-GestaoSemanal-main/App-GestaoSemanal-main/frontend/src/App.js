@@ -227,6 +227,8 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isEditingObs, setIsEditingObs] = useState(false);
   const [tempObs, setTempObs] = useState("");
+  const obsScrollRef = useRef(null);
+  const [obsFade, setObsFade] = useState({ top: false, bottom: false });
 
   const demandsToShow = useMemo(() => {
     return singleDemand ? [singleDemand] : demands;
@@ -237,6 +239,20 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
       setTempObs(demandsToShow[currentIndex].observation || "");
     }
   }, [currentIndex, demandsToShow]);
+
+  const updateObsFade = () => {
+    const el = obsScrollRef.current;
+    if (!el) return;
+    const { scrollTop, scrollHeight, clientHeight } = el;
+    setObsFade({
+      top: scrollTop > 4,
+      bottom: scrollTop + clientHeight < scrollHeight - 4,
+    });
+  };
+
+  useEffect(() => {
+    updateObsFade();
+  }, [currentIndex, isEditingObs, demandsToShow]);
 
   if (!demandsToShow || demandsToShow.length === 0) return null;
 
@@ -249,23 +265,6 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
     await onUpdateObservation(currentDemand.id, tempObs);
     setIsEditingObs(false);
   };
-
-  const obsScrollRef = useRef(null);
-const [obsFade, setObsFade] = useState({ top: false, bottom: false });
-
-const updateObsFade = () => {
-  const el = obsScrollRef.current;
-  if (!el) return;
-  const { scrollTop, scrollHeight, clientHeight } = el;
-  setObsFade({
-    top: scrollTop > 4,
-    bottom: scrollTop + clientHeight < scrollHeight - 4,
-  });
-};
-
-useEffect(() => {
-  updateObsFade();
-}, [currentDemand.observation, isEditingObs, currentIndex]);
 
   return (
     <motion.div
@@ -368,19 +367,22 @@ useEffect(() => {
                 </div>
               </div>
             ) : (
- <div
-  ref={obsScrollRef}
-  onScroll={updateObsFade}
-  className="h-[93px] overflow-y-auto pr-4"
-  style={{
-    maskImage: `linear-gradient(to bottom, ${obsFade.top ? "transparent" : "black"} 0%, black 24px, black calc(100% - 24px), ${obsFade.bottom ? "transparent" : "black"} 100%)`,
-    WebkitMaskImage: `linear-gradient(to bottom, ${obsFade.top ? "transparent" : "black"} 0%, black 24px, black calc(100% - 24px), ${obsFade.bottom ? "transparent" : "black"} 100%)`,
-  }}
->
-  <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
-    {currentDemand.observation ? `${currentDemand.observation}` : "Nenhuma observação."}
-  </p>
-</div>
+            <div
+              ref={obsScrollRef}
+              onScroll={updateObsFade}
+              className="h-[93px] overflow-y-auto pr-4"
+              style={{
+                maskImage: `linear-gradient(to bottom, ${obsFade.top ? "transparent" : "black"} 0%, black 24px, black calc(100% - 24px), ${obsFade.bottom ? "transparent" : "black"} 100%)`,
+                WebkitMaskImage: `linear-gradient(to bottom, ${obsFade.top ? "transparent" : "black"} 0%, black 24px, black calc(100% - 24px), ${obsFade.bottom ? "transparent" : "black"} 100%)`,
+              }}
+            >
+              <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
+                {currentDemand.observation ? `${currentDemand.observation}` : "Nenhuma observação."}
+              </p>
+            </div>
+            )}
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 bg-white rounded-[1.5rem] border border-slate-100 shadow-sm flex items-start gap-4">
