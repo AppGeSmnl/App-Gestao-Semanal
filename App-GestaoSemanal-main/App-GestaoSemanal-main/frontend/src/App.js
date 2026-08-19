@@ -221,14 +221,12 @@ function DemandCard({demand, isDeleteMode, isCompleteMode, selectedIds, onToggle
 }
 
 /* ===========================
-   PRESENTATION MODE (CORRIGIDO - SUAVE + LAYOUT FLEXÍVEL + ALTURA ADAPTATIVA)
+   PRESENTATION MODE (CORRIGIDO - SUAVE)
 =========================== */
 function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpdateObservation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isEditingObs, setIsEditingObs] = useState(false);
   const [tempObs, setTempObs] = useState("");
-  const obsScrollRef = useRef(null);
-  const [obsFade, setObsFade] = useState({ top: false, bottom: false });
 
   const demandsToShow = useMemo(() => {
     return singleDemand ? [singleDemand] : demands;
@@ -239,20 +237,6 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
       setTempObs(demandsToShow[currentIndex].observation || "");
     }
   }, [currentIndex, demandsToShow]);
-
-  const updateObsFade = () => {
-    const el = obsScrollRef.current;
-    if (!el) return;
-    const { scrollTop, scrollHeight, clientHeight } = el;
-    setObsFade({
-      top: scrollTop > 4,
-      bottom: scrollTop + clientHeight < scrollHeight - 4,
-    });
-  };
-
-  useEffect(() => {
-    updateObsFade();
-  }, [currentIndex, isEditingObs, demandsToShow]);
 
   if (!demandsToShow || demandsToShow.length === 0) return null;
 
@@ -280,11 +264,11 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
         animate={{ opacity: 1, x: 0, scale: 1 }}
         exit={{ opacity: 0, x: -10, scale: 0.99 }}
         transition={{ duration: 0.3, ease: "easeInOut" }} // Aumentado para maior suavidade
-        className="bg-white w-full max-w-6xl min-h-[85vh] max-h-[92vh] rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] p-8 md:p-16 flex flex-col relative overflow-hidden z-10"
+        className="bg-white w-full max-w-6xl min-h-[85vh] md:aspect-video rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] p-8 md:p-16 flex flex-col relative overflow-hidden z-10"
       >
         <div className={`absolute top-0 left-0 right-0 h-3 ${priorityStyle.badge} opacity-90`}></div>
 
-        <div className="flex justify-between items-start mb-10 shrink-0">
+        <div className="flex justify-between items-start mb-10">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span className="px-4 py-1.5 rounded-full bg-slate-100 text-slate-500 text-xs font-bold uppercase tracking-widest">
@@ -335,9 +319,9 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
           </div>
         </div>
 
-        <div className="flex-1 min-h-0 mb-10 flex flex-col">
-          <div className="relative group bg-slate-50/80 rounded-[2rem] p-8 border border-slate-100 flex-1 min-h-[180px] max-h-[320px] flex flex-col">
-            <div className="flex items-center gap-2 mb-4 shrink-0">
+        <div className="flex-1 mb-10">
+          <div className="relative group bg-slate-50/80 rounded-[2rem] p-8 border border-slate-100">
+            <div className="flex items-center gap-2 mb-4">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Observação: </span>
             </div>
 
@@ -351,13 +335,13 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
             )}
 
             {isEditingObs ? (
-              <div className="flex-1 min-h-0 flex flex-col gap-4">
+              <div className="space-y-4">
                 <textarea
-                  className="w-full flex-1 min-h-[150px] p-6 bg-white border-2 border-sky-100 rounded-2xl text-xl text-slate-700 outline-none resize-none"
+                  className="w-full p-6 bg-white border-2 border-sky-100 rounded-2xl text-xl text-slate-700 outline-none min-h-[150px]"
                   value={tempObs}
                   onChange={(e) => setTempObs(e.target.value)}
                 />
-                <div className="flex gap-3 justify-end shrink-0">
+                <div className="flex gap-3 justify-end">
                   <Button onClick={handleSaveObs} className="bg-sky-600 hover:bg-sky-700 px-8 py-6 rounded-2xl text-lg">
                     <Check className="w-5 h-5 mr-2" /> Salvar Alterações
                   </Button>
@@ -367,15 +351,7 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
                 </div>
               </div>
             ) : (
-            <div
-              ref={obsScrollRef}
-              onScroll={updateObsFade}
-              className="flex-1 min-h-0 overflow-y-auto pr-4"
-              style={{
-                maskImage: `linear-gradient(to bottom, ${obsFade.top ? "transparent" : "black"} 0%, black 24px, black calc(100% - 24px), ${obsFade.bottom ? "transparent" : "black"} 100%)`,
-                WebkitMaskImage: `linear-gradient(to bottom, ${obsFade.top ? "transparent" : "black"} 0%, black 24px, black calc(100% - 24px), ${obsFade.bottom ? "transparent" : "black"} 100%)`,
-              }}
-            >
+            <div className="h-[93px] overflow-y-auto pr-4">
               <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
                 {currentDemand.observation ? `${currentDemand.observation}` : "Nenhuma observação."}
               </p>
@@ -384,7 +360,7 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 bg-white rounded-[1.5rem] border border-slate-100 shadow-sm flex items-start gap-4">
             <div className="p-3 bg-sky-50 rounded-xl text-sky-600">
               <Users className="w-6 h-6" />
