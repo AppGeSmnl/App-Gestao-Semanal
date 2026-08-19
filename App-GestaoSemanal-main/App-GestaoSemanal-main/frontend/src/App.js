@@ -351,7 +351,7 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
                 </div>
               </div>
             ) : (
-<div className="relative max-h-[35vh] overflow-y-auto pr-4">
+<div className="relative max-h-[22vh] overflow-y-auto pr-4">
   <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
     {currentDemand.observation
       ? currentDemand.observation
