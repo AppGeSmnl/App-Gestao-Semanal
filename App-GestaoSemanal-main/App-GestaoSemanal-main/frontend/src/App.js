@@ -250,6 +250,23 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
     setIsEditingObs(false);
   };
 
+  const obsScrollRef = useRef(null);
+const [obsFade, setObsFade] = useState({ top: false, bottom: false });
+
+const updateObsFade = () => {
+  const el = obsScrollRef.current;
+  if (!el) return;
+  const { scrollTop, scrollHeight, clientHeight } = el;
+  setObsFade({
+    top: scrollTop > 4,
+    bottom: scrollTop + clientHeight < scrollHeight - 4,
+  });
+};
+
+useEffect(() => {
+  updateObsFade();
+}, [currentDemand.observation, isEditingObs, currentIndex]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
