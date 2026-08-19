@@ -351,14 +351,19 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
                 </div>
               </div>
             ) : (
-  <div className="h-[93px] overflow-y-auto pr-4">
-              <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
-                {currentDemand.observation ? `${currentDemand.observation}` : "Nenhuma observação."}
-              </p>
-            </div>
-            )}
-          </div>
-        </div>
+ <div
+  ref={obsScrollRef}
+  onScroll={updateObsFade}
+  className="h-[93px] overflow-y-auto pr-4"
+  style={{
+    maskImage: `linear-gradient(to bottom, ${obsFade.top ? "transparent" : "black"} 0%, black 24px, black calc(100% - 24px), ${obsFade.bottom ? "transparent" : "black"} 100%)`,
+    WebkitMaskImage: `linear-gradient(to bottom, ${obsFade.top ? "transparent" : "black"} 0%, black 24px, black calc(100% - 24px), ${obsFade.bottom ? "transparent" : "black"} 100%)`,
+  }}
+>
+  <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
+    {currentDemand.observation ? `${currentDemand.observation}` : "Nenhuma observação."}
+  </p>
+</div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 bg-white rounded-[1.5rem] border border-slate-100 shadow-sm flex items-start gap-4">
