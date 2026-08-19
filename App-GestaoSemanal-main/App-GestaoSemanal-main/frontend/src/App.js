@@ -352,29 +352,27 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
               </div>
             ) : (
 <div className="relative max-h-[35vh] overflow-y-auto pr-4">
-  
-  <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap pb-10">
+  <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
     {currentDemand.observation
       ? currentDemand.observation
       : "Nenhuma observação."}
   </p>
 
-  {/* Fade suave no final do texto */}
+  {/* Transição suave no final da área de texto */}
   <div
     className="
       pointer-events-none
       absolute
       bottom-0
       left-0
-      right-0
-      h-16
+      right-4
+      h-12
       bg-gradient-to-t
       from-slate-50
       via-slate-50/80
       to-transparent
     "
   />
-
 </div>
             )}
           </div>
