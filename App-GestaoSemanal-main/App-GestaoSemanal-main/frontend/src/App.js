@@ -351,11 +351,28 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
                 </div>
               </div>
             ) : (
-    <div className="h-[93px] overflow-y-auto pr-4">
-              <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
-                {currentDemand.observation ? `${currentDemand.observation}` : "Nenhuma observação."}
-              </p>
-            </div>
+   <div className="relative h-[93px] overflow-y-auto pr-4">
+  <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
+    {currentDemand.observation
+      ? `${currentDemand.observation}`
+      : "Nenhuma observação."}
+  </p>
+
+  {/* Transição suave na parte inferior */}
+  <div
+    className="
+      pointer-events-none
+      absolute
+      bottom-0
+      left-0
+      right-4
+      h-8
+      bg-gradient-to-t
+      from-slate-50
+      to-transparent
+    "
+  />
+</div>
             )}
           </div>
         </div>
