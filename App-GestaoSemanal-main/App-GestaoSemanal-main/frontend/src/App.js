@@ -328,7 +328,7 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
             {!isEditingObs && (
               <button
                 onClick={() => setIsEditingObs(true)}
-                className="absolute top-10 right-6 p-3 text-slate-300 hover:text-sky-600 hover:bg-sky-50 rounded-xl"
+                className="absolute top-4 right-4 p-2 text-slate-300 hover:text-sky-600 hover:bg-sky-50 rounded-xl"
               >
                 <Edit2 className="w-5 h-5" />
               </button>
