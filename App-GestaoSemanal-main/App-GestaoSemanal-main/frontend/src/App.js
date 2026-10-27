@@ -351,11 +351,11 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
                 </div>
               </div>
             ) : (
-            <div className="h-[93px] overflow-y-auto pr-4">
-              <p className="text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap">
-                {currentDemand.observation ? `${currentDemand.observation}` : "Nenhuma observação."}
-              </p>
-            </div>
+<div className="h-[140px] overflow-y-auto overflow-x-hidden pr-4 pb-3 box-border overscroll-contain">
+  <p className="m-0 pb-2 text-2xl md:text-3xl text-slate-400 font-medium leading-snug italic whitespace-pre-wrap break-words">
+    {currentDemand.observation ? currentDemand.observation : "Nenhuma observação."}
+  </p>
+</div>
             )}
           </div>
         </div>
