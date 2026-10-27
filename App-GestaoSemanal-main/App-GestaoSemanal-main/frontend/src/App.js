@@ -420,6 +420,7 @@ function App() {
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isCompleteMode, setIsCompleteMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
+  const selectionAnchorRef = useRef(null);
   const [currentView, setCurrentView] = useState("demands");
   const [presentationMode, setPresentationMode] = useState(null);
   const presentationRef = useRef(null);
@@ -799,22 +800,31 @@ const deleteSelected = async () => {
   }
 };
 
-  const toggleSelect = (id) => {
-    setSelectedIds(prev => 
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    );
-  };
+  const toggleSelect = (id, shiftKey = false, selectionOrder = []) => {
+  setSelectedIds(prev => {
+    // Seleção por intervalo com Shift
+    if (shiftKey && selectionAnchorRef.current !== null) {
+      const startIndex = selectionOrder.indexOf(selectionAnchorRef.current);
+      const endIndex = selectionOrder.indexOf(id);
 
-  const toggleSubgroupSelection = (sg) => {
-    setFormData(prev => {
-      const current = prev.subgroup;
-      if (current.includes(sg)) {
-        return { ...prev, subgroup: current.filter(item => item !== sg) };
-      } else {
-        return { ...prev, subgroup: [...current, sg] };
+      if (startIndex !== -1 && endIndex !== -1) {
+        const start = Math.min(startIndex, endIndex);
+        const end = Math.max(startIndex, endIndex);
+
+        const rangeIds = selectionOrder.slice(start, end + 1);
+
+        return [...new Set([...prev, ...rangeIds])];
       }
-    });
-  };
+    }
+
+    // Clique normal: alterna a seleção
+    selectionAnchorRef.current = id;
+
+    return prev.includes(id)
+      ? prev.filter(item => item !== id)
+      : [...prev, id];
+  });
+};
 
   const toggleResponsibleSelection = (resp) => {
     setFormData(prev => {
@@ -1117,6 +1127,9 @@ const deleteSelected = async () => {
                         <DemandCard
                           key={demand.id}// Chave baseada puramente no ID para evitar duplicidade visual
                           demand={demand}
+                          selectionOrder={filteredDemands
+                            .filter(item => item.category === demand.category)
+                            .map(item => item.id)}
                           isDeleteMode={isDeleteMode}
                           isCompleteMode={isCompleteMode}
                           selectedIds={selectedIds}
