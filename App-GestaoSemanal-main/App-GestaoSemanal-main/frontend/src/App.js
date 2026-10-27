@@ -86,7 +86,7 @@ const getWeekInfo = () => {
 /* ===========================
    DEMAND CARD (CORRIGIDO)
 =========================== */
-function DemandCard({demand, isDeleteMode, isCompleteMode, selectedIds, onToggleSelect, onMoveTo, onOpenPresentation, onDragStart, onDragEnd, onEdit }) {
+function DemandCard({demand, selectionOrder = [], isDeleteMode, isCompleteMode, selectedIds, onToggleSelect, onMoveTo, onOpenPresentation, onDragStart, onDragEnd, onEdit }) {
   const priorityStyle = PRIORITY_COLORS[demand.priority] || PRIORITY_COLORS.media;
 
   const handleDragStart = (e) => {
@@ -155,10 +155,19 @@ function DemandCard({demand, isDeleteMode, isCompleteMode, selectedIds, onToggle
 
           {(isDeleteMode || isCompleteMode) && (
             <div className="absolute top-4 right-4 z-10">
-              <Checkbox
-                checked={selectedIds.includes(demand.id)}
-                onCheckedChange={() => onToggleSelect(demand.id)}
-              />
+              
+<Checkbox
+  checked={selectedIds.includes(demand.id)}
+  onClick={(event) => {
+    event.stopPropagation();
+    onToggleSelect(
+      demand.id,
+      event.shiftKey,
+      selectionOrder
+    );
+  }}
+/>
+
             </div>
           )}
 
@@ -1127,9 +1136,7 @@ const deleteSelected = async () => {
                         <DemandCard
                           key={demand.id}// Chave baseada puramente no ID para evitar duplicidade visual
                           demand={demand}
-                          selectionOrder={filteredDemands
-                            .filter(item => item.category === demand.category)
-                            .map(item => item.id)}
+                          selectionOrder={sectionDemands.map(item => item.id)}
                           isDeleteMode={isDeleteMode}
                           isCompleteMode={isCompleteMode}
                           selectedIds={selectedIds}
