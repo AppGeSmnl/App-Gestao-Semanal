@@ -358,9 +358,6 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
       {currentDemand.observation ? currentDemand.observation : "Nenhuma observação."}
     </p>
   </div>
-
-  {/* Degradê suave na parte inferior da área de rolagem */}
-  <div className="pointer-events-none absolute bottom-0 left-0 right-4 h-8 bg-gradient-to-b from-transparent to-slate-50/90" />
 </div>
 
             )}
