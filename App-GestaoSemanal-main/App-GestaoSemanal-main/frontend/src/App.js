@@ -835,6 +835,21 @@ const deleteSelected = async () => {
   });
 };
 
+  
+const toggleSubgroupSelection = (sg) => {
+  setFormData(prev => {
+    const current = prev.subgroup || [];
+
+    return {
+      ...prev,
+      subgroup: current.includes(sg)
+        ? current.filter(item => item !== sg)
+        : [...current, sg]
+    };
+  });
+};
+
+
   const toggleResponsibleSelection = (resp) => {
     setFormData(prev => {
       const current = prev.responsible;
