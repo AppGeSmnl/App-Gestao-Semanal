@@ -3,7 +3,13 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Trash2, Filter, Search } from "lucide-react";
+import {
+  Trash2,
+  Filter,
+  Search,
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   Select,
@@ -35,6 +41,8 @@ export default function CompletedView({
   const [filterSubgroup, setFilterSubgroup] = useState("all");
   const [filterResponsible, setFilterResponsible] = useState("all");
   const [demands, setDemands] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 50;
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
@@ -43,6 +51,16 @@ export default function CompletedView({
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [calendarOpen, setCalendarOpen] = useState(false);
+
+  useEffect(() => {
+  setCurrentPage(1);
+}, [
+  search,
+  filterSubgroup,
+  filterResponsible,
+  exactDate,
+  monthFilter
+]);
 
 
   
@@ -79,23 +97,39 @@ const people =
 }, [demands]);
 
   const loadDemands = async () => {
-    try {
+  try {
+    const pageSizeApi = 500;
+    let page = 1;
+    let totalPages = 1;
+    const allDemands = [];
 
+    do {
       const res = await axios.get(
-        `${API}/completed-demands`
+        `${API}/completed-demands`,
+        {
+          params: {
+            page,
+            page_size: pageSizeApi
+          }
+        }
       );
 
-      setDemands(res.data);
+      allDemands.push(...res.data.items);
+      totalPages = res.data.total_pages;
+      page += 1;
+    } while (page <= totalPages);
 
-    } catch {
+    setDemands(allDemands);
+  } catch (error) {
+    console.error(
+      "Erro ao carregar demandas concluídas:",
+      error
+    );
 
-      toast.error(
-        "Erro ao carregar concluídos"
-      );
-
-    }
-  };
-
+    toast.error("Erro ao carregar concluídos");
+  }
+};
+  
   useEffect(() => {
     loadDemands();
   }, []);
@@ -199,11 +233,22 @@ const groups =
   monthFilter
 ]);
 
+  const totalPages = Math.max(
+  1,
+  Math.ceil(filtered.length / pageSize)
+);
+
+const paginatedDemands = useMemo(() => {
+  const start = (currentPage - 1) * pageSize;
+
+  return filtered.slice(start, start + pageSize);
+}, [filtered, currentPage]);
+
 const grouped = useMemo(() => {
 
   const groups = {};
 
-  filtered.forEach(item => {
+  paginatedDemands.forEach(item => {
 
 const rawDate =
   item.completed_at.split("T")[0];
@@ -218,7 +263,7 @@ const rawDate =
 
   return groups;
 
-}, [filtered]);
+}, [paginatedDemands]);
 
   const deleteSelected = async () => {
 
@@ -714,6 +759,46 @@ for (let y = 2024; y <= 2030; y++) {
           ))}
 
       </div>
+
+<div className="flex flex-col items-center gap-3 py-8">
+  <p className="text-sm text-slate-500">
+    Exibindo{" "}
+    {filtered.length === 0
+      ? 0
+      : (currentPage - 1) * pageSize + 1}
+    {" "}a{" "}
+    {Math.min(currentPage * pageSize, filtered.length)}
+    {" "}de {filtered.length} demandas
+  </p>
+
+  <div className="flex items-center gap-3">
+    <Button
+      variant="outline"
+      disabled={currentPage === 1}
+      onClick={() =>
+        setCurrentPage(prev => Math.max(1, prev - 1))
+      }
+    >
+      <ChevronLeft className="mr-1 h-4 w-4" />
+      Anterior
+    </Button>
+
+    <span className="text-sm font-medium text-slate-700">
+      Página {currentPage} de {totalPages}
+    </span>
+
+    <Button
+      variant="outline"
+      disabled={currentPage >= totalPages}
+      onClick={() =>
+        setCurrentPage(prev => Math.min(totalPages, prev + 1))
+      }
+    >
+      Próxima
+      <ChevronRight className="ml-1 h-4 w-4" />
+    </Button>
+  </div>
+</div>
 
 <div
   className={`
