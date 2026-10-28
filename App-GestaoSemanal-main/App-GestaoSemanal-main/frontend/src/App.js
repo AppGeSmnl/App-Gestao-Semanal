@@ -11,6 +11,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Maximize,
+  Minimize,
   Presentation,
   Filter,
   GripVertical,
@@ -237,6 +239,34 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
   const [isEditingObs, setIsEditingObs] = useState(false);
   const [tempObs, setTempObs] = useState("");
 
+const [isFullscreen, setIsFullscreen] = useState(
+    Boolean(document.fullscreenElement)
+  );
+
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.error("Erro ao alternar tela cheia:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
   const demandsToShow = useMemo(() => {
     return singleDemand ? [singleDemand] : demands;
   }, [singleDemand, demands]);
@@ -292,8 +322,26 @@ function PresentationMode({ demands, categoryTitle, onClose, singleDemand, onUpd
             </h2>
           </div>
 
-         <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-full border border-slate-100">
+<div className="flex items-center gap-4">
+
+  {/* BOTÃO DE TELA CHEIA */}
+  <Button
+    onClick={toggleFullscreen}
+    variant="ghost"
+    size="icon"
+    title={isFullscreen ? "Sair da tela cheia" : "Ativar tela cheia"}
+    aria-label={isFullscreen ? "Sair da tela cheia" : "Ativar tela cheia"}
+    className="text-slate-500 hover:text-sky-600 hover:bg-sky-50 rounded-full h-10 w-10"
+  >
+    {isFullscreen ? (
+      <Minimize className="w-5 h-5" />
+    ) : (
+      <Maximize className="w-5 h-5" />
+    )}
+  </Button>
+
+  {/* CONTROLES DE PASSAGEM DE SLIDES — MANTIDOS */}
+  <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-full border border-slate-100">
               <span className="text-xs font-bold text-slate-500">
                 {currentIndex + 1}/{demandsToShow.length}
               </span>
