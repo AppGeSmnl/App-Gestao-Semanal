@@ -255,6 +255,18 @@ const [isFullscreen, setIsFullscreen] = useState(
     }
   };
 
+  const handleClosePresentation = async () => {
+  try {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    }
+  } catch (error) {
+    console.error("Erro ao sair da tela cheia:", error);
+  } finally {
+    onClose();
+  }
+};
+
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(Boolean(document.fullscreenElement));
@@ -366,7 +378,7 @@ const [isFullscreen, setIsFullscreen] = useState(
             </div>
 
             <Button
-              onClick={onClose}
+              onClick={handleClosePresentation}
               variant="ghost"
               size="icon"
               className="text-slate-300 hover:text-slate-600 hover:bg-slate-100 rounded-full h-12 w-12"
