@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
@@ -203,8 +203,33 @@ async def bulk_delete_demands(req: BulkDeleteRequest):
 # ================= COMPLETED DEMANDS =================
 
 @api.get("/completed-demands")
-async def get_completed_demands():
-    return await db.completed_demands.find({}, {"_id": 0}).to_list(5000)
+async def get_completed_demands(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(500, ge=1, le=1000)
+):
+    collection = db.completed_demands
+
+    total = await collection.count_documents({})
+    total_pages = (total + page_size - 1) // page_size
+
+    skip = (page - 1) * page_size
+
+    items = await (
+        collection
+        .find({}, {"_id": 0})
+        .sort("completed_at", -1)
+        .skip(skip)
+        .limit(page_size)
+        .to_list(length=page_size)
+    )
+
+    return {
+        "items": items,
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "total_pages": total_pages
+    }
 
 
 @api.post("/demands/complete")
