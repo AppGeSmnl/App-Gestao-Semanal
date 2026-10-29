@@ -137,14 +137,19 @@ function DemandCard({demand, selectionOrder = [], isDeleteMode, isCompleteMode, 
   return (
     <ContextMenu modal={false}>
       <ContextMenuTrigger asChild>
+
 <motion.div
-  layout
+  layout="position"
   initial={false}
   animate={{ opacity: 1, scale: 1 }}
-  exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
+  exit={{
+    opacity: 0,
+    scale: 0.98,
+    transition: { duration: 0.12 }
+  }}
   transition={{
-    layout: { duration: 0.25, ease: "easeOut" },
-    opacity: { duration: 0.15 }
+    layout: { duration: 0.18, ease: "easeOut" },
+    opacity: { duration: 0.12 }
   }}
   draggable={!isDeleteMode && !isCompleteMode}
   onDragStart={handleDragStart}
