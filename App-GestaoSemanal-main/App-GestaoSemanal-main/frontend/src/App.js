@@ -288,6 +288,42 @@ const [isFullscreen, setIsFullscreen] = useState(
     return singleDemand ? [singleDemand] : demands;
   }, [singleDemand, demands]);
 
+  
+// NOVO: navegação pelas setas do teclado
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const element = event.target;
+
+      // Não trocar de slide enquanto estiver digitando
+      if (
+        element instanceof HTMLElement &&
+        (element.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT"].includes(element.tagName))
+      ) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setCurrentIndex((prev) => Math.max(0, prev - 1));
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setCurrentIndex((prev) =>
+          Math.min(demandsToShow.length - 1, prev + 1)
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [demandsToShow.length]);
+
+  
   useEffect(() => {
     if (demandsToShow[currentIndex]) {
       setTempObs(demandsToShow[currentIndex].observation || "");
