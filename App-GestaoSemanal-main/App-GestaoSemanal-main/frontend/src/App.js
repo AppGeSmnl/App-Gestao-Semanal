@@ -429,7 +429,7 @@ className="bg-white w-full max-w-6xl min-h-[85vh] md:min-h-0 md:aspect-video rou
             ) : (
 
 <div className="relative">
- <div className="h-[100px] md:h-[120px] overflow-y-auto overflow-x-hidden pr-4 pb-2">
+ <div className="h-[100px] md:h-[110px] overflow-y-auto overflow-x-hidden pr-4 pb-2">
     <p className="m-0 text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap break-words">
       {currentDemand.observation ? currentDemand.observation : "Nenhuma observação."}
     </p>
