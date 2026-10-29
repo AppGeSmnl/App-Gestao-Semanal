@@ -321,7 +321,8 @@ const [isFullscreen, setIsFullscreen] = useState(
     animate={{ opacity: 1, x: 0, scale: 1 }}
     exit={{ opacity: 0, x: -10, scale: 0.99 }}
     transition={{ duration: 0.3, ease: "easeInOut" }}
-    className="bg-white w-full max-w-6xl min-h-[85vh] md:aspect-video rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] p-8 md:p-16 flex flex-col relative overflow-hidden z-10"
+className="bg-white w-full max-w-6xl min-h-[85vh] md:min-h-0 md:aspect-video rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] p-6 md:p-10 lg:p-12 flex flex-col relative overflow-hidden z-10"
+
   >
         <div className={`absolute top-0 left-0 right-0 h-3 ${priorityStyle.badge} opacity-90`}></div>
 
@@ -428,7 +429,7 @@ const [isFullscreen, setIsFullscreen] = useState(
             ) : (
 
 <div className="relative">
-  <div className="h-[120px] overflow-y-auto overflow-x-hidden pr-4 pb-2">
+ <div className="h-[100px] md:h-[120px] overflow-y-auto overflow-x-hidden pr-4 pb-2">
     <p className="m-0 text-2xl md:text-3xl text-slate-400 font-medium leading-relaxed italic whitespace-pre-wrap break-words">
       {currentDemand.observation ? currentDemand.observation : "Nenhuma observação."}
     </p>
