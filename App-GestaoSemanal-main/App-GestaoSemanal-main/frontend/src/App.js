@@ -498,6 +498,7 @@ function App() {
   const [filterResponsible, setFilterResponsible] = useState("all");
   const [responsibles, setResponsibles] = useState([]);
   const [subgroups, setSubgroups] = useState([]);
+  const [teamName, setTeamName] = useState("Desenvolvimento de Vendas");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
   
@@ -592,6 +593,19 @@ const fetchAdminData = useCallback(async () => {
     console.error(error);
   }
 }, []);
+
+  
+const fetchTeamName = useCallback(async () => {
+  try {
+    const response = await axios.get(`${API}/team-name`);
+    setTeamName(
+      response.data.name || "Desenvolvimento de Vendas"
+    );
+  } catch (error) {
+    console.error("Erro ao carregar nome do time:", error);
+  }
+}, []);
+
   
   // ===== Avisos Gerais - API =====
 const fetchGeneralNotices = useCallback(async () => {
@@ -627,10 +641,11 @@ const saveGeneralNotice = async () => {
   }
 };
 
-useEffect(() => {
+  useEffect(() => {
   fetchDemands();
   fetchAdminData();
-}, [fetchDemands, fetchAdminData]);
+  fetchTeamName();
+}, [fetchDemands, fetchAdminData, fetchTeamName]);
 
   const applyFilters = useCallback(() => {
     let filtered = [...demands];
@@ -994,7 +1009,7 @@ const toggleSubgroupSelection = (sg) => {
           </div>
 
           <div className="flex items-center gap-3 text-white">
-            <span className="text-lg font-semibold">Desenvolvimento de Vendas</span>
+            <span className="text-lg font-semibold">{teamName}</span>
             <span className="h-4 w-px bg-white/40"></span>
             <span className="text-sm font-medium opacity-80 tracking-wide">
               Semana {week} de {total}
@@ -1024,8 +1039,9 @@ const toggleSubgroupSelection = (sg) => {
 
 ) : currentView === "admin" ? (
 
- <AdminView
+<AdminView
   onDataChanged={fetchAdminData}
+  onTeamNameChanged={setTeamName}
 />
 
 ) : (
