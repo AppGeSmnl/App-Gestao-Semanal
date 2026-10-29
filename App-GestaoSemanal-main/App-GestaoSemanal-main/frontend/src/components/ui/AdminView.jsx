@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Trash2, Plus } from "lucide-react";
+import { Trash2, Plus, Pencil, Save } from "lucide-react";
 import { toast } from "sonner";
 
 const API =
@@ -14,7 +14,9 @@ export default function AdminView({
 
   const [members, setMembers] = useState([]);
   const [subgroups, setSubgroups] = useState([]);
-
+  const [teamName, setTeamName] = useState("");
+  const [editingTeamName, setEditingTeamName] = useState(false);
+  const [savingTeamName, setSavingTeamName] = useState(false);
   const [newMember, setNewMember] = useState("");
   const [newSubgroup, setNewSubgroup] = useState("");
 
@@ -35,8 +37,53 @@ export default function AdminView({
     }
   };
 
+  
+const loadTeamName = async () => {
+  try {
+    const response = await axios.get(`${API}/team-name`);
+    setTeamName(response.data.name || "");
+  } catch (error) {
+    console.error("Erro ao carregar nome do time:", error);
+    toast.error("Erro ao carregar o nome do time");
+  }
+};
+
+
+const saveTeamName = async () => {
+  const name = teamName.trim();
+
+  if (!name) {
+    toast.error("Informe um nome para o time");
+    return;
+  }
+
+  try {
+    setSavingTeamName(true);
+
+    const response = await axios.put(`${API}/team-name`, {
+      name
+    });
+
+    setTeamName(response.data.name);
+    setEditingTeamName(false);
+
+    toast.success("Nome do time atualizado");
+    
+    if (onDataChanged) {
+      await onDataChanged();
+    }
+  } catch (error) {
+    console.error("Erro ao salvar nome do time:", error);
+    toast.error("Erro ao salvar o nome do time");
+  } finally {
+    setSavingTeamName(false);
+  }
+};
+
+
   useEffect(() => {
     loadData();
+    loadTeamName();
   }, []);
 
 const createMember = async () => {
@@ -122,6 +169,42 @@ const deleteSubgroup = async (id) => {
         Gestão de Time
       </h1>
 
+      
+<div className="bg-white rounded-2xl border p-6 mb-8">
+  <h2 className="font-bold text-xl mb-4">
+    Nome do Time
+  </h2>
+
+  <div className="flex flex-col sm:flex-row gap-3">
+    <Input
+      value={teamName}
+      onChange={(e) => setTeamName(e.target.value)}
+      placeholder="Nome do time"
+      disabled={!editingTeamName || savingTeamName}
+      maxLength={100}
+    />
+
+    {!editingTeamName ? (
+      <Button
+        onClick={() => setEditingTeamName(true)}
+        className="shrink-0"
+      >
+        <Pencil className="w-4 h-4 mr-2" />
+        Editar
+      </Button>
+    ) : (
+      <Button
+        onClick={saveTeamName}
+        disabled={savingTeamName || !teamName.trim()}
+        className="shrink-0"
+      >
+        <Save className="w-4 h-4 mr-2" />
+        {savingTeamName ? "Salvando..." : "Salvar"}
+      </Button>
+    )}
+  </div>
+</div>
+      
       <div className="grid grid-cols-2 gap-8">
 
         <div className="bg-white rounded-2xl border p-6">
