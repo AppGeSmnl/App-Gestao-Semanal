@@ -9,7 +9,8 @@ const API =
 "https://app-gestao-semanal-plus-version.onrender.com/api";
 
 export default function AdminView({
-  onDataChanged
+  onDataChanged,
+  onTeamNameChanged
 }) {
 
   const [members, setMembers] = useState([]);
@@ -65,6 +66,9 @@ const saveTeamName = async () => {
     });
 
     setTeamName(response.data.name);
+    if (onTeamNameChanged) {
+    onTeamNameChanged(response.data.name);
+    }
     setEditingTeamName(false);
 
     toast.success("Nome do time atualizado");
