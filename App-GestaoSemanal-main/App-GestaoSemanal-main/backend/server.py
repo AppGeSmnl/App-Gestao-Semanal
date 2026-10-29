@@ -380,6 +380,53 @@ async def delete_subgroup(subgroup_id: str):
 
     return {"success": True}
 
+
+# ================= TEAM NAME SETTINGS =================
+
+class TeamNameUpdate(BaseModel):
+    name: str
+
+
+@api.get("/team-name")
+async def get_team_name():
+    setting = await db.app_settings.find_one({
+        "key": "team_name"
+    })
+
+    if not setting:
+        return {"name": "Desenvolvimento de Vendas"}
+
+    return {"name": setting.get(
+        "value",
+        "Desenvolvimento de Vendas"
+    )}
+
+
+@api.put("/team-name")
+async def update_team_name(data: TeamNameUpdate):
+    name = data.name.strip()
+
+    if not name:
+        raise HTTPException(
+            status_code=400,
+            detail="O nome do time não pode ficar vazio."
+        )
+
+    await db.app_settings.update_one(
+        {"key": "team_name"},
+        {"$set": {"value": name}},
+        upsert=True
+    )
+
+    return {
+        "success": True,
+        "name": name
+    }
+
+
 # ================= REGISTER ROUTER =================
 
 app.include_router(api)
+
+
+
